@@ -12,7 +12,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.portfolio.prototype_chat.MainActivity
 import com.portfolio.prototype_chat.R
-import com.portfolio.prototype_chat.ToastGenerator
+import com.portfolio.prototype_chat.util.ToastGenerator
 import com.portfolio.prototype_chat.databinding.ActivityLoginBinding
 import com.portfolio.prototype_chat.signup.SignUpActivity
 
@@ -76,7 +76,7 @@ class LoginActivity : AppCompatActivity() {
                 )
             }
             .addOnFailureListener {
-                ToastGenerator.Builder(applicationContext).resId(R.string.login_failure).build();
+                ToastGenerator.Builder(applicationContext).resId(R.string.login_failure).build()
             }
     }
 }

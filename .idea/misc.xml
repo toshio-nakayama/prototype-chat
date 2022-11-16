@@ -10,6 +10,7 @@
         <entry key="app/src/main/res/drawable/ic_notifications_black_24dp.xml" value="0.219" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.19021739130434784" />
+        <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.1911231884057971" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.1911231884057971" />
         <entry key="app/src/main/res/layout/fragment_friends.xml" value="0.134375" />
         <entry key="app/src/main/res/layout/fragment_talk.xml" value="0.134375" />

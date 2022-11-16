@@ -11,4 +11,10 @@
     <string name="invalid_email">有効なメールアドレスを入力してください</string>
     <string name="empty_password">パスワードを入力してください</string>
     <string name="login_failure">メールアドレスまたはパスワードが異なっています</string>
+    <string name="prompt_name">名前</string>
+    <string name="prompt_confirm_password">パスワード（確認用）</string>
+    <string name="signup">登録</string>
+    <string name="empty_name">お名前を入力してください</string>
+    <string name="empty_confirm_password">パスワード（確認用）を入力してください</string>
+    <string name="signup_successfully">アカウントを登録しました</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.portfolio.prototype_chat
+package com.portfolio.prototype_chat.util
 
 import android.content.Context
 import android.view.Gravity
