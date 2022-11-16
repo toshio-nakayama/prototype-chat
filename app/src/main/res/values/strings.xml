@@ -3,4 +3,12 @@
     <string name="title_home">Home</string>
     <string name="title_friends">Friends</string>
     <string name="title_talk">Talk</string>
+    <string name="prompt_email">メールアドレス</string>
+    <string name="prompt_password">パスワード</string>
+    <string name="login">ログイン</string>
+    <string name="sign_up">新規登録</string>
+    <string name="empty_email">メールアドレスを入力してください</string>
+    <string name="invalid_email">有効なメールアドレスを入力してください</string>
+    <string name="empty_password">パスワードを入力してください</string>
+    <string name="login_failure">メールアドレスまたはパスワードが異なっています</string>
 </resources>
