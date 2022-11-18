@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".splash_ui.SplashActivity">
+    tools:context=".splash.SplashActivity">
 
     <TextView
         android:id="@+id/text_view_app_name"
@@ -17,4 +17,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/circle_color_primary"
+        tools:layout_editor_absoluteX="137dp"
+        tools:layout_editor_absoluteY="117dp" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_launcher_foreground"
+        tools:layout_editor_absoluteX="153dp"
+        tools:layout_editor_absoluteY="189dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

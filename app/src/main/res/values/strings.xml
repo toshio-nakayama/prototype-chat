@@ -17,4 +17,21 @@
     <string name="empty_name">お名前を入力してください</string>
     <string name="empty_confirm_password">パスワード（確認用）を入力してください</string>
     <string name="signup_successfully">アカウントを登録しました</string>
+    <string name="offline">オフラインです</string>
+    <string name="friends_list">ともだちリスト</string>
+    <string name="show_friends">show friends</string>
+    <string name="launch_qr_scanner">launch qr scanner</string>
+    <string name="qr_scanner_description">QRコードをスキャンして友達追加できます</string>
+    <string name="my_qrcode">マイQRコード</string>
+    <string name="qr_generator_description">QRコードを使って友達を追加しましょう</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="add">追加</string>
+    <string name="status_message">ステータスメッセージ</string>
+    <string name="logout">ログアウト</string>
+    <string name="not_set">未設定</string>
+    <string name="save">保存</string>
+    <string name="enter_message">メッセージを入力</string>
+    <string name="chat_message">今何してる？</string>
+    <string name="message_time">00:00</string>
 </resources>

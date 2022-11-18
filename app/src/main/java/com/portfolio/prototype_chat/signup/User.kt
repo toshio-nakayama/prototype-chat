@@ -4,9 +4,9 @@ import com.google.firebase.database.IgnoreExtraProperties
 
 @IgnoreExtraProperties
 data class User(
-    val name: String? = null,
-    val email: String? = null,
-    val statusMessage: String? = null,
-    val photoUriPath: String? = null,
-    val backgroundPhotoUriPath: String? = null
+    val name: String = "",
+    val email: String = "",
+    val statusMessage: String = "",
+    val photoUriPath: String = "",
+    val backgroundPhotoUriPath: String = ""
 )

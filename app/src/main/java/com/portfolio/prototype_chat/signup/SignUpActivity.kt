@@ -18,6 +18,7 @@ import com.portfolio.prototype_chat.common.NodeNames
 import com.portfolio.prototype_chat.databinding.ActivitySignupBinding
 import com.portfolio.prototype_chat.login.LoginActivity
 import com.portfolio.prototype_chat.util.ToastGenerator
+import com.portfolio.prototype_chat.util.connectionAvailable
 
 class SignUpActivity : AppCompatActivity() {
     private lateinit var validation: AwesomeValidation
@@ -58,7 +59,9 @@ class SignUpActivity : AppCompatActivity() {
         }
 
         binding.submitButton.setOnClickListener {
-            if (validation.validate()) {
+            if (!connectionAvailable(applicationContext)) {
+                ToastGenerator.Builder(applicationContext).resId(R.string.offline).build()
+            } else if (validation.validate()) {
                 val name = binding.editTextName.text.toString().trim()
                 val email = binding.editTextEmail.text.toString().trim()
                 val password = binding.editTextPassword.text.toString().trim()
