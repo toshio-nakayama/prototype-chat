@@ -6,11 +6,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.DialogFragment
 import com.portfolio.prototype_chat.R
 
-class DisplayMessageFragment : Fragment() {
+class DisplayMessageFragment : DialogFragment() {
 
     companion object {
+        const val DIALOG_TAG = "messageDisplayFragment"
         fun newInstance() = DisplayMessageFragment()
     }
 

@@ -34,4 +34,5 @@
     <string name="enter_message">メッセージを入力</string>
     <string name="chat_message">今何してる？</string>
     <string name="message_time">00:00</string>
+    <string name="settings">設定</string>
 </resources>

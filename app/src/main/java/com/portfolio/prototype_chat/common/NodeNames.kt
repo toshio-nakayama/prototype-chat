@@ -14,5 +14,6 @@ class NodeNames {
         const val PHOTO = "photo"
         const val TALK = "talk"
         const val USERS = "users"
+        const val BACKGROUND_PHOTO = "backgroundPhoto"
     }
 }

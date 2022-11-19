@@ -21,7 +21,7 @@ class QRCodeGeneratorFragment : Fragment() {
     private var param: String? = null
     private var _binding: FragmentQrcodeGeneratorBinding? = null
     private val binding get() = _binding!!
-    private var onDestroyListener: OnFragmentDestroyListener? = null
+    internal var onDestroyListener: OnFragmentDestroyListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
