@@ -130,7 +130,7 @@ class ProfileHomeFragment : Fragment() {
             val dialogFragment = DisplayMessageFragment()
             val args = Bundle()
             val message = binding.textViewStatusMessage.text.toString()
-            args.putString(Extras.STATUS_MESSAGE, message)
+            args.putString(Extras.MESSAGE, message)
             dialogFragment.arguments = args
             dialogFragment.show(parentFragmentManager, DisplayMessageFragment.DIALOG_TAG)
         }

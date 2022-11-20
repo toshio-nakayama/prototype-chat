@@ -95,6 +95,7 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:gravity="center_vertical"
+            android:singleLine="true"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             app:drawableEndCompat="@drawable/ic_arrow_right"
             tools:text="@string/prompt_name" />
@@ -117,8 +118,11 @@
             android:id="@+id/text_view_status_message"
             android:layout_width="match_parent"
             android:layout_height="60dp"
+            android:ellipsize="end"
+            android:ems="12"
             android:gravity="center_vertical"
             android:hint="@string/not_set"
+            android:singleLine="true"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             app:drawableEndCompat="@drawable/ic_arrow_right"
             tools:text="@string/status_message" />

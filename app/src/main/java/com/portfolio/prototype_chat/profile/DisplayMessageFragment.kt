@@ -1,34 +1,43 @@
 package com.portfolio.prototype_chat.profile
 
-import androidx.lifecycle.ViewModelProvider
+import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.portfolio.prototype_chat.R
+import com.portfolio.prototype_chat.common.Extras
+import com.portfolio.prototype_chat.databinding.FragmentDisplayMessageBinding
+
 
 class DisplayMessageFragment : DialogFragment() {
+
+    private lateinit var binding: FragmentDisplayMessageBinding
 
     companion object {
         const val DIALOG_TAG = "messageDisplayFragment"
         fun newInstance() = DisplayMessageFragment()
     }
 
-    private lateinit var viewModel: DisplayMessageViewModel
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_display_message, container, false)
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        binding = FragmentDisplayMessageBinding.inflate(layoutInflater)
+        val dialog = activity?.let {
+            Dialog(it)
+        }?:throw IllegalStateException("Activity cannot be null")
+        dialog.setContentView(binding.root)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.MATCH_PARENT)
+        return dialog
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(DisplayMessageViewModel::class.java)
-        // TODO: Use the ViewModel
+    override fun onStart() {
+        super.onStart()
+        val message = arguments?.getString(Extras.MESSAGE, "")
+        binding.textViewMessage.text = message
+        binding.imageButtonClose.setOnClickListener{dismiss()}
     }
-
 }
