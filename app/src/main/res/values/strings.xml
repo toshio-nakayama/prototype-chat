@@ -1,11 +1,12 @@
 <resources>
     <string name="app_name">Prototype Chat</string>
-    <string name="title_home">Home</string>
-    <string name="title_friends">Friends</string>
-    <string name="title_talk">Talk</string>
+    <string name="title_home">ホーム</string>
+    <string name="title_friends">ともだち</string>
+    <string name="title_talk">トーク</string>
     <string name="prompt_email">メールアドレス</string>
     <string name="prompt_password">パスワード</string>
     <string name="login">ログイン</string>
+    <string name="title_sign_up">アカウント登録</string>
     <string name="sign_up">新規登録</string>
     <string name="empty_email">メールアドレスを入力してください</string>
     <string name="invalid_email">有効なメールアドレスを入力してください</string>
@@ -36,4 +37,18 @@
     <string name="message_time">00:00</string>
     <string name="settings">設定</string>
     <string name="message">メッセージ</string>
+    <string name="less_characters_warning">%1$s文字以上で入力してください</string>
+    <string name="word_count">%1$d/%2$d</string>
+    <string name="talk">トーク</string>
+    <string name="app_logo">App Logo</string>
+    <string name="invalid_qr_code">無効なQRコードです</string>
+    <string name="allready_registered">既に登録されています</string>
+    <string name="err_name">1~20文字以内で入力してください</string>
+    <string name="err_name_blank">名前を入力してください</string>
+    <string name="err_email">有効なメールアドレスを入力してください</string>
+    <string name="err_email_blank">メールアドレスを入力してください</string>
+    <string name="err_password">英大文字、英小文字、数字、記号をそれぞれ1文字以上含む6~20文字以内で入力してください</string>
+    <string name="err_password_blank">パスワードを入力してください</string>
+    <string name="err_confirm_password">パスワードとパスワード（確認用）が異なっています</string>
+    <string name="err_confirm_password_blank">パスワード（確認用）を入力してください</string>
 </resources>

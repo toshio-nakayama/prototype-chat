@@ -11,6 +11,14 @@
         zxing_barcode_view:zxing_framing_rect_height="300dp"
         zxing_barcode_view:zxing_framing_rect_width="300dp" />
 
+    <View
+        android:layout_width="305dp"
+        android:layout_height="305dp"
+        android:background="@drawable/qr_code_frame"
+        android:layout_gravity="center">
+
+    </View>
+
     <com.journeyapps.barcodescanner.ViewfinderView
         android:id="@+id/zxing_viewfinder_view"
         android:layout_width="match_parent"

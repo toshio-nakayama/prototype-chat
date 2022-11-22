@@ -14,6 +14,7 @@ import com.google.firebase.ktx.Firebase
 import com.portfolio.prototype_chat.common.Extras
 import com.portfolio.prototype_chat.common.NodeNames
 import com.portfolio.prototype_chat.databinding.ActivityTalkBinding
+import com.portfolio.prototype_chat.util.updateTalkDetails
 
 class TalkActivity : AppCompatActivity() {
 
@@ -57,17 +58,27 @@ class TalkActivity : AppCompatActivity() {
         }
     }
 
+    override fun onBackPressed() {
+        dbRootRef.child(NodeNames.TALK).child(currentUserId).child(talkUserId)
+            .child(NodeNames.UNREAD_COUNT).setValue(0)
+        super.onBackPressed()
+    }
+
     private fun sendMessage(message: String, pushId: String) {
         val currentUserId = currentUser.uid
-        val message = Message(pushId, message, currentUserId)
-        val postValues = message.toMap()
+        val messageModel = Message(pushId, message, currentUserId)
+        val postValues = messageModel.toMap()
         val currentUserRoot = "${NodeNames.MESSAGES}/$currentUserId/$talkUserId/"
         val talkUserRoot = "${NodeNames.MESSAGES}/$talkUserId/$currentUserId/"
         val childUpdates = hashMapOf<String, Any>(
             "$currentUserRoot$pushId" to postValues,
             "$talkUserRoot$pushId" to postValues
         )
-        dbRootRef.updateChildren(childUpdates)
+        dbRootRef.updateChildren(
+            childUpdates
+        ) { error, _ ->
+            error ?: run { updateTalkDetails(this@TalkActivity, currentUserId, talkUserId) }
+        }
     }
 
     private fun loadMessage() {

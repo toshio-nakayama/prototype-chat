@@ -27,6 +27,7 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        supportActionBar?.let { it.title = getString(R.string.login) }
         setupValidation()
         auth = Firebase.auth
         binding.buttonLogin.setOnClickListener {

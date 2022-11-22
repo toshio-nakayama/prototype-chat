@@ -28,6 +28,7 @@ import com.portfolio.prototype_chat.databinding.FragmentHomeBinding
 import com.portfolio.prototype_chat.profile.ProfileActivity
 import com.portfolio.prototype_chat.qrcode.QRCodeScannerActivity
 import com.portfolio.prototype_chat.signup.User
+import com.portfolio.prototype_chat.util.ToastGenerator
 
 class HomeFragment : Fragment() {
 
@@ -36,6 +37,8 @@ class HomeFragment : Fragment() {
     private lateinit var dbRootRef: DatabaseReference
     private lateinit var dbRefUser: DatabaseReference
     private lateinit var dbRefTalk: DatabaseReference
+    private var userEventListener: ValueEventListener? = null
+    private var talkEventListener: ValueEventListener? = null
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
@@ -86,11 +89,13 @@ class HomeFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        userEventListener = null
+        talkEventListener = null
     }
 
     private fun setProfile() {
         val userId = currentUser.uid
-        dbRefUser.child(userId).addValueEventListener(object : ValueEventListener {
+        userEventListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 binding.textViewName.text = currentUser.displayName
                 val user = snapshot.getValue(User::class.java)
@@ -107,12 +112,13 @@ class HomeFragment : Fragment() {
             override fun onCancelled(error: DatabaseError) {
 
             }
-        })
+        }
+        dbRefUser.child(userId).addValueEventListener(userEventListener!!)
     }
 
     private fun setFriendsCount() {
         val userid = currentUser.uid
-        dbRefTalk.child(userid).addValueEventListener(object : ValueEventListener {
+        talkEventListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val count = snapshot.childrenCount
                 binding.textViewFriendsCount.text = count.toString()
@@ -122,7 +128,8 @@ class HomeFragment : Fragment() {
 
             }
 
-        })
+        }
+        dbRefTalk.child(userid).addValueEventListener(talkEventListener!!)
     }
 
     private val barcodeLauncher: ActivityResultLauncher<ScanOptions> =
@@ -136,9 +143,14 @@ class HomeFragment : Fragment() {
 
     private fun validateOnId(id: String) {
         val currentUserId = currentUser.uid
-        if (id == currentUserId) return
+        if (id == currentUserId) {
+            ToastGenerator.Builder(requireContext()).resId(R.string.invalid_qr_code)
+            return
+        }
         dbRefTalk.child(currentUserId).child(id).get().addOnSuccessListener { snapshotTalk ->
-            if (!snapshotTalk.exists()) {
+            if (snapshotTalk.exists()) {
+                ToastGenerator.Builder(requireContext()).resId(R.string.allready_registered)
+            } else {
                 dbRefUser.child(id).get().addOnSuccessListener { snapshotUser ->
                     if (snapshotUser.exists()) {
                         val intent = Intent(activity, AddFriendActivity::class.java)

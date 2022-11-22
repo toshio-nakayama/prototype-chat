@@ -17,6 +17,7 @@ import com.portfolio.prototype_chat.common.Constants
 import com.portfolio.prototype_chat.common.Extras
 import com.portfolio.prototype_chat.common.NodeNames
 import com.portfolio.prototype_chat.databinding.ActivityAddFriendBinding
+import com.portfolio.prototype_chat.signup.User
 
 class AddFriendActivity : AppCompatActivity() {
 
@@ -48,6 +49,8 @@ class AddFriendActivity : AppCompatActivity() {
     private fun setProfile(friendId: String) {
         dbRefUser.child(friendId).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
+                val user = snapshot.getValue(User::class.java)
+                binding.textViewName.text = user?.name
                 val photoName = friendId + Constants.EXT_JPG
                 val fileRef = storageRootRef.child(Constants.IMAGES_FOLDER).child(NodeNames.PHOTO)
                     .child(photoName)

@@ -15,7 +15,7 @@ class MessageRVAdapter (private val messageList: List<Message>) :
     RecyclerView.Adapter<MessageRVAdapter.ViewHolder>() {
 
     class ViewHolder(@NonNull item: MessageLayoutBinding) : RecyclerView.ViewHolder(item.root) {
-        val binding = item;
+        val binding = item
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

@@ -79,11 +79,12 @@ class TalkFragment : Fragment() {
 
     fun updateList(snapshot: DataSnapshot, userId: String) {
         dbRefUser.child(userId).addListenerForSingleValueEvent(object : ValueEventListener{
-            val unreadCount = snapshot.child(NodeNames.UNREAD_COUNT).value?.toString()
+            val unreadCount = snapshot.child(NodeNames.UNREAD_COUNT).value?.toString()?:"0"
+            val time = snapshot.child(NodeNames.TIME_STAMP).value?.toString()?:""
             override fun onDataChange(snapshot: DataSnapshot) {
                 val userName = snapshot.child(NodeNames.NAME).value?.toString()?:""
                 val photoName = userId + Constants.EXT_JPG
-                val talk = Talk(userId = userId, userName = userName, photoName = photoName)
+                val talk = Talk(userId = userId, userName = userName, photoName = photoName, unreadCount = unreadCount, time = time)
                 allTalk.add(talk)
                 adapter.notifyDataSetChanged()
             }

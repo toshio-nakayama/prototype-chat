@@ -4,5 +4,5 @@ data class Friend(
     val id:String,
     val name:String,
     val statusMessage:String,
-    val photoName:String
+    val photoName:String,
 )

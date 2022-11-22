@@ -33,6 +33,7 @@ class ProfileHomeFragment : Fragment() {
     private lateinit var dbRootRef: DatabaseReference
     private lateinit var dbRefUser: DatabaseReference
     private lateinit var storageRootRef: StorageReference
+    private var userEventListener: ValueEventListener? = null
 
     internal var callback: LogoutDetectionListener? = null
 
@@ -68,7 +69,6 @@ class ProfileHomeFragment : Fragment() {
         storageRootRef = Firebase.storage.reference
 
         setProfile()
-        setBackgroundPhoto()
         val menuHost = requireActivity()
         menuHost.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -86,15 +86,15 @@ class ProfileHomeFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+        userEventListener = null
     }
 
     private fun setProfile() {
         val userId = currentUser.uid
-        dbRefUser.child(userId).addListenerForSingleValueEvent(object : ValueEventListener {
+        userEventListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                binding.textViewName.text = currentUser.displayName
                 val user = snapshot.getValue(User::class.java)
+                binding.textViewName.text = user?.name
                 user?.statusMessage?.let {
                     binding.textViewStatusMessage.text = user.statusMessage
                 }
@@ -103,26 +103,28 @@ class ProfileHomeFragment : Fragment() {
                     .placeholder(R.drawable.default_profile)
                     .error(R.drawable.default_profile)
                     .into(binding.imageViewProfile)
+                setBackgroundPhoto()
             }
 
             override fun onCancelled(error: DatabaseError) {
 
             }
 
-        })
+        }
+        dbRefUser.child(userId).addValueEventListener(userEventListener!!)
     }
 
     private fun setBackgroundPhoto() {
         val userId = currentUser.uid
         val photoName = userId + Constants.EXT_JPG
-        storageRootRef.child(Constants.IMAGES_FOLDER).child(NodeNames.BACKGROUND_PHOTO)
+        storageRootRef.child(Constants.IMAGES_FOLDER).child(NodeNames.BACKGROUND_PHOTO_URI_PATH)
             .child(photoName).downloadUrl.addOnSuccessListener { uri ->
-            Glide.with(requireContext())
-                .load(uri)
-                .placeholder(R.drawable.default_background)
-                .error(R.drawable.default_background)
-                .into(binding.imageViewBackgroundPhoto)
-        }
+                Glide.with(requireContext())
+                    .load(uri)
+                    .placeholder(R.drawable.default_background)
+                    .error(R.drawable.default_background)
+                    .into(binding.imageViewBackgroundPhoto)
+            }
     }
 
     private fun onStatusMessageClick() {

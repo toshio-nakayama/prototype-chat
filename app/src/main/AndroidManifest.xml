@@ -4,6 +4,7 @@
     package="com.portfolio.prototype_chat">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CAMERA"/>
 
     <application
         android:allowBackup="true"
@@ -15,6 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PrototypeChat"
         tools:targetApi="31">
+        <activity
+            android:name=".home_ui.friends.FriendProfileActivity"
+            android:exported="false" />
         <activity
             android:name=".home_ui.talk.TalkActivity"
             android:exported="false" />

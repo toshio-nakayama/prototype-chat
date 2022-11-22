@@ -2,6 +2,7 @@ package com.portfolio.prototype_chat.signup
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Patterns
 import androidx.appcompat.app.AppCompatActivity
 import com.basgeekball.awesomevalidation.AwesomeValidation
 import com.basgeekball.awesomevalidation.ValidationStyle
@@ -24,7 +25,7 @@ class SignUpActivity : AppCompatActivity() {
     private lateinit var validation: AwesomeValidation
     private lateinit var auth: FirebaseAuth
     private lateinit var database: DatabaseReference
-    private var currentUser: FirebaseUser? = null
+    private lateinit var currentUser: FirebaseUser
 
     private lateinit var binding: ActivitySignupBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,31 +33,10 @@ class SignUpActivity : AppCompatActivity() {
         binding = ActivitySignupBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setupValidation()
+        supportActionBar?.let { it.title = getString(R.string.title_sign_up) }
         auth = Firebase.auth
         database = Firebase.database.reference
-
-        validation = AwesomeValidation(ValidationStyle.BASIC)
-        validation.also { v ->
-            v.addValidation(this, R.id.edit_text_name, RegexTemplate.NOT_EMPTY, R.string.empty_name)
-            v.addValidation(
-                this,
-                R.id.edit_text_email,
-                RegexTemplate.NOT_EMPTY,
-                R.string.empty_email
-            )
-            v.addValidation(
-                this,
-                R.id.edit_text_password,
-                RegexTemplate.NOT_EMPTY,
-                R.string.empty_password
-            )
-            v.addValidation(
-                this,
-                R.id.confirmPasswordEditText,
-                RegexTemplate.NOT_EMPTY,
-                R.string.empty_confirm_password
-            )
-        }
 
         binding.submitButton.setOnClickListener {
             if (!connectionAvailable(applicationContext)) {
@@ -79,13 +59,13 @@ class SignUpActivity : AppCompatActivity() {
     private fun signUp(name: String, email: String, password: String) {
         auth.createUserWithEmailAndPassword(email, password)
             .addOnSuccessListener {
-                currentUser = auth.currentUser
+                currentUser = auth.currentUser!!
                 val profileUpdates = userProfileChangeRequest {
                     displayName = name
                 }
-                currentUser!!.updateProfile(profileUpdates)
+                currentUser.updateProfile(profileUpdates)
                     .addOnSuccessListener {
-                        writeNewUser(currentUser!!.uid, name, email)
+                        writeNewUser(currentUser.uid, name, email)
                     }
             }
     }
@@ -93,12 +73,57 @@ class SignUpActivity : AppCompatActivity() {
     private fun writeNewUser(userId: String, name: String, email: String) {
         val user = User(name = name, email = email)
         database.child(NodeNames.USERS).child(userId).setValue(user)
-        ToastGenerator.Builder(applicationContext).resId(R.string.signup_successfully).build();
+        ToastGenerator.Builder(applicationContext).resId(R.string.signup_successfully).build()
         startActivity(Intent(this@SignUpActivity, LoginActivity::class.java))
     }
 
     private fun reload() {
         finish()
-        startActivity(intent);
+        startActivity(intent)
+    }
+
+    private fun setupValidation(){
+        validation = AwesomeValidation(ValidationStyle.BASIC)
+        validation.also { v ->
+
+            v.addValidation(this, R.id.edit_text_name, "[!-~]{1,20}", R.string.err_name)
+            v.addValidation(
+                this,
+                R.id.edit_text_name,
+                RegexTemplate.NOT_EMPTY,
+                R.string.err_name_blank
+            )
+
+            v.addValidation(this, R.id.edit_text_email, Patterns.EMAIL_ADDRESS, R.string.err_email)
+            v.addValidation(
+                this,
+                R.id.edit_text_email,
+                RegexTemplate.NOT_EMPTY,
+                R.string.err_email_blank
+            )
+
+            val regexPassword =
+                "(?=.*[a-z])(?=.*[A-Z])(?=.*[\\d])(?=.*[~`!@#\\$%\\^&\\*\\(\\)\\-_\\+=\\{\\}\\[\\]\\|\\;:\"<>,./\\?]).{6,20}"
+            v.addValidation(this, R.id.edit_text_password, regexPassword, R.string.err_password)
+            v.addValidation(
+                this,
+                R.id.edit_text_password,
+                RegexTemplate.NOT_EMPTY,
+                R.string.err_password_blank
+            )
+
+            v.addValidation(
+                this,
+                R.id.confirmPasswordEditText,
+                R.id.edit_text_password,
+                R.string.err_confirm_password
+            )
+            v.addValidation(
+                this,
+                R.id.confirmPasswordEditText,
+                RegexTemplate.NOT_EMPTY,
+                R.string.err_confirm_password_blank
+            )
+        }
     }
 }

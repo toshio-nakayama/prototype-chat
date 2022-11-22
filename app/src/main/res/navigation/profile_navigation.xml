@@ -8,24 +8,19 @@
     <fragment
         android:id="@+id/profileHomeFragment"
         android:name="com.portfolio.prototype_chat.profile.ProfileHomeFragment"
-        android:label="fragment_profile_home"
-        tools:layout="@layout/fragment_profile_home" >
+        android:label="プロフィール"
+        tools:layout="@layout/fragment_profile_home">
         <action
             android:id="@+id/action_profileHomeFragment_to_editProfileFragment"
             app:destination="@id/editProfileFragment" />
     </fragment>
     <fragment
-        android:id="@+id/editMessageFragment"
-        android:name="com.portfolio.prototype_chat.profile.EditMessageFragment"
-        android:label="fragment_edit_message"
-        tools:layout="@layout/fragment_edit_message" />
-    <fragment
         android:id="@+id/editProfileFragment"
         android:name="com.portfolio.prototype_chat.profile.EditProfileFragment"
-        android:label="fragment_edit_profile"
-        tools:layout="@layout/fragment_edit_profile" >
+        android:label="プロフィール編集"
+        tools:layout="@layout/fragment_edit_profile">
         <action
-            android:id="@+id/action_editProfileFragment_to_editMessageFragment"
-            app:destination="@id/editMessageFragment" />
+            android:id="@+id/action_editProfileFragment_to_profileHomeFragment"
+            app:destination="@id/profileHomeFragment" />
     </fragment>
 </navigation>

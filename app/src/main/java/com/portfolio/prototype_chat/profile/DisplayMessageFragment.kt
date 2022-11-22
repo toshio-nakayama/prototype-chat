@@ -18,7 +18,7 @@ class DisplayMessageFragment : DialogFragment() {
     private lateinit var binding: FragmentDisplayMessageBinding
 
     companion object {
-        const val DIALOG_TAG = "messageDisplayFragment"
+        const val DIALOG_TAG = "displayMessageFragment"
         fun newInstance() = DisplayMessageFragment()
     }
 
@@ -34,10 +34,15 @@ class DisplayMessageFragment : DialogFragment() {
         return dialog
     }
 
-    override fun onStart() {
-        super.onStart()
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val message = arguments?.getString(Extras.MESSAGE, "")
         binding.textViewMessage.text = message
         binding.imageButtonClose.setOnClickListener{dismiss()}
+        return super.onCreateView(inflater, container, savedInstanceState)
     }
+
 }

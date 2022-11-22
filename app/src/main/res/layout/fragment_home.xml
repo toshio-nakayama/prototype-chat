@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:layout_marginBottom="@dimen/navigation_bar_height"
     android:orientation="vertical"
-    android:padding="16dp"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
     tools:context=".home_ui.home.HomeFragment">
 
     <LinearLayout
@@ -31,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
                 android:textStyle="bold"
                 tools:text="名前" />
 

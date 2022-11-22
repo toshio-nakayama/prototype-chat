@@ -18,7 +18,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/app_logo" />
+        app:srcCompat="@drawable/app_logo"
+        android:contentDescription="@string/app_logo" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/email_container"
@@ -39,6 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:autofillHints="@string/prompt_email"
+            android:drawableStart="@drawable/custom_email_icon"
             android:hint="@string/prompt_email"
             android:inputType="textEmailAddress"
             android:lines="1" />
@@ -65,6 +67,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:autofillHints="@string/prompt_password"
+            android:drawableStart="@drawable/custom_lock_icon"
             android:hint="@string/prompt_password"
             android:inputType="textPassword"
             android:lines="1"
@@ -74,11 +77,12 @@
 
     <Button
         android:id="@+id/button_login"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="64dp"
+        android:background="@drawable/round_button"
         android:text="@string/login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -90,8 +94,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="@string/sign_up"
-        android:textColor="@color/link"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="@color/link"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

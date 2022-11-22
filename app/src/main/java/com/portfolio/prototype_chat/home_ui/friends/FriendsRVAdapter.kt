@@ -1,6 +1,7 @@
 package com.portfolio.prototype_chat.home_ui.friends
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -10,6 +11,7 @@ import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
 import com.portfolio.prototype_chat.R
 import com.portfolio.prototype_chat.common.Constants
+import com.portfolio.prototype_chat.common.Extras
 import com.portfolio.prototype_chat.common.NodeNames
 import com.portfolio.prototype_chat.databinding.FriendsListLayoutBinding
 
@@ -41,6 +43,16 @@ class FriendsRVAdapter(val context: Context, private val allFriends: List<Friend
             }
         holder.binding.textViewName.text = currentFriend.name
         holder.binding.textViewStatusMessage.text = currentFriend.statusMessage
+        holder.binding.linearLayoutFriendsList.setOnClickListener{
+            val intent = Intent(context, FriendProfileActivity::class.java)
+            intent.apply {
+                intent.putExtra(Extras.USER_ID, currentFriend.id)
+                intent.putExtra(Extras.USER_NAME, currentFriend.name)
+                intent.putExtra(Extras.STATUS_MESSAGE, currentFriend.statusMessage)
+                intent.putExtra(Extras.PHOTO_NAME, currentFriend.photoName)
+                context.startActivity(intent)
+            }
+        }
     }
 
     override fun getItemCount(): Int {

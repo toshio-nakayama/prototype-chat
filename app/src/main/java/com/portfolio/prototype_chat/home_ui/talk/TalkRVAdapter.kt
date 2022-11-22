@@ -43,7 +43,7 @@ class TalkRVAdapter(val context: Context, private val allTalk: List<Talk>): Recy
                     .into(holder.binding.imageViewProfile)
             }
         holder.binding.textViewName.text = talk.userName
-        if (talk.unreadCount == "0"){
+        if (talk.unreadCount != "0"){
             holder.binding.relativeLayoutUnread.visibility = View.VISIBLE
             holder.binding.textViewUnreadCount.text = talk.unreadCount
         }else{

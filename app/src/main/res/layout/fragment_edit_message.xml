@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/black"
     tools:context=".profile.EditMessageFragment">
 
     <RelativeLayout
@@ -15,15 +16,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/text_view_word_count"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:gravity="center"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            tools:text="0/0" />
-
         <ImageButton
             android:id="@+id/image_button_close"
             android:layout_width="wrap_content"
@@ -33,7 +25,18 @@
             android:layout_marginStart="8dp"
             android:background="@null"
             android:scaleType="fitCenter"
-            android:src="@drawable/ic_close" />
+            android:src="@drawable/ic_close_white" />
+
+        <TextView
+            android:id="@+id/text_view_word_count"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@color/white"
+            tools:text="0/0" />
+
 
         <Button
             android:id="@+id/button_save"
@@ -55,6 +58,7 @@
         android:layout_marginEnd="24dp"
         android:ems="18"
         android:inputType="text"
+        android:textColor="@color/white"
         android:theme="@style/EditTextStyle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
