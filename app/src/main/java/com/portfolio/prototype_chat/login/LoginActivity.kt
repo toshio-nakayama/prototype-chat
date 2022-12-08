@@ -27,24 +27,9 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        supportActionBar?.let { it.title = getString(R.string.login) }
-        setupValidation()
         auth = Firebase.auth
-        binding.buttonLogin.setOnClickListener {
-            if (!connectionAvailable(applicationContext)) {
-                ToastGenerator.Builder(applicationContext).resId(R.string.offline).build()
-            } else if (validation.validate()) {
-                login()
-            }
-        }
-        binding.textViewSignUp.setOnClickListener {
-            startActivity(
-                Intent(
-                    this@LoginActivity,
-                    SignUpActivity::class.java
-                )
-            )
-        }
+        validation = AwesomeValidation(ValidationStyle.BASIC)
+        initView()
     }
 
     override fun onStart() {
@@ -60,40 +45,44 @@ class LoginActivity : AppCompatActivity() {
         val email = binding.editTextEmail.text.toString().trim()
         val password = binding.editTextPassword.text.toString().trim()
         auth.signInWithEmailAndPassword(email, password)
-            .addOnSuccessListener {
-                startActivity(
-                    Intent(
-                        this@LoginActivity,
-                        MainActivity::class.java
-                    )
-                )
-            }
             .addOnFailureListener {
                 ToastGenerator.Builder(applicationContext).resId(R.string.login_failure).build()
             }
+            .addOnSuccessListener {
+                startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+            }
     }
 
-    private fun setupValidation() {
-        validation = AwesomeValidation(ValidationStyle.BASIC)
+    private fun initView() {
+        supportActionBar?.let { it.title = getString(R.string.login) }
+        binding.buttonLogin.setOnClickListener {
+            if (!connectionAvailable(applicationContext)) {
+                ToastGenerator.Builder(applicationContext).resId(R.string.offline).build()
+            } else if (validation.validate()) {
+                login()
+            }
+        }
+        binding.textViewSignUp.setOnClickListener {
+            startActivity(Intent(this@LoginActivity, SignUpActivity::class.java))
+        }
+        addValidationToViews()
+    }
+
+
+    private fun addValidationToViews() {
         validation.also { v ->
-            v.addValidation(
-                this,
+            v.addValidation(this,
                 R.id.edit_text_email,
                 Patterns.EMAIL_ADDRESS,
-                R.string.invalid_email
-            )
-            v.addValidation(
-                this,
+                R.string.invalid_email)
+            v.addValidation(this,
                 R.id.edit_text_email,
                 RegexTemplate.NOT_EMPTY,
-                R.string.empty_email
-            )
-            v.addValidation(
-                this,
+                R.string.empty_email)
+            v.addValidation(this,
                 R.id.edit_text_password,
                 RegexTemplate.NOT_EMPTY,
-                R.string.empty_password
-            )
+                R.string.empty_password)
         }
     }
 }

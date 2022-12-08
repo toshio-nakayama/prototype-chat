@@ -6,22 +6,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanOptions
 import com.portfolio.prototype_chat.R
 import com.portfolio.prototype_chat.add_friend.AddFriendActivity
+import com.portfolio.prototype_chat.common.Constants
 import com.portfolio.prototype_chat.common.Extras
 import com.portfolio.prototype_chat.common.NodeNames
 import com.portfolio.prototype_chat.databinding.FragmentHomeBinding
@@ -32,130 +31,111 @@ import com.portfolio.prototype_chat.util.ToastGenerator
 
 class HomeFragment : Fragment() {
 
-    private lateinit var auth: FirebaseAuth
+    private val viewModel: HomeViewModel by viewModels()
+    private lateinit var rootRef: DatabaseReference
+    private lateinit var userRef: DatabaseReference
+    private lateinit var talkRef: DatabaseReference
     private lateinit var currentUser: FirebaseUser
-    private lateinit var dbRootRef: DatabaseReference
-    private lateinit var dbRefUser: DatabaseReference
-    private lateinit var dbRefTalk: DatabaseReference
-    private var userEventListener: ValueEventListener? = null
-    private var talkEventListener: ValueEventListener? = null
-
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        rootRef = Firebase.database.reference
+        userRef = rootRef.child(NodeNames.USERS)
+        talkRef = rootRef.child(NodeNames.TALK)
+        currentUser = Firebase.auth.currentUser!!
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        _binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
+        binding.lifecycleOwner = this
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        auth = Firebase.auth
-        currentUser = auth.currentUser!!
-        dbRootRef = Firebase.database.reference
-        dbRefUser = dbRootRef.child(NodeNames.USERS)
-        dbRefTalk = dbRootRef.child(NodeNames.TALK)
-
-        setProfile()
-        setFriendsCount()
-        binding.linearLayoutFriendsList.setOnClickListener { view ->
-            view.findNavController().navigate(
-                R.id.action_navigation_home_to_navigation_friends
-            )
-        }
-        binding.linearLayoutProfile.setOnClickListener {
-            startActivity(
-                Intent(
-                    activity,
-                    ProfileActivity::class.java
-                )
-            )
-        }
-        binding.floatingActionButtonQrScan.setOnClickListener {
-            val options = ScanOptions().apply {
-                setOrientationLocked(false)
-                setBeepEnabled(false)
-                captureActivity = QRCodeScannerActivity::class.java
-            }
-            barcodeLauncher.launch(options)
-        }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-        userEventListener = null
-        talkEventListener = null
-    }
-
-    private fun setProfile() {
-        val userId = currentUser.uid
-        userEventListener = object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                binding.textViewName.text = currentUser.displayName
-                val user = snapshot.getValue(User::class.java)
-                user?.statusMessage?.let {
-                    binding.textViewStatusMessage.text = user.statusMessage
-                }
+        viewModel.userLiveData.observe(viewLifecycleOwner) { user ->
+            user?.let {
+                binding.textViewName.text = it.name
+                binding.textViewStatusMessage.text = it.statusMessage
                 Glide.with(requireContext())
                     .load(currentUser.photoUrl)
                     .placeholder(R.drawable.default_profile)
                     .error(R.drawable.default_profile)
                     .into(binding.imageViewProfile)
             }
-
-            override fun onCancelled(error: DatabaseError) {
-
-            }
         }
-        dbRefUser.child(userId).addValueEventListener(userEventListener!!)
-    }
 
-    private fun setFriendsCount() {
-        val userid = currentUser.uid
-        talkEventListener = object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val count = snapshot.childrenCount
+        viewModel.talkLiveData.observe(viewLifecycleOwner) { snapshot ->
+            snapshot?.let {
+                val count = it.childrenCount
                 binding.textViewFriendsCount.text = count.toString()
             }
-
-            override fun onCancelled(error: DatabaseError) {
-
-            }
-
         }
-        dbRefTalk.child(userid).addValueEventListener(talkEventListener!!)
+        initView()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    private fun initView() {
+        binding.linearLayoutFriendsList.setOnClickListener {
+            it.findNavController().navigate(R.id.action_navigation_home_to_navigation_friends)
+        }
+
+        binding.linearLayoutProfile.setOnClickListener {
+            startActivity(Intent(activity, ProfileActivity::class.java))
+        }
+
+        binding.floatingActionButtonQrScan.setOnClickListener {
+            barcodeLauncher.launch(ScanOptions().apply {
+                setOrientationLocked(false)
+                setBeepEnabled(false)
+                captureActivity = QRCodeScannerActivity::class.java
+            })
+        }
     }
 
     private val barcodeLauncher: ActivityResultLauncher<ScanOptions> =
-        registerForActivityResult(ScanContract()) {
-            it.contents?.run {
-                val userId: String = it.contents
-                validateOnId(userId)
+        registerForActivityResult(ScanContract()) { result ->
+            result.contents?.run {
+                val userId: String = this
+                mightAddFriend(userId)
             }
 
         }
 
-    private fun validateOnId(id: String) {
-        val currentUserId = currentUser.uid
-        if (id == currentUserId) {
-            ToastGenerator.Builder(requireContext()).resId(R.string.invalid_qr_code)
+    private fun mightAddFriend(id: String) {
+        val userId = currentUser.uid
+        if (id == userId) {
+            ToastGenerator.Builder(requireContext()).resId(R.string.invalid_qr_code).build()
             return
         }
-        dbRefTalk.child(currentUserId).child(id).get().addOnSuccessListener { snapshotTalk ->
+        talkRef.child(userId).child(id).get().addOnSuccessListener { snapshotTalk ->
             if (snapshotTalk.exists()) {
-                ToastGenerator.Builder(requireContext()).resId(R.string.allready_registered)
+                ToastGenerator.Builder(requireContext()).resId(R.string.allready_registered).build()
             } else {
-                dbRefUser.child(id).get().addOnSuccessListener { snapshotUser ->
+                userRef.child(id).get().addOnSuccessListener { snapshotUser ->
                     if (snapshotUser.exists()) {
-                        val intent = Intent(activity, AddFriendActivity::class.java)
-                        intent.putExtra(Extras.USER_ID, id)
-                        startActivity(intent)
+                        val user = snapshotUser.getValue(User::class.java)
+                        user?.let {
+                            val intent = Intent(activity, AddFriendActivity::class.java)
+                            intent.putExtra(Extras.USER_ID, id)
+                            intent.putExtra(Extras.USER_NAME, user.name)
+                            val photoName = userId + Constants.EXT_JPG
+                            intent.putExtra(Extras.PHOTO_NAME, photoName)
+                            startActivity(intent)
+                        }
                     }
                 }
             }

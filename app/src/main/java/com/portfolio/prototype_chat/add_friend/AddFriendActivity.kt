@@ -17,6 +17,7 @@ import com.portfolio.prototype_chat.common.Constants
 import com.portfolio.prototype_chat.common.Extras
 import com.portfolio.prototype_chat.common.NodeNames
 import com.portfolio.prototype_chat.databinding.ActivityAddFriendBinding
+import com.portfolio.prototype_chat.home_ui.talk.Talk
 import com.portfolio.prototype_chat.signup.User
 
 class AddFriendActivity : AppCompatActivity() {
@@ -71,6 +72,7 @@ class AddFriendActivity : AppCompatActivity() {
 
     private fun addFriend(friendId: String) {
         val userId = currentUser.uid
+        val talk:Talk = Talk(friendId, )
         dbRefTalk.child(userId).child(friendId).child(NodeNames.TIME_STAMP)
             .setValue(ServerValue.TIMESTAMP).addOnSuccessListener {
                 dbRefTalk.child(friendId).child(userId).child(NodeNames.TIME_STAMP)
