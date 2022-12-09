@@ -1,4 +1,4 @@
-package com.portfolio.prototype_chat.home_ui.talk
+package com.portfolio.prototype_chat.home_ui.talk.messaging
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

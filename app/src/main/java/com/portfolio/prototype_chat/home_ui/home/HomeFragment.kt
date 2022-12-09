@@ -131,9 +131,6 @@ class HomeFragment : Fragment() {
                         user?.let {
                             val intent = Intent(activity, AddFriendActivity::class.java)
                             intent.putExtra(Extras.USER_ID, id)
-                            intent.putExtra(Extras.USER_NAME, user.name)
-                            val photoName = userId + Constants.EXT_JPG
-                            intent.putExtra(Extras.PHOTO_NAME, photoName)
                             startActivity(intent)
                         }
                     }

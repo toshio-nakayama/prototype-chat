@@ -14,7 +14,7 @@ import com.portfolio.prototype_chat.common.Constants
 import com.portfolio.prototype_chat.common.Extras
 import com.portfolio.prototype_chat.common.NodeNames
 import com.portfolio.prototype_chat.databinding.ActivityFriendProfileBinding
-import com.portfolio.prototype_chat.home_ui.talk.TalkActivity
+import com.portfolio.prototype_chat.home_ui.talk.messaging.TalkActivity
 import com.portfolio.prototype_chat.profile.DisplayMessageFragment
 
 class FriendProfileActivity : AppCompatActivity() {

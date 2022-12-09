@@ -20,7 +20,7 @@
             android:name=".home_ui.friends.FriendProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".home_ui.talk.TalkActivity"
+            android:name=".home_ui.talk.messaging.TalkActivity"
             android:exported="false" />
         <activity
             android:name=".add_friend.AddFriendActivity"

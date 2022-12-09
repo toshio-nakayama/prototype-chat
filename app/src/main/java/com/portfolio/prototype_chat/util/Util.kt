@@ -3,6 +3,11 @@ package com.portfolio.prototype_chat.util
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.net.Uri
+import android.widget.ImageView
+import androidx.annotation.DrawableRes
+import androidx.lifecycle.MutableLiveData
+import com.bumptech.glide.Glide
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ServerValue
@@ -28,32 +33,45 @@ fun connectionAvailable(context: Context): Boolean {
     return result
 }
 
-fun timestampToString(time:Long, pattern:String):String{
+fun timestampToString(time: Long, pattern: String): String {
     val sdf = SimpleDateFormat(pattern, Locale.JAPAN)
     val dateTime = sdf.format(Date(time))
     return dateTime.split(" ")[1]
 }
 
-fun updateTalkDetails(context: Context, userId:String, friendId:String){
+fun updateTalkDetails(context: Context, userId: String, friendId: String) {
     val dbRootRef = Firebase.database.reference
-    dbRootRef.child(NodeNames.TALK).child(friendId).child(userId).addListenerForSingleValueEvent(object :ValueEventListener{
-        override fun onDataChange(snapshot: DataSnapshot) {
-            var currentCount = "0"
-            snapshot.child(NodeNames.UNREAD_COUNT).value?.let { currentCount = it.toString() }
-            val talkUserRoot = "${NodeNames.TALK}/$friendId/$userId/"
-            val talkUpdates = hashMapOf<String, Any>(
-                NodeNames.TIME_STAMP to ServerValue.TIMESTAMP,
-                NodeNames.UNREAD_COUNT to currentCount.toInt() + 1
-            )
-            val childUpdates = hashMapOf<String, Any>(
-                talkUserRoot to talkUpdates
-            )
-            dbRootRef.updateChildren(childUpdates)
-        }
+    dbRootRef.child(NodeNames.TALK).child(friendId).child(userId)
+        .addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                var currentCount = "0"
+                snapshot.child(NodeNames.UNREAD_COUNT).value?.let { currentCount = it.toString() }
+                val talkUserRoot = "${NodeNames.TALK}/$friendId/$userId/"
+                val talkUpdates = hashMapOf<String, Any>(
+                    NodeNames.TIME_STAMP to ServerValue.TIMESTAMP,
+                    NodeNames.UNREAD_COUNT to currentCount.toInt() + 1
+                )
+                val childUpdates = hashMapOf<String, Any>(
+                    talkUserRoot to talkUpdates
+                )
+                dbRootRef.updateChildren(childUpdates)
+            }
 
-        override fun onCancelled(error: DatabaseError) {
+            override fun onCancelled(error: DatabaseError) {
 
-        }
+            }
 
-    })
+        })
+}
+
+fun <T> MutableLiveData<T>.notifyObserver() {
+    this.value = this.value
+}
+
+fun glideSupport(context: Context, uri: Uri, @DrawableRes placeholder: Int, into: ImageView) {
+    Glide.with(context)
+        .load(uri)
+        .placeholder(placeholder)
+        .error(placeholder)
+        .into(into)
 }

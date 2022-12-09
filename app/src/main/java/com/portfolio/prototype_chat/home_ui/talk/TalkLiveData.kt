@@ -25,7 +25,7 @@ class TalkLiveData(private val query: Query) : LiveData<Talk>() {
     }
 
     private fun createTalkBasedOnSnapshot(snapshot: DataSnapshot, userId: String) {
-        val unreadCount = snapshot.child(NodeNames.UNREAD_COUNT).value.toString()
+        val unreadCount = snapshot.child(NodeNames.UNREAD_COUNT).value?.toString() ?: "0"
         val time = snapshot.child(NodeNames.TIME_STAMP).value.toString()
         userRef.child(userId).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {

@@ -2,41 +2,37 @@ package com.portfolio.prototype_chat.home_ui.talk
 
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
 import com.portfolio.prototype_chat.R
 import com.portfolio.prototype_chat.common.Constants
 import com.portfolio.prototype_chat.common.Extras
 import com.portfolio.prototype_chat.common.NodeNames
 import com.portfolio.prototype_chat.databinding.TalkListLayoutBinding
+import com.portfolio.prototype_chat.home_ui.talk.messaging.TalkActivity
+import com.portfolio.prototype_chat.util.glideSupport
 
 class TalkListAdapter(val context: Context) :
     ListAdapter<Talk, TalkListAdapter.ViewHolder>(DIFF_CALLBACK) {
+
+    private val storageRootRef: StorageReference = Firebase.storage.reference
 
     inner class ViewHolder(val binding: TalkListLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bindTo(item: Talk) {
             binding.apply {
-                //FIXME:
-                Firebase.storage.reference.child(Constants.IMAGES_FOLDER).child(NodeNames.PHOTO_URI_PATH)
+                storageRootRef.child(Constants.IMAGES_FOLDER).child(NodeNames.PHOTO_URI_PATH)
                     .child(item.photoName)
-                    .downloadUrl.addOnSuccessListener { uri ->
-                        Glide.with(context)
-                            .load(uri)
-                            .placeholder(R.drawable.default_profile)
-                            .error(R.drawable.default_profile)
-                            .into(imageViewProfile)
+                    .downloadUrl.addOnSuccessListener {
+                        glideSupport(context, it, R.drawable.default_profile, imageViewProfile)
                     }
-
-
                 textViewName.text = item.userName
                 if (item.unreadCount != "0") {
                     relativeLayoutUnread.visibility = View.VISIBLE
