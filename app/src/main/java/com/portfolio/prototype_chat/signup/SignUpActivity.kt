@@ -35,7 +35,8 @@ class SignUpActivity : AppCompatActivity() {
 
         auth = Firebase.auth
         database = Firebase.database.reference
-        validation = AwesomeValidation(ValidationStyle.BASIC)
+//        validation = AwesomeValidation(ValidationStyle.BASIC)
+        validation = AwesomeValidation(ValidationStyle.TEXT_INPUT_LAYOUT)
         initView()
     }
 
@@ -90,31 +91,61 @@ class SignUpActivity : AppCompatActivity() {
 
     private fun addValidationToViews() {
         validation.also { v ->
-            v.addValidation(this, R.id.edit_text_name, "[!-~]{1,20}", R.string.err_name)
+            v.addValidation(this, R.id.name_container, "[!-~]{1,20}", R.string.err_name)
             v.addValidation(this,
-                R.id.edit_text_name,
+                R.id.name_container,
                 RegexTemplate.NOT_EMPTY,
                 R.string.err_name_blank)
-            v.addValidation(this, R.id.edit_text_email, Patterns.EMAIL_ADDRESS, R.string.err_email)
+            v.addValidation(this, R.id.email_container, Patterns.EMAIL_ADDRESS, R.string.err_email)
             v.addValidation(this,
-                R.id.edit_text_email,
+                R.id.email_container,
                 RegexTemplate.NOT_EMPTY,
                 R.string.err_email_blank)
             val regexPassword =
                 "(?=.*[a-z])(?=.*[A-Z])(?=.*[\\d])(?=.*[~`!@#\\$%\\^&\\*\\(\\)\\-_\\+=\\{\\}\\[\\]\\|\\;:\"<>,./\\?]).{6,20}"
-            v.addValidation(this, R.id.edit_text_password, regexPassword, R.string.err_password)
+            v.addValidation(this, R.id.password_container, regexPassword, R.string.err_password)
             v.addValidation(this,
-                R.id.edit_text_password,
+                R.id.password_container,
                 RegexTemplate.NOT_EMPTY,
                 R.string.err_password_blank)
             v.addValidation(this,
-                R.id.confirmPasswordEditText,
-                R.id.edit_text_password,
+                R.id.confirm_password_container,
+                R.id.password_container,
                 R.string.err_confirm_password)
             v.addValidation(this,
-                R.id.confirmPasswordEditText,
-                RegexTemplate.NOT_EMPTY,
+                R.id.confirm_password_container,
+                R.id.password_container,
                 R.string.err_confirm_password_blank)
         }
     }
+
+//    private fun addValidationToViews() {
+//        validation.also { v ->
+//            v.addValidation(this, R.id.edit_text_name, "[!-~]{1,20}", R.string.err_name)
+//            v.addValidation(this,
+//                R.id.edit_text_name,
+//                RegexTemplate.NOT_EMPTY,
+//                R.string.err_name_blank)
+//            v.addValidation(this, R.id.edit_text_email, Patterns.EMAIL_ADDRESS, R.string.err_email)
+//            v.addValidation(this,
+//                R.id.edit_text_email,
+//                RegexTemplate.NOT_EMPTY,
+//                R.string.err_email_blank)
+//            val regexPassword =
+//                "(?=.*[a-z])(?=.*[A-Z])(?=.*[\\d])(?=.*[~`!@#\\$%\\^&\\*\\(\\)\\-_\\+=\\{\\}\\[\\]\\|\\;:\"<>,./\\?]).{6,20}"
+//            v.addValidation(this, R.id.edit_text_password, regexPassword, R.string.err_password)
+//            v.addValidation(this,
+//                R.id.edit_text_password,
+//                RegexTemplate.NOT_EMPTY,
+//                R.string.err_password_blank)
+//            v.addValidation(this,
+//                R.id.confirmPasswordEditText,
+//                R.id.edit_text_password,
+//                R.string.err_confirm_password)
+//            v.addValidation(this,
+//                R.id.confirmPasswordEditText,
+//                RegexTemplate.NOT_EMPTY,
+//                R.string.err_confirm_password_blank)
+//        }
+//    }
 }

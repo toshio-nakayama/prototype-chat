@@ -28,7 +28,8 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         auth = Firebase.auth
-        validation = AwesomeValidation(ValidationStyle.BASIC)
+//        validation = AwesomeValidation(ValidationStyle.BASIC)
+        validation = AwesomeValidation(ValidationStyle.TEXT_INPUT_LAYOUT)
         initView()
     }
 
@@ -68,21 +69,28 @@ class LoginActivity : AppCompatActivity() {
         addValidationToViews()
     }
 
-
     private fun addValidationToViews() {
         validation.also { v ->
-            v.addValidation(this,
-                R.id.edit_text_email,
-                Patterns.EMAIL_ADDRESS,
-                R.string.invalid_email)
-            v.addValidation(this,
-                R.id.edit_text_email,
-                RegexTemplate.NOT_EMPTY,
-                R.string.empty_email)
-            v.addValidation(this,
-                R.id.edit_text_password,
-                RegexTemplate.NOT_EMPTY,
-                R.string.empty_password)
+            v.addValidation(this, R.id.email_container,  Patterns.EMAIL_ADDRESS,R.string.invalid_email)
+            v.addValidation(this, R.id.email_container,  RegexTemplate.NOT_EMPTY,R.string.empty_email)
+            v.addValidation(this, R.id.password_container, RegexTemplate.NOT_EMPTY, R.string.empty_password)
         }
     }
+
+//    private fun addValidationToViews() {
+//        validation.also { v ->
+//            v.addValidation(this,
+//                R.id.edit_text_email,
+//                Patterns.EMAIL_ADDRESS,
+//                R.string.invalid_email)
+//            v.addValidation(this,
+//                R.id.edit_text_email,
+//                RegexTemplate.NOT_EMPTY,
+//                R.string.empty_email)
+//            v.addValidation(this,
+//                R.id.edit_text_password,
+//                RegexTemplate.NOT_EMPTY,
+//                R.string.empty_password)
+//        }
+//    }
 }

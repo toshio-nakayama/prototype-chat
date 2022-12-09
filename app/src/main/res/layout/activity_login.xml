@@ -39,6 +39,7 @@
             android:id="@+id/edit_text_email"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            style="@style/EditTextStyle"
             android:autofillHints="@string/prompt_email"
             android:drawableStart="@drawable/custom_email_icon"
             android:hint="@string/prompt_email"
