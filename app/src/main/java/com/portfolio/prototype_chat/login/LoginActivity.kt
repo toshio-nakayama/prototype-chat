@@ -28,7 +28,6 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         auth = Firebase.auth
-//        validation = AwesomeValidation(ValidationStyle.BASIC)
         validation = AwesomeValidation(ValidationStyle.TEXT_INPUT_LAYOUT)
         initView()
     }
@@ -42,18 +41,6 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun login() {
-        val email = binding.editTextEmail.text.toString().trim()
-        val password = binding.editTextPassword.text.toString().trim()
-        auth.signInWithEmailAndPassword(email, password)
-            .addOnFailureListener {
-                ToastGenerator.Builder(applicationContext).resId(R.string.login_failure).build()
-            }
-            .addOnSuccessListener {
-                startActivity(Intent(this@LoginActivity, MainActivity::class.java))
-            }
-    }
-
     private fun initView() {
         supportActionBar?.let { it.title = getString(R.string.login) }
         binding.buttonLogin.setOnClickListener {
@@ -63,7 +50,7 @@ class LoginActivity : AppCompatActivity() {
                 login()
             }
         }
-        binding.textViewSignUp.setOnClickListener {
+        binding.buttonSignup.setOnClickListener {
             startActivity(Intent(this@LoginActivity, SignUpActivity::class.java))
         }
         addValidationToViews()
@@ -71,26 +58,22 @@ class LoginActivity : AppCompatActivity() {
 
     private fun addValidationToViews() {
         validation.also { v ->
-            v.addValidation(this, R.id.email_container,  Patterns.EMAIL_ADDRESS,R.string.invalid_email)
-            v.addValidation(this, R.id.email_container,  RegexTemplate.NOT_EMPTY,R.string.empty_email)
-            v.addValidation(this, R.id.password_container, RegexTemplate.NOT_EMPTY, R.string.empty_password)
+            v.addValidation(this, R.id.textinput_email, Patterns.EMAIL_ADDRESS, R.string.invalid_email)
+            v.addValidation(this, R.id.textinput_email, RegexTemplate.NOT_EMPTY, R.string.empty_email)
+            v.addValidation(this, R.id.textinput_password, RegexTemplate.NOT_EMPTY, R.string.empty_password)
         }
     }
 
-//    private fun addValidationToViews() {
-//        validation.also { v ->
-//            v.addValidation(this,
-//                R.id.edit_text_email,
-//                Patterns.EMAIL_ADDRESS,
-//                R.string.invalid_email)
-//            v.addValidation(this,
-//                R.id.edit_text_email,
-//                RegexTemplate.NOT_EMPTY,
-//                R.string.empty_email)
-//            v.addValidation(this,
-//                R.id.edit_text_password,
-//                RegexTemplate.NOT_EMPTY,
-//                R.string.empty_password)
-//        }
-//    }
+    private fun login() {
+        val email = binding.editEmail.text.toString().trim()
+        val password = binding.editPassword.text.toString().trim()
+        auth.signInWithEmailAndPassword(email, password)
+            .addOnFailureListener {
+                ToastGenerator.Builder(applicationContext).resId(R.string.login_failure).build()
+            }
+            .addOnSuccessListener {
+                startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+            }
+    }
+
 }

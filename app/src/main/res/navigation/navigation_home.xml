@@ -27,7 +27,7 @@
 
     <fragment
         android:id="@+id/navigation_talk"
-        android:name="com.portfolio.prototype_chat.home_ui.talk.TalkFragment"
+        android:name="com.portfolio.prototype_chat.home_ui.talk.TalksFragment"
         android:label="@string/title_talk"
-        tools:layout="@layout/fragment_talk" />
+        tools:layout="@layout/fragment_talks" />
 </navigation>

@@ -19,16 +19,16 @@ class QRCodeScannerActivity : AppCompatActivity(),
         binding = ActivityQrcodeScannerBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        capture = CaptureManager(this, binding.decoratedBarcodeView)
+        capture = CaptureManager(this, binding.decoratedbarcode)
         capture.initializeFromIntent(intent, savedInstanceState)
         capture.decode()
         val currentUser = Firebase.auth.currentUser
         currentUser?.let {
             val userId: String = it.uid
-            binding.myQrcodeButton.setOnClickListener {
-                binding.myQrcodeButton.isEnabled = false
+            binding.buttomMyqrcode.setOnClickListener {
+                binding.buttomMyqrcode.isEnabled = false
                 supportFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, QRCodeGeneratorFragment.newInstance(userId))
+                    .replace(R.id.fragmentcontainer, QRCodeGeneratorFragment.newInstance(userId))
                     .addToBackStack(null)
                     .commit()
                 capture.onPause()
@@ -47,7 +47,7 @@ class QRCodeScannerActivity : AppCompatActivity(),
     }
 
     override fun onFragmentDestroy() {
-        binding.myQrcodeButton.isEnabled = true
+        binding.buttomMyqrcode.isEnabled = true
         capture.onResume()
     }
 

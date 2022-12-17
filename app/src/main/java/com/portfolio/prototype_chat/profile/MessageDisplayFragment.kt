@@ -8,22 +8,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import com.portfolio.prototype_chat.R
 import com.portfolio.prototype_chat.common.Extras
-import com.portfolio.prototype_chat.databinding.FragmentDisplayMessageBinding
+import com.portfolio.prototype_chat.databinding.FragmentMessageDisplayBinding
 
 
-class DisplayMessageFragment : DialogFragment() {
+class MessageDisplayFragment : DialogFragment() {
 
-    private lateinit var binding: FragmentDisplayMessageBinding
+    private lateinit var binding: FragmentMessageDisplayBinding
 
     companion object {
         const val DIALOG_TAG = "displayMessageFragment"
-        fun newInstance() = DisplayMessageFragment()
+        fun newInstance() = MessageDisplayFragment()
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        binding = FragmentDisplayMessageBinding.inflate(layoutInflater)
+        binding = FragmentMessageDisplayBinding.inflate(layoutInflater)
         val dialog = activity?.let {
             Dialog(it)
         }?:throw IllegalStateException("Activity cannot be null")
@@ -40,8 +39,8 @@ class DisplayMessageFragment : DialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         val message = arguments?.getString(Extras.MESSAGE, "")
-        binding.textViewMessage.text = message
-        binding.imageButtonClose.setOnClickListener{dismiss()}
+        binding.textMessage.text = message
+        binding.imagebuttonClose.setOnClickListener{dismiss()}
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 

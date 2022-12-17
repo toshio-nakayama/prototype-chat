@@ -37,8 +37,8 @@ class SplashActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        binding.imageViewAppLogo.startAnimation(animation)
-        binding.textViewAppName.startAnimation(animation)
+        binding.imageLogo.startAnimation(animation)
+        binding.textTitle.startAnimation(animation)
     }
 
 }

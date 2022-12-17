@@ -7,15 +7,15 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.portfolio.prototype_chat.databinding.FragmentTalkBinding
+import com.portfolio.prototype_chat.databinding.FragmentTalksBinding
 import com.portfolio.prototype_chat.util.notifyObserver
 
-class TalkFragment : Fragment() {
+class TalksFragment : Fragment() {
 
-    private var _binding: FragmentTalkBinding? = null
+    private var _binding: FragmentTalksBinding? = null
     private val binding get() = _binding!!
-    private val talkListAdapter: TalkListAdapter by lazy { TalkListAdapter(requireContext()) }
-    private val viewModel: TalkViewModel by viewModels()
+    private val talkListAdapter: TalksListAdapter by lazy { TalksListAdapter(requireContext()) }
+    private val viewModel: TalksViewModel by viewModels()
 
 
     override fun onCreateView(
@@ -23,14 +23,14 @@ class TalkFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        _binding = FragmentTalkBinding.inflate(inflater, container, false)
+        _binding = FragmentTalksBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
-            recyclerViewTalkList.apply {
+            recyclerTalks.apply {
                 layoutManager = LinearLayoutManager(context).apply {
                     reverseLayout = true
                     stackFromEnd = true
@@ -39,14 +39,10 @@ class TalkFragment : Fragment() {
             }
         }
         viewModel.talkList.observe(this.viewLifecycleOwner) {
-            it?.let {
-                if (it.isNotEmpty()) {
-                    talkListAdapter.submitList(it)
-                }
-            }
+            talkListAdapter.submitList(it)
         }
-        viewModel.talkLiveData.observe(viewLifecycleOwner) { talk ->
-            viewModel.talkList.value?.add(talk)
+        viewModel.talkLiveData.observe(viewLifecycleOwner) {
+            viewModel.talkList.value?.add(it)
             viewModel.talkList.notifyObserver()
         }
     }

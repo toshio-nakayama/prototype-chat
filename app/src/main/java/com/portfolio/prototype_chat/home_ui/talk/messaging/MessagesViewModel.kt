@@ -11,7 +11,7 @@ import com.google.firebase.ktx.Firebase
 import com.portfolio.prototype_chat.common.NodeNames
 import com.portfolio.prototype_chat.firebase_livedata.ChildEventLiveData
 
-class MessageViewModel(private val talkUserId:String) : ViewModel(){
+class MessagesViewModel(private val talkUserId:String) : ViewModel(){
 
     private val currentUser: FirebaseUser? = Firebase.auth.currentUser
     private val rootRef: DatabaseReference = Firebase.database.reference

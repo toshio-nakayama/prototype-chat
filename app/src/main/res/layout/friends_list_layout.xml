@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:id="@+id/constraint_layout_item"
+    android:id="@+id/constraint_item"
     android:layout_height="wrap_content"
     android:padding="8dp">
 
     <LinearLayout
-        android:id="@+id/linear_layout_friends_list"
+        android:id="@+id/linear_row"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.mikhaellopez.circularimageview.CircularImageView
-            android:id="@+id/image_view_profile"
+            android:id="@+id/circularimage_profile"
             android:layout_width="75dp"
             android:layout_height="75dp"
             android:src="@drawable/default_profile"
@@ -32,7 +32,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/text_view_name"
+                android:id="@+id/text_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
@@ -40,7 +40,7 @@
                 tools:text="@string/prompt_name" />
 
             <TextView
-                android:id="@+id/text_view_status_message"
+                android:id="@+id/text_statusmessage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"

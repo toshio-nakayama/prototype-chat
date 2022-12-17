@@ -26,8 +26,8 @@ class SignUpActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var database: DatabaseReference
     private lateinit var currentUser: FirebaseUser
-
     private lateinit var binding: ActivitySignupBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySignupBinding.inflate(layoutInflater)
@@ -35,7 +35,6 @@ class SignUpActivity : AppCompatActivity() {
 
         auth = Firebase.auth
         database = Firebase.database.reference
-//        validation = AwesomeValidation(ValidationStyle.BASIC)
         validation = AwesomeValidation(ValidationStyle.TEXT_INPUT_LAYOUT)
         initView()
     }
@@ -48,17 +47,32 @@ class SignUpActivity : AppCompatActivity() {
 
     private fun initView() {
         supportActionBar?.let { it.title = getString(R.string.title_sign_up) }
-        binding.submitButton.setOnClickListener {
+        binding.buttonSubmit.setOnClickListener {
             if (!connectionAvailable(applicationContext)) {
                 ToastGenerator.Builder(applicationContext).resId(R.string.offline).build()
             } else if (validation.validate()) {
-                val name = binding.editTextName.text.toString().trim()
-                val email = binding.editTextEmail.text.toString().trim()
-                val password = binding.editTextPassword.text.toString().trim()
+                val name = binding.editName.text.toString().trim()
+                val email = binding.editEmail.text.toString().trim()
+                val password = binding.editPassword.text.toString().trim()
                 signUp(name, email, password)
             }
         }
         addValidationToViews()
+    }
+
+    private fun addValidationToViews() {
+        validation.also { v ->
+            v.addValidation(this, R.id.textinput_name, "[!-~]{1,20}", R.string.err_name)
+            v.addValidation(this, R.id.textinput_name, RegexTemplate.NOT_EMPTY, R.string.err_name_blank)
+            v.addValidation(this, R.id.textinput_email, Patterns.EMAIL_ADDRESS, R.string.err_email)
+            v.addValidation(this, R.id.textinput_email, RegexTemplate.NOT_EMPTY, R.string.err_email_blank)
+            val regexPassword =
+                "(?=.*[a-z])(?=.*[A-Z])(?=.*[\\d])(?=.*[~`!@#\\$%\\^&\\*\\(\\)\\-_\\+=\\{\\}\\[\\]\\|\\;:\"<>,./\\?]).{6,20}"
+            v.addValidation(this, R.id.textinput_password, regexPassword, R.string.err_password)
+            v.addValidation(this, R.id.textinput_password, RegexTemplate.NOT_EMPTY, R.string.err_password_blank)
+            v.addValidation(this, R.id.textinput_confirmpassword, R.id.textinput_password, R.string.err_confirm_password)
+            v.addValidation(this, R.id.textinput_confirmpassword, R.id.textinput_password, R.string.err_confirm_password_blank)
+        }
     }
 
     private fun signUp(name: String, email: String, password: String) {
@@ -81,71 +95,10 @@ class SignUpActivity : AppCompatActivity() {
             ToastGenerator.Builder(applicationContext).resId(R.string.signup_successfully).build()
             startActivity(Intent(this@SignUpActivity, LoginActivity::class.java))
         }
-
     }
 
     private fun reload() {
         finish()
         startActivity(intent)
     }
-
-    private fun addValidationToViews() {
-        validation.also { v ->
-            v.addValidation(this, R.id.name_container, "[!-~]{1,20}", R.string.err_name)
-            v.addValidation(this,
-                R.id.name_container,
-                RegexTemplate.NOT_EMPTY,
-                R.string.err_name_blank)
-            v.addValidation(this, R.id.email_container, Patterns.EMAIL_ADDRESS, R.string.err_email)
-            v.addValidation(this,
-                R.id.email_container,
-                RegexTemplate.NOT_EMPTY,
-                R.string.err_email_blank)
-            val regexPassword =
-                "(?=.*[a-z])(?=.*[A-Z])(?=.*[\\d])(?=.*[~`!@#\\$%\\^&\\*\\(\\)\\-_\\+=\\{\\}\\[\\]\\|\\;:\"<>,./\\?]).{6,20}"
-            v.addValidation(this, R.id.password_container, regexPassword, R.string.err_password)
-            v.addValidation(this,
-                R.id.password_container,
-                RegexTemplate.NOT_EMPTY,
-                R.string.err_password_blank)
-            v.addValidation(this,
-                R.id.confirm_password_container,
-                R.id.password_container,
-                R.string.err_confirm_password)
-            v.addValidation(this,
-                R.id.confirm_password_container,
-                R.id.password_container,
-                R.string.err_confirm_password_blank)
-        }
-    }
-
-//    private fun addValidationToViews() {
-//        validation.also { v ->
-//            v.addValidation(this, R.id.edit_text_name, "[!-~]{1,20}", R.string.err_name)
-//            v.addValidation(this,
-//                R.id.edit_text_name,
-//                RegexTemplate.NOT_EMPTY,
-//                R.string.err_name_blank)
-//            v.addValidation(this, R.id.edit_text_email, Patterns.EMAIL_ADDRESS, R.string.err_email)
-//            v.addValidation(this,
-//                R.id.edit_text_email,
-//                RegexTemplate.NOT_EMPTY,
-//                R.string.err_email_blank)
-//            val regexPassword =
-//                "(?=.*[a-z])(?=.*[A-Z])(?=.*[\\d])(?=.*[~`!@#\\$%\\^&\\*\\(\\)\\-_\\+=\\{\\}\\[\\]\\|\\;:\"<>,./\\?]).{6,20}"
-//            v.addValidation(this, R.id.edit_text_password, regexPassword, R.string.err_password)
-//            v.addValidation(this,
-//                R.id.edit_text_password,
-//                RegexTemplate.NOT_EMPTY,
-//                R.string.err_password_blank)
-//            v.addValidation(this,
-//                R.id.confirmPasswordEditText,
-//                R.id.edit_text_password,
-//                R.string.err_confirm_password)
-//            v.addValidation(this,
-//                R.id.confirmPasswordEditText,
-//                RegexTemplate.NOT_EMPTY,
-//                R.string.err_confirm_password_blank)
-//        }
-//    }
 }

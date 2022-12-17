@@ -4,14 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".home_ui.friends.FriendProfileActivity">
+    tools:context=".home_ui.friends.FriendProfileActivity"
+    tools:ignore="ContentDescription,SpeakableTextPresentCheck,TouchTargetSizeCheck">
 
     <ImageView
-        android:id="@+id/image_view_background_photo"
+        android:id="@+id/image_background"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:contentDescription=""
         android:scaleType="centerCrop"
-        android:background="@drawable/default_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,12 +25,12 @@
         android:layout_centerVertical="true"
         android:layout_marginBottom="90dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="@+id/image_view_background_photo"
+        app:layout_constraintBottom_toBottomOf="@+id/image_background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
         <com.mikhaellopez.circularimageview.CircularImageView
-            android:id="@+id/image_view_profile"
+            android:id="@+id/circularimage_profile"
             android:layout_width="140dp"
             android:layout_height="140dp"
             android:layout_gravity="center_horizontal"
@@ -40,7 +41,7 @@
 
 
         <TextView
-            android:id="@+id/text_view_name"
+            android:id="@+id/text_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -55,34 +56,35 @@
             tools:text="@string/prompt_name" />
 
         <TextView
-            android:id="@+id/text_view_status_message"
+            android:id="@+id/text_statusmessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:ems="12"
-            android:singleLine="true"
             android:elevation="20dp"
             android:ellipsize="end"
+            android:ems="12"
             android:fadingEdge="horizontal"
             android:gravity="center|center_vertical"
             android:marqueeRepeatLimit="marquee_forever"
             android:maxLines="1"
             android:scrollHorizontally="true"
+            android:singleLine="true"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             tools:text="@string/status_message" />
 
         <ImageButton
-            android:id="@+id/image_button_go_talk"
+            android:id="@+id/imagebutton_talk"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_gravity="center"
             android:layout_marginTop="64dp"
             android:background="@drawable/ic_chat_bubble"
+            android:backgroundTint="@color/white"
+            android:contentDescription=""
             android:elevation="20dp"
             android:gravity="center"
             android:scaleType="fitCenter"
-            app:backgroundTint="@null"
-            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+            app:backgroundTint="@null" />
 
         <TextView
             android:layout_width="match_parent"

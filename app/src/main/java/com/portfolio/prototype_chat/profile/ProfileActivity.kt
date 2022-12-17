@@ -24,7 +24,7 @@ class ProfileActivity : AppCompatActivity(), ProfileHomeFragment.LogoutDetection
         setContentView(binding.root)
 
         val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_profile) as NavHostFragment
+            supportFragmentManager.findFragmentById(R.id.fragmentcontainer) as NavHostFragment
         val navController = navHostFragment.navController
         val appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)

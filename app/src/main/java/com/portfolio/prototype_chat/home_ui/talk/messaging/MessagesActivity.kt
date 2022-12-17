@@ -13,15 +13,15 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.portfolio.prototype_chat.common.Extras
 import com.portfolio.prototype_chat.common.NodeNames
-import com.portfolio.prototype_chat.databinding.ActivityTalkBinding
+import com.portfolio.prototype_chat.databinding.ActivityMessagesBinding
 import com.portfolio.prototype_chat.util.updateTalkDetails
 
-class TalkActivity : AppCompatActivity() {
+class MessagesActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityTalkBinding
+    private lateinit var binding: ActivityMessagesBinding
     private lateinit var currentUser: FirebaseUser
     private lateinit var dbRootRef: DatabaseReference
-    private lateinit var adapter: MessageRVAdapter
+    private lateinit var adapter: MessagesAdapter
     private lateinit var messageList: ArrayList<Message>
     private lateinit var talkUserId: String
     private lateinit var currentUserId: String
@@ -33,26 +33,26 @@ class TalkActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityTalkBinding.inflate(layoutInflater)
+        binding = ActivityMessagesBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         dbRootRef = Firebase.database.reference
         currentUser = Firebase.auth.currentUser!!
         talkUserId = intent.getStringExtra(Extras.USER_ID)!!
         currentUserId = currentUser.uid
-        binding.imageViewSend.setOnClickListener {
+        binding.imageSend.setOnClickListener {
             val messagePushRef =
                 dbRootRef.child(NodeNames.MESSAGE).child(currentUserId).child(talkUserId).push()
             val pushId = messagePushRef.key.toString()
-            sendMessage(binding.editTextMessage.text.toString(), pushId)
+            sendMessage(binding.editMessage.text.toString(), pushId)
         }
         messageList = arrayListOf()
-        adapter = MessageRVAdapter(messageList)
-        binding.recyclerViewMessages.layoutManager = LinearLayoutManager(this)
-        binding.recyclerViewMessages.adapter = adapter
+        adapter = MessagesAdapter(messageList)
+        binding.recyclerMessages.layoutManager = LinearLayoutManager(this)
+        binding.recyclerMessages.adapter = adapter
         loadMessage()
-        binding.recyclerViewMessages.scrollToPosition(messageList.size - 1)
-        binding.swipeRefreshLayoutMessages.setOnRefreshListener {
+        binding.recyclerMessages.scrollToPosition(messageList.size - 1)
+        binding.swiperefreshMessages.setOnRefreshListener {
             currentPage++
             loadMessage()
         }
@@ -77,7 +77,7 @@ class TalkActivity : AppCompatActivity() {
         dbRootRef.updateChildren(
             childUpdates
         ) { error, _ ->
-            error ?: run { updateTalkDetails(this@TalkActivity, currentUserId, talkUserId) }
+            error ?: run { updateTalkDetails(this@MessagesActivity, currentUserId, talkUserId) }
         }
     }
 
@@ -92,8 +92,8 @@ class TalkActivity : AppCompatActivity() {
                 val message = snapshot.getValue(Message::class.java)
                 message?.let { messageList.add(message) }
                 adapter.notifyDataSetChanged()
-                binding.recyclerViewMessages.scrollToPosition(messageList.size)
-                binding.swipeRefreshLayoutMessages.isRefreshing = false
+                binding.recyclerMessages.scrollToPosition(messageList.size)
+                binding.swiperefreshMessages.isRefreshing = false
             }
 
             override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
@@ -109,7 +109,7 @@ class TalkActivity : AppCompatActivity() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                binding.swipeRefreshLayoutMessages.isRefreshing = false
+                binding.swiperefreshMessages.isRefreshing = false
             }
 
         })

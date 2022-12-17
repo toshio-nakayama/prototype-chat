@@ -51,4 +51,8 @@
     <string name="err_password_blank">パスワードを入力してください</string>
     <string name="err_confirm_password">パスワードとパスワード（確認用）が異なっています</string>
     <string name="err_confirm_password_blank">パスワード（確認用）を入力してください</string>
+    <string name="create_account">アカウントを作成</string>
+    <string name="add_friends_with_qrcode">QRコードで友達追加</string>
+    <string name="send_message">Send Message.</string>
+    <string name="last_message">Last message.</string>
 </resources>

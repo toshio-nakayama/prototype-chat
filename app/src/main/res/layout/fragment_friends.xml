@@ -7,7 +7,7 @@
     tools:context=".home_ui.friends.FriendsFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view_friends"
+        android:id="@+id/recycler_friends"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"

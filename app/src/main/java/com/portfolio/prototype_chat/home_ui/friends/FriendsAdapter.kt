@@ -15,8 +15,8 @@ import com.portfolio.prototype_chat.common.Extras
 import com.portfolio.prototype_chat.common.NodeNames
 import com.portfolio.prototype_chat.databinding.FriendsListLayoutBinding
 
-class FriendsRVAdapter(val context: Context, private val allFriends: List<Friend>) :
-    RecyclerView.Adapter<FriendsRVAdapter.ViewHolder>() {
+class FriendsAdapter(val context: Context, private val allFriends: List<Friend>) :
+    RecyclerView.Adapter<FriendsAdapter.ViewHolder>() {
 
     private lateinit var storageRootRef: StorageReference
 
@@ -33,17 +33,17 @@ class FriendsRVAdapter(val context: Context, private val allFriends: List<Friend
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentFriend = allFriends[position]
-        storageRootRef.child(Constants.IMAGES_FOLDER).child(NodeNames.PHOTO)
+        storageRootRef.child(Constants.IMAGES).child(NodeNames.PHOTO)
             .child(currentFriend.photoName).downloadUrl.addOnSuccessListener { uri ->
                 Glide.with(context)
                     .load(uri)
                     .placeholder(R.drawable.default_profile)
                     .error(R.drawable.default_profile)
-                    .into(holder.binding.imageViewProfile)
+                    .into(holder.binding.circularimageProfile)
             }
-        holder.binding.textViewName.text = currentFriend.name
-        holder.binding.textViewStatusMessage.text = currentFriend.statusMessage
-        holder.binding.linearLayoutFriendsList.setOnClickListener{
+        holder.binding.textName.text = currentFriend.name
+        holder.binding.textStatusmessage.text = currentFriend.statusMessage
+        holder.binding.linearRow.setOnClickListener{
             val intent = Intent(context, FriendProfileActivity::class.java)
             intent.apply {
                 intent.putExtra(Extras.USER_ID, currentFriend.id)

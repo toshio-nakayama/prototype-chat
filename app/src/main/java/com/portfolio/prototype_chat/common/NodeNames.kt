@@ -9,8 +9,7 @@ class NodeNames {
         const val TIME_STAMP = "timestamp"
         const val NAME = "name"
         const val PHOTO = "photo"
-        const val PHOTO_URI_PATH = "photoUriPath"
-        const val BACKGROUND_PHOTO_URI_PATH = "backgroundPhotoUriPath"
+        const val BACKGROUND_PHOTO = "backgroundPhoto"
         const val TALK = "talk"
         const val USERS = "users"
     }

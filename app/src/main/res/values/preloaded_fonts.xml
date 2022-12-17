@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <array name="preloaded_fonts" translatable="false">
+        <item>@font/</item>
+        <item>@font/archivo_black</item>
         <item>@font/press_start_2p</item>
+        <item>@font/rammetto_one</item>
+        <item>@font/rowdies_light</item>
+        <item>@font/train_one</item>
     </array>
 </resources>

@@ -16,34 +16,35 @@ import com.portfolio.prototype_chat.common.Constants
 import com.portfolio.prototype_chat.common.Extras
 import com.portfolio.prototype_chat.common.NodeNames
 import com.portfolio.prototype_chat.databinding.TalkListLayoutBinding
-import com.portfolio.prototype_chat.home_ui.talk.messaging.TalkActivity
+import com.portfolio.prototype_chat.home_ui.talk.messaging.MessagesActivity
 import com.portfolio.prototype_chat.util.glideSupport
 
-class TalkListAdapter(val context: Context) :
-    ListAdapter<Talk, TalkListAdapter.ViewHolder>(DIFF_CALLBACK) {
+class TalksListAdapter(val context: Context) :
+    ListAdapter<Talk, TalksListAdapter.ViewHolder>(DIFF_CALLBACK) {
 
     private val storageRootRef: StorageReference = Firebase.storage.reference
 
     inner class ViewHolder(val binding: TalkListLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
         fun bindTo(item: Talk) {
             binding.apply {
-                storageRootRef.child(Constants.IMAGES_FOLDER).child(NodeNames.PHOTO_URI_PATH)
-                    .child(item.photoName)
-                    .downloadUrl.addOnSuccessListener {
-                        glideSupport(context, it, R.drawable.default_profile, imageViewProfile)
+                storageRootRef.child(Constants.IMAGES).child(NodeNames.PHOTO)
+                    .child(item.photoName).downloadUrl.addOnSuccessListener {
+                        glideSupport(context, it, R.drawable.default_profile, imageProfile)
                     }
-                textViewName.text = item.userName
-                if (item.unreadCount != "0") {
-                    relativeLayoutUnread.visibility = View.VISIBLE
-                    textViewUnreadCount.text = item.unreadCount
+                textName.text = item.userName
+                if (item.unreadCount == 0) {
+                    relativeUnread.visibility = View.GONE
                 } else {
-                    relativeLayoutUnread.visibility = View.GONE
+                    relativeUnread.visibility = View.VISIBLE
+                    textUnreadcount.text = item.unreadCount.toString()
                 }
-                linearLayoutTalkList.setOnClickListener {
-                    val intent = Intent(context, TalkActivity::class.java)
-                    intent.putExtra(Extras.USER_ID, item.userId)
-                    intent.putExtra(Extras.USER_NAME, item.userName)
+                linearRow.setOnClickListener {
+                    val intent = Intent(context, MessagesActivity::class.java).apply {
+                        putExtra(Extras.USER_ID, item.userId)
+                        putExtra(Extras.USER_NAME, item.userName)
+                    }
                     context.startActivity(intent)
                 }
             }
@@ -59,6 +60,10 @@ class TalkListAdapter(val context: Context) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bindTo(getItem(position))
+    }
+
+    override fun submitList(list: List<Talk>?) {
+        super.submitList(list?.let { ArrayList(it) })
     }
 
     companion object {

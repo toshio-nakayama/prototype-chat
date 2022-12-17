@@ -68,7 +68,7 @@ fun <T> MutableLiveData<T>.notifyObserver() {
     this.value = this.value
 }
 
-fun glideSupport(context: Context, uri: Uri, @DrawableRes placeholder: Int, into: ImageView) {
+fun glideSupport(context: Context, uri: Uri?, @DrawableRes placeholder: Int, into: ImageView) {
     Glide.with(context)
         .load(uri)
         .placeholder(placeholder)

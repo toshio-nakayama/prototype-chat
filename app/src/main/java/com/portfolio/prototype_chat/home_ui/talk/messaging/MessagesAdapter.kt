@@ -11,8 +11,8 @@ import com.portfolio.prototype_chat.common.Constants
 import com.portfolio.prototype_chat.databinding.MessageLayoutBinding
 import com.portfolio.prototype_chat.util.timestampToString
 
-class MessageRVAdapter (private val messageList: List<Message>) :
-    RecyclerView.Adapter<MessageRVAdapter.ViewHolder>() {
+class MessagesAdapter (private val messageList: List<Message>) :
+    RecyclerView.Adapter<MessagesAdapter.ViewHolder>() {
 
     class ViewHolder(@NonNull item: MessageLayoutBinding) : RecyclerView.ViewHolder(item.root) {
         val binding = item
@@ -30,15 +30,15 @@ class MessageRVAdapter (private val messageList: List<Message>) :
         val fromUserId = message.messageFrom
         val messageTime = timestampToString(message.messageTime, Constants.DATE_TIME_PATTERN)
         if (fromUserId == currentUserId) {
-            holder.binding.linearLayoutSent.visibility = View.VISIBLE
-            holder.binding.linearLayoutReceived.visibility = View.GONE
-            holder.binding.textViewSentMessage.text = message.message
-            holder.binding.textViewSentMessageTime.text = messageTime
+            holder.binding.linearSent.visibility = View.VISIBLE
+            holder.binding.linearReceived.visibility = View.GONE
+            holder.binding.textSentmessage.text = message.message
+            holder.binding.textSenttime.text = messageTime
         } else {
-            holder.binding.linearLayoutReceived.visibility = View.VISIBLE
-            holder.binding.linearLayoutSent.visibility = View.GONE
-            holder.binding.textViewReceivedMessage.text = message.message
-            holder.binding.textViewReceivedMessageTime.text = messageTime
+            holder.binding.linearReceived.visibility = View.VISIBLE
+            holder.binding.linearSent.visibility = View.GONE
+            holder.binding.textReceivedmessage.text = message.message
+            holder.binding.textReceivedtime.text = messageTime
         }
     }
 

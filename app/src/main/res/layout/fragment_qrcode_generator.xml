@@ -9,7 +9,7 @@
     tools:context=".qrcode.QRCodeGeneratorFragment">
 
     <ImageButton
-        android:id="@+id/ib_close"
+        android:id="@+id/imagebutton_close"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -18,26 +18,27 @@
         android:minWidth="48dp"
         android:minHeight="48dp"
         android:scaleType="fitCenter"
-        app:layout_constraintBottom_toTopOf="@id/iv_qrcode"
+        app:layout_constraintBottom_toTopOf="@id/image_qrcode"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_close"
-        tools:ignore="SpeakableTextPresentCheck" />
+        tools:ignore="SpeakableTextPresentCheck"
+        app:tint="@color/black" />
 
     <ImageView
-        android:id="@+id/iv_qrcode"
+        android:id="@+id/image_qrcode"
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:layout_marginTop="32dp"
         android:layout_marginBottom="32dp"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_generator_description"
+        app:layout_constraintBottom_toBottomOf="@+id/text_description"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@drawable/sample_qrcode" />
 
     <TextView
-        android:id="@+id/tv_generator_description"
+        android:id="@+id/text_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -48,6 +49,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_qrcode" />
+        app:layout_constraintTop_toBottomOf="@id/image_qrcode" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -22,9 +22,9 @@ import com.portfolio.prototype_chat.R
 import com.portfolio.prototype_chat.common.Constants
 import com.portfolio.prototype_chat.common.Extras
 import com.portfolio.prototype_chat.common.NodeNames
-import com.portfolio.prototype_chat.databinding.FragmentEditMessageBinding
+import com.portfolio.prototype_chat.databinding.FragmentMessageEditBinding
 
-class EditMessageFragment : DialogFragment() {
+class MessageEditFragment : DialogFragment() {
 
     interface NoticeDialogListener {
         fun onSaveClick(key:String, text: String)
@@ -32,7 +32,7 @@ class EditMessageFragment : DialogFragment() {
 
     internal lateinit var listener: NoticeDialogListener
 
-    private lateinit var binding: FragmentEditMessageBinding
+    private lateinit var binding: FragmentMessageEditBinding
     private lateinit var auth: FirebaseAuth
     private lateinit var currentUser: FirebaseUser
     private lateinit var dbRootRef: DatabaseReference
@@ -41,7 +41,7 @@ class EditMessageFragment : DialogFragment() {
     companion object {
         const val NO_USE = -1
         const val DIALOG_TAG = "editMessageFragment"
-        fun newInstance() = EditMessageFragment()
+        fun newInstance() = MessageEditFragment()
     }
 
     override fun onAttach(context: Context) {
@@ -54,7 +54,7 @@ class EditMessageFragment : DialogFragment() {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        binding = FragmentEditMessageBinding.inflate(layoutInflater)
+        binding = FragmentMessageEditBinding.inflate(layoutInflater)
         val dialog = activity?.let {
             Dialog(it)
         } ?: throw IllegalStateException("Activity cannot be null")
@@ -86,22 +86,22 @@ class EditMessageFragment : DialogFragment() {
             val inputType = result.getInt(Extras.INPUT_TYPE)
             setupEditText(contents, maxLength, minLength, inputType)
             binding.buttonSave.setOnClickListener {
-                val text = binding.editTextInput.text.toString().trim()
+                val text = binding.editInput.text.toString().trim()
                 listener.onSaveClick(key, text)
                 dismiss()
             }
-            binding.imageButtonClose.setOnClickListener { dismiss() }
+            binding.imagebuttonClose.setOnClickListener { dismiss() }
         }
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
     private fun setupEditText(contents: String, maxLength: Int, minLength: Int, inputType: Int) {
-        binding.editTextInput.setText(contents)
+        binding.editInput.setText(contents)
         val wordCount = contents.length
-        binding.textViewWordCount.text = getString(R.string.word_count, wordCount, maxLength)
-        binding.editTextInput.inputType = inputType
-        binding.editTextInput.filters = arrayOf(InputFilter.LengthFilter(maxLength))
-        binding.editTextInput.addTextChangedListener(object : TextWatcher {
+        binding.textCount.text = getString(R.string.word_count, wordCount, maxLength)
+        binding.editInput.inputType = inputType
+        binding.editInput.filters = arrayOf(InputFilter.LengthFilter(maxLength))
+        binding.editInput.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
             }
@@ -112,19 +112,19 @@ class EditMessageFragment : DialogFragment() {
 
             override fun afterTextChanged(p0: Editable?) {
                 val text = p0.toString()
-                binding.textViewWordCount.text =
+                binding.textCount.text =
                     getString(R.string.word_count, text.length, maxLength)
                 if (minLength == NO_USE) return
                 if (text.length < minLength) {
                     if (isAdded) {
-                        binding.editTextInput.error = getString(
+                        binding.editInput.error = getString(
                             R.string.less_characters_warning,
                             Constants.MIN_LENGTH_NAME.toString()
                         )
                         binding.buttonSave.isEnabled = false
                     }
                 } else {
-                    binding.editTextInput.error = null
+                    binding.editInput.error = null
                     binding.buttonSave.isEnabled = true
                 }
             }

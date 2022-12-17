@@ -32,7 +32,7 @@ class QRCodeGeneratorFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentQrcodeGeneratorBinding.inflate(inflater, container, false)
         return binding.root
@@ -43,9 +43,9 @@ class QRCodeGeneratorFragment : Fragment() {
 
         param?.let {
             val bitmap = createBitmap(it)
-            binding.ivQrcode.setImageBitmap(bitmap)
+            binding.imageQrcode.setImageBitmap(bitmap)
         }
-        binding.ibClose.setOnClickListener {
+        binding.imagebuttonClose.setOnClickListener {
             parentFragmentManager.popBackStack()
             onDestroyListener?.onFragmentDestroy()
         }
@@ -70,7 +70,6 @@ class QRCodeGeneratorFragment : Fragment() {
     }
 
     companion object {
-        @JvmStatic
         fun newInstance(param: String) =
             QRCodeGeneratorFragment().apply {
                 arguments = Bundle().apply {

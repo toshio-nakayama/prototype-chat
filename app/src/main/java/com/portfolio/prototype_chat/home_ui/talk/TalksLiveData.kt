@@ -7,7 +7,7 @@ import com.google.firebase.ktx.Firebase
 import com.portfolio.prototype_chat.common.Constants
 import com.portfolio.prototype_chat.common.NodeNames
 
-class TalkLiveData(private val query: Query) : LiveData<Talk>() {
+class TalksLiveData(private val query: Query) : LiveData<Talk>() {
     constructor(ref: DatabaseReference) : this(query = ref)
 
     private var rootRef: DatabaseReference = Firebase.database.reference
@@ -25,17 +25,19 @@ class TalkLiveData(private val query: Query) : LiveData<Talk>() {
     }
 
     private fun createTalkBasedOnSnapshot(snapshot: DataSnapshot, userId: String) {
-        val unreadCount = snapshot.child(NodeNames.UNREAD_COUNT).value?.toString() ?: "0"
+        val unreadCount = snapshot.child(NodeNames.UNREAD_COUNT).value?.toString()?.toInt() ?: 0
         val time = snapshot.child(NodeNames.TIME_STAMP).value.toString()
         userRef.child(userId).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val userName = snapshot.child(NodeNames.NAME).value.toString()
                 val photoName = userId + Constants.EXT_JPG
-                val talk = Talk(userId = userId,
+                val talk = Talk(
+                    userId = userId,
                     userName = userName,
                     photoName = photoName,
                     unreadCount = unreadCount,
-                    time = time)
+                    time = time
+                )
                 value = talk
             }
 

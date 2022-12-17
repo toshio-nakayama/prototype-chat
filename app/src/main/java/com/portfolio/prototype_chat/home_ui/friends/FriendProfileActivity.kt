@@ -14,8 +14,8 @@ import com.portfolio.prototype_chat.common.Constants
 import com.portfolio.prototype_chat.common.Extras
 import com.portfolio.prototype_chat.common.NodeNames
 import com.portfolio.prototype_chat.databinding.ActivityFriendProfileBinding
-import com.portfolio.prototype_chat.home_ui.talk.messaging.TalkActivity
-import com.portfolio.prototype_chat.profile.DisplayMessageFragment
+import com.portfolio.prototype_chat.home_ui.talk.messaging.MessagesActivity
+import com.portfolio.prototype_chat.profile.MessageDisplayFragment
 
 class FriendProfileActivity : AppCompatActivity() {
     private lateinit var binding: ActivityFriendProfileBinding
@@ -36,18 +36,18 @@ class FriendProfileActivity : AppCompatActivity() {
         val friendStatusMessage = intent.getStringExtra(Extras.STATUS_MESSAGE)!!
         val friendPhotoName = intent.getStringExtra(Extras.PHOTO_NAME)!!
         setProfile(Friend(friendId, friendName, friendStatusMessage, friendPhotoName))
-        binding.textViewStatusMessage.setOnClickListener {
-            if (binding.textViewStatusMessage.length() > 0) {
-                val dialogFragment = DisplayMessageFragment()
+        binding.textStatusmessage.setOnClickListener {
+            if (binding.textStatusmessage.length() > 0) {
+                val dialogFragment = MessageDisplayFragment()
                 val args = Bundle()
-                val message = binding.textViewStatusMessage.text.toString()
+                val message = binding.textStatusmessage.text.toString()
                 args.putString(Extras.MESSAGE, message)
                 dialogFragment.arguments = args
-                dialogFragment.show(supportFragmentManager, DisplayMessageFragment.DIALOG_TAG)
+                dialogFragment.show(supportFragmentManager, MessageDisplayFragment.DIALOG_TAG)
             }
         }
-        binding.imageButtonGoTalk.setOnClickListener {
-            val intent = Intent(this@FriendProfileActivity, TalkActivity::class.java)
+        binding.imagebuttonTalk.setOnClickListener {
+            val intent = Intent(this@FriendProfileActivity, MessagesActivity::class.java)
             intent.apply {
                 putExtra(Extras.USER_ID, friendId)
                 putExtra(Extras.USER_NAME, friendName)
@@ -58,17 +58,17 @@ class FriendProfileActivity : AppCompatActivity() {
     }
 
     private fun setProfile(friend: Friend) {
-        binding.textViewName.text = friend.name
-        binding.textViewStatusMessage.text = friend.statusMessage
-        storageRootRef.child(Constants.IMAGES_FOLDER).child(NodeNames.PHOTO_URI_PATH)
+        binding.textName.text = friend.name
+        binding.textStatusmessage.text = friend.statusMessage
+        storageRootRef.child(Constants.IMAGES).child(NodeNames.PHOTO)
             .child(friend.photoName).downloadUrl.addOnSuccessListener { uri ->
                 Glide.with(applicationContext).load(uri).placeholder(R.drawable.default_profile)
-                    .error(R.drawable.default_profile).into(binding.imageViewProfile)
+                    .error(R.drawable.default_profile).into(binding.circularimageProfile)
             }
-        storageRootRef.child(Constants.IMAGES_FOLDER).child(NodeNames.BACKGROUND_PHOTO_URI_PATH)
+        storageRootRef.child(Constants.IMAGES).child(NodeNames.BACKGROUND_PHOTO)
             .child(friend.photoName).downloadUrl.addOnSuccessListener { uri ->
                 Glide.with(applicationContext).load(uri).placeholder(R.drawable.default_background)
-                    .error(R.drawable.default_background).into(binding.imageViewBackgroundPhoto)
+                    .error(R.drawable.default_background).into(binding.imageBackground)
             }
 
     }

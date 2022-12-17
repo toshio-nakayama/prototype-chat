@@ -28,52 +28,52 @@ import com.portfolio.prototype_chat.R
 import com.portfolio.prototype_chat.common.Constants
 import com.portfolio.prototype_chat.common.Extras
 import com.portfolio.prototype_chat.common.NodeNames
-import com.portfolio.prototype_chat.databinding.FragmentEditProfileBinding
+import com.portfolio.prototype_chat.databinding.FragmentProfileEditBinding
 import com.portfolio.prototype_chat.signup.User
 
-class EditProfileFragment : Fragment(), EditMessageFragment.NoticeDialogListener {
+class ProfileEditFragment : Fragment(), MessageEditFragment.NoticeDialogListener {
     private lateinit var auth: FirebaseAuth
     private lateinit var currentUser: FirebaseUser
     private lateinit var dbRootRef: DatabaseReference
     private lateinit var dbRefUser: DatabaseReference
     private lateinit var storageRootRef: StorageReference
-    private var _binding: FragmentEditProfileBinding? = null
+    private var _binding: FragmentProfileEditBinding? = null
     private val binding get() = _binding!!
     private var userEventListener: ValueEventListener? = null
 
     companion object {
-        fun newInstance() = EditProfileFragment()
+        fun newInstance() = ProfileEditFragment()
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentEditProfileBinding.inflate(inflater, container, false)
-        binding.textViewName.setOnClickListener {
-            val dialogFragment = EditMessageFragment()
+        _binding = FragmentProfileEditBinding.inflate(inflater, container, false)
+        binding.textName.setOnClickListener {
+            val dialogFragment = MessageEditFragment()
             val args = Bundle()
             args.putString(Extras.PROPERTY_NAME, Extras.NAME)
-            args.putString(Extras.CONTENTS, binding.textViewName.text.toString())
+            args.putString(Extras.CONTENTS, binding.textName.text.toString())
             args.putInt(Extras.MAX_LENGTH, 20)
             args.putInt(Extras.MIN_LENGTH, 1)
             args.putInt(Extras.INPUT_TYPE, InputType.TYPE_CLASS_TEXT)
             childFragmentManager.setFragmentResult(Extras.REQUEST_KEY, args)
-            dialogFragment.show(childFragmentManager, EditMessageFragment.DIALOG_TAG)
+            dialogFragment.show(childFragmentManager, MessageEditFragment.DIALOG_TAG)
         }
-        binding.textViewStatusMessage.setOnClickListener {
-            val dialogFragment = EditMessageFragment()
+        binding.textStatusmessage.setOnClickListener {
+            val dialogFragment = MessageEditFragment()
             val args = Bundle()
             args.putString(Extras.PROPERTY_NAME, Extras.STATUS_MESSAGE)
-            args.putString(Extras.CONTENTS, binding.textViewStatusMessage.text.toString())
+            args.putString(Extras.CONTENTS, binding.textStatusmessage.text.toString())
             args.putInt(Extras.MAX_LENGTH, 100)
-            args.putInt(Extras.MIN_LENGTH, EditMessageFragment.NO_USE)
+            args.putInt(Extras.MIN_LENGTH, MessageEditFragment.NO_USE)
             args.putInt(Extras.INPUT_TYPE, InputType.TYPE_TEXT_FLAG_MULTI_LINE)
             childFragmentManager.setFragmentResult(Extras.REQUEST_KEY, args)
-            dialogFragment.show(childFragmentManager, EditMessageFragment.DIALOG_TAG)
+            dialogFragment.show(childFragmentManager, MessageEditFragment.DIALOG_TAG)
         }
-        binding.buttonAddPhoto.setOnClickListener { pickImage() }
-        binding.buttonAddBackgroundPhoto.setOnClickListener { pickBackgroundImage() }
+        binding.buttonPick.setOnClickListener { pickImage() }
+        binding.buttonPickbackground.setOnClickListener { pickBackgroundImage() }
         return binding.root
     }
 
@@ -99,15 +99,15 @@ class EditProfileFragment : Fragment(), EditMessageFragment.NoticeDialogListener
         userEventListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val user = snapshot.getValue(User::class.java)
-                binding.textViewName.text = user?.name
+                binding.textName.text = user?.name
                 user?.statusMessage?.run {
-                    binding.textViewStatusMessage.text = user.statusMessage
-                } ?: run { binding.textViewStatusMessage.text = getString(R.string.not_set) }
+                    binding.textName.text = user.statusMessage
+                } ?: run { binding.textStatusmessage.text = getString(R.string.not_set) }
                 Glide.with(requireContext())
                     .load(currentUser.photoUrl)
                     .placeholder(R.drawable.default_profile)
                     .error(R.drawable.default_profile)
-                    .into(binding.imageViewProfile)
+                    .into(binding.circularimageProfile)
                 setBackgroundPhoto()
             }
 
@@ -121,13 +121,13 @@ class EditProfileFragment : Fragment(), EditMessageFragment.NoticeDialogListener
     private fun setBackgroundPhoto() {
         val userId = currentUser.uid
         val photoName = userId + Constants.EXT_JPG
-        storageRootRef.child(Constants.IMAGES_FOLDER).child(NodeNames.BACKGROUND_PHOTO_URI_PATH)
+        storageRootRef.child(Constants.IMAGES).child(NodeNames.BACKGROUND_PHOTO)
             .child(photoName).downloadUrl.addOnSuccessListener { uri ->
                 Glide.with(requireContext())
                     .load(uri)
                     .placeholder(R.drawable.default_background)
                     .error(R.drawable.default_background)
-                    .into(binding.imageViewBackgroundPhoto)
+                    .into(binding.imageBackground)
             }
     }
 
@@ -142,7 +142,7 @@ class EditProfileFragment : Fragment(), EditMessageFragment.NoticeDialogListener
         if (result.resultCode == Activity.RESULT_OK) {
             val uri = result.data?.data
             uri?.let {
-                binding.imageViewProfile.setImageURI(it)
+                binding.circularimageProfile.setImageURI(it)
                 updatePhoto(it)
             }
         }
@@ -158,7 +158,7 @@ class EditProfileFragment : Fragment(), EditMessageFragment.NoticeDialogListener
         val userId = currentUser.uid
         val photoName = userId + Constants.EXT_JPG
         val fileRef =
-            storageRootRef.child(Constants.IMAGES_FOLDER).child(NodeNames.PHOTO_URI_PATH)
+            storageRootRef.child(Constants.IMAGES).child(NodeNames.PHOTO)
                 .child(photoName)
         val uploadTask = fileRef.putFile(uri)
         uploadTask.addOnSuccessListener {
@@ -167,7 +167,7 @@ class EditProfileFragment : Fragment(), EditMessageFragment.NoticeDialogListener
                     photoUri = uri
                 }
                 currentUser.updateProfile(profileUpdates).addOnSuccessListener {
-                    dbRefUser.child(userId).child(NodeNames.PHOTO_URI_PATH).setValue(uri.path)
+                    dbRefUser.child(userId).child(NodeNames.PHOTO).setValue(uri.path)
                 }
             }
         }
@@ -179,7 +179,7 @@ class EditProfileFragment : Fragment(), EditMessageFragment.NoticeDialogListener
         if (result.resultCode == Activity.RESULT_OK) {
             val uri = result.data?.data
             uri?.let {
-                binding.imageViewBackgroundPhoto.setImageURI(it)
+                binding.imageBackground.setImageURI(it)
                 updateBackgroundPhoto(it)
             }
         }
@@ -189,12 +189,12 @@ class EditProfileFragment : Fragment(), EditMessageFragment.NoticeDialogListener
         val userId = currentUser.uid
         val photoName = userId + Constants.EXT_JPG
         val fileRef =
-            storageRootRef.child(Constants.IMAGES_FOLDER).child(NodeNames.BACKGROUND_PHOTO_URI_PATH)
+            storageRootRef.child(Constants.IMAGES).child(NodeNames.BACKGROUND_PHOTO)
                 .child(photoName)
         val uploadTask = fileRef.putFile(uri)
         uploadTask.addOnSuccessListener {
             fileRef.downloadUrl.addOnSuccessListener { uri ->
-                dbRefUser.child(userId).child(NodeNames.BACKGROUND_PHOTO_URI_PATH)
+                dbRefUser.child(userId).child(NodeNames.BACKGROUND_PHOTO)
                     .setValue(uri.path)
             }
         }

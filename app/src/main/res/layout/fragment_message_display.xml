@@ -5,11 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
-    tools:context=".profile.DisplayMessageFragment">
+    tools:context=".profile.MessageDisplayFragment"
+    tools:ignore="ContentDescription">
 
 
     <ImageButton
-        android:id="@+id/image_button_close"
+        android:id="@+id/imagebutton_close"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
@@ -19,13 +20,13 @@
         android:minWidth="48dp"
         android:minHeight="48dp"
         android:scaleType="fitCenter"
-        android:src="@drawable/ic_close_white"
+        android:src="@drawable/ic_close"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <TextView
-        android:id="@+id/text_view_message"
+        android:id="@+id/text_message"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"

@@ -80,8 +80,8 @@ class ProfileHomeFragment : Fragment() {
                 return true
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
-        binding.imageButtonLogout.setOnClickListener { callback?.onLogout() }
-        binding.textViewStatusMessage.setOnClickListener { onStatusMessageClick() }
+        binding.imagebuttonLogout.setOnClickListener { callback?.onLogout() }
+        binding.textStatusmessage.setOnClickListener { onStatusMessageClick() }
     }
 
     override fun onDestroyView() {
@@ -94,15 +94,15 @@ class ProfileHomeFragment : Fragment() {
         userEventListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val user = snapshot.getValue(User::class.java)
-                binding.textViewName.text = user?.name
+                binding.textName.text = user?.name
                 user?.statusMessage?.let {
-                    binding.textViewStatusMessage.text = user.statusMessage
+                    binding.textStatusmessage.text = user.statusMessage
                 }
                 Glide.with(requireContext())
                     .load(currentUser.photoUrl)
                     .placeholder(R.drawable.default_profile)
                     .error(R.drawable.default_profile)
-                    .into(binding.imageViewProfile)
+                    .into(binding.imageProfile)
                 setBackgroundPhoto()
             }
 
@@ -117,24 +117,24 @@ class ProfileHomeFragment : Fragment() {
     private fun setBackgroundPhoto() {
         val userId = currentUser.uid
         val photoName = userId + Constants.EXT_JPG
-        storageRootRef.child(Constants.IMAGES_FOLDER).child(NodeNames.BACKGROUND_PHOTO_URI_PATH)
+        storageRootRef.child(Constants.IMAGES).child(NodeNames.BACKGROUND_PHOTO)
             .child(photoName).downloadUrl.addOnSuccessListener { uri ->
                 Glide.with(requireContext())
                     .load(uri)
                     .placeholder(R.drawable.default_background)
                     .error(R.drawable.default_background)
-                    .into(binding.imageViewBackgroundPhoto)
+                    .into(binding.imageBackground)
             }
     }
 
     private fun onStatusMessageClick() {
-        if (binding.textViewStatusMessage.text.isNotEmpty()) {
-            val dialogFragment = DisplayMessageFragment()
+        if (binding.textStatusmessage.text.isNotEmpty()) {
+            val dialogFragment = MessageDisplayFragment()
             val args = Bundle()
-            val message = binding.textViewStatusMessage.text.toString()
+            val message = binding.textStatusmessage.text.toString()
             args.putString(Extras.MESSAGE, message)
             dialogFragment.arguments = args
-            dialogFragment.show(parentFragmentManager, DisplayMessageFragment.DIALOG_TAG)
+            dialogFragment.show(parentFragmentManager, MessageDisplayFragment.DIALOG_TAG)
         }
     }
 

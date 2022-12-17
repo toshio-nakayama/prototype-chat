@@ -5,12 +5,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.activity.result.ActivityResultLauncher
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
-import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
@@ -20,7 +20,6 @@ import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanOptions
 import com.portfolio.prototype_chat.R
 import com.portfolio.prototype_chat.add_friend.AddFriendActivity
-import com.portfolio.prototype_chat.common.Constants
 import com.portfolio.prototype_chat.common.Extras
 import com.portfolio.prototype_chat.common.NodeNames
 import com.portfolio.prototype_chat.databinding.FragmentHomeBinding
@@ -28,6 +27,7 @@ import com.portfolio.prototype_chat.profile.ProfileActivity
 import com.portfolio.prototype_chat.qrcode.QRCodeScannerActivity
 import com.portfolio.prototype_chat.signup.User
 import com.portfolio.prototype_chat.util.ToastGenerator
+import com.portfolio.prototype_chat.util.glideSupport
 
 class HomeFragment : Fragment() {
 
@@ -62,23 +62,16 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.userLiveData.observe(viewLifecycleOwner) { user ->
-            user?.let {
-                binding.textViewName.text = it.name
-                binding.textViewStatusMessage.text = it.statusMessage
-                Glide.with(requireContext())
-                    .load(currentUser.photoUrl)
-                    .placeholder(R.drawable.default_profile)
-                    .error(R.drawable.default_profile)
-                    .into(binding.imageViewProfile)
-            }
+        binding.textTooltip.startAnimation(AnimationUtils.loadAnimation(context, R.anim.updown_animation))
+        viewModel.userLiveData.observe(viewLifecycleOwner) {
+            binding.textName.text = it.name
+            binding.textStatusmessage.text = it.statusMessage
+            glideSupport(view.context, currentUser.photoUrl, R.drawable.default_profile, binding.circularimageProfile)
         }
 
-        viewModel.talkLiveData.observe(viewLifecycleOwner) { snapshot ->
-            snapshot?.let {
-                val count = it.childrenCount
-                binding.textViewFriendsCount.text = count.toString()
-            }
+        viewModel.talkLiveData.observe(viewLifecycleOwner) {
+            val count = it.childrenCount
+            binding.textFriendscount.text = count.toString()
         }
         initView()
     }
@@ -89,15 +82,15 @@ class HomeFragment : Fragment() {
     }
 
     private fun initView() {
-        binding.linearLayoutFriendsList.setOnClickListener {
+        binding.linearFriendslink.setOnClickListener {
             it.findNavController().navigate(R.id.action_navigation_home_to_navigation_friends)
         }
 
-        binding.linearLayoutProfile.setOnClickListener {
+        binding.linearProfile.setOnClickListener {
             startActivity(Intent(activity, ProfileActivity::class.java))
         }
 
-        binding.floatingActionButtonQrScan.setOnClickListener {
+        binding.floatingActionButtonAddFriend.setOnClickListener {
             barcodeLauncher.launch(ScanOptions().apply {
                 setOrientationLocked(false)
                 setBeepEnabled(false)
@@ -129,8 +122,9 @@ class HomeFragment : Fragment() {
                     if (snapshotUser.exists()) {
                         val user = snapshotUser.getValue(User::class.java)
                         user?.let {
-                            val intent = Intent(activity, AddFriendActivity::class.java)
-                            intent.putExtra(Extras.USER_ID, id)
+                            val intent = Intent(activity, AddFriendActivity::class.java).apply {
+                                putExtra(Extras.USER_ID, id)
+                            }
                             startActivity(intent)
                         }
                     }

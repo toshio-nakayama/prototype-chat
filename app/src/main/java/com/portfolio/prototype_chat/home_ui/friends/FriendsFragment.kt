@@ -1,13 +1,11 @@
 package com.portfolio.prototype_chat.home_ui.friends
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
@@ -21,7 +19,7 @@ class FriendsFragment : Fragment() {
 
     private var _binding: FragmentFriendsBinding? = null
     private val binding get() = _binding!!
-    private lateinit var adapter: FriendsRVAdapter
+    private lateinit var adapter: FriendsAdapter
     private lateinit var allFriends: ArrayList<Friend>
     private lateinit var currentUser:FirebaseUser
     private lateinit var dbRootRef: DatabaseReference
@@ -43,12 +41,12 @@ class FriendsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         allFriends = arrayListOf()
-        adapter = FriendsRVAdapter(requireContext(), allFriends)
+        adapter = FriendsAdapter(requireContext(), allFriends)
         val linearLayoutManager = LinearLayoutManager(activity)
         linearLayoutManager.reverseLayout = true
         linearLayoutManager.stackFromEnd = true
-        binding.recyclerViewFriends.layoutManager = linearLayoutManager
-        binding.recyclerViewFriends.adapter = adapter
+        binding.recyclerFriends.layoutManager = linearLayoutManager
+        binding.recyclerFriends.adapter = adapter
 
         currentUser = Firebase.auth.currentUser!!
         dbRootRef = Firebase.database.reference

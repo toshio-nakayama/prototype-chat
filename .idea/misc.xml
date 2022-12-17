@@ -5,56 +5,83 @@
       <map>
         <entry key="app/src/main/res/drawable-v24/circle.xml" value="0.1" />
         <entry key="app/src/main/res/drawable-v24/circle_color_primary.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable-v24/circle_color_teal.xml" value="0.144" />
         <entry key="app/src/main/res/drawable-v24/default_background.xml" value="0.15" />
         <entry key="app/src/main/res/drawable-v24/ic_add_photo.xml" value="0.15" />
         <entry key="app/src/main/res/drawable-v24/ic_close_white.xml" value="0.3395" />
         <entry key="app/src/main/res/drawable-v24/ic_exit.xml" value="0.15" />
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.219" />
         <entry key="app/src/main/res/drawable-v24/pick_image_button.xml" value="0.15" />
+        <entry key="app/src/main/res/drawable-v24/round_button_black.xml" value="0.278" />
+        <entry key="app/src/main/res/drawable-v24/round_button_gray.xml" value="0.2745" />
+        <entry key="app/src/main/res/drawable-v24/round_button_white.xml" value="0.278" />
         <entry key="app/src/main/res/drawable/app_logo.xml" value="0.2085" />
+        <entry key="app/src/main/res/drawable/bottom_navigation_colors.xml" value="0.278" />
         <entry key="app/src/main/res/drawable/custom_email_icon.xml" value="0.178" />
         <entry key="app/src/main/res/drawable/custom_input.xml" value="0.178" />
         <entry key="app/src/main/res/drawable/custom_lock_icon.xml" value="0.178" />
+        <entry key="app/src/main/res/drawable/custom_person_icon.xml" value="0.144" />
+        <entry key="app/src/main/res/drawable/form_background.xml" value="0.278" />
+        <entry key="app/src/main/res/drawable/form_background_black.xml" value="0.278" />
+        <entry key="app/src/main/res/drawable/form_background_white.xml" value="0.278" />
+        <entry key="app/src/main/res/drawable/ic_arrow_right.xml" value="0.278" />
+        <entry key="app/src/main/res/drawable/ic_arrow_right_white.xml" value="0.278" />
         <entry key="app/src/main/res/drawable/ic_bubble.xml" value="0.178" />
         <entry key="app/src/main/res/drawable/ic_chat_bubble.xml" value="0.178" />
+        <entry key="app/src/main/res/drawable/ic_chatbubbles.xml" value="0.2865" />
         <entry key="app/src/main/res/drawable/ic_close.xml" value="0.15" />
         <entry key="app/src/main/res/drawable/ic_email.xml" value="0.178" />
+        <entry key="app/src/main/res/drawable/ic_email_focused.xml" value="0.1425" />
         <entry key="app/src/main/res/drawable/ic_friends.xml" value="0.219" />
         <entry key="app/src/main/res/drawable/ic_home.xml" value="0.219" />
         <entry key="app/src/main/res/drawable/ic_launcher.xml" value="0.103" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.219" />
         <entry key="app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.104" />
+        <entry key="app/src/main/res/drawable/ic_lock.xml" value="0.1425" />
+        <entry key="app/src/main/res/drawable/ic_lock_focused.xml" value="0.1425" />
         <entry key="app/src/main/res/drawable/ic_notifications_black_24dp.xml" value="0.219" />
+        <entry key="app/src/main/res/drawable/ic_person.xml" value="0.1425" />
+        <entry key="app/src/main/res/drawable/ic_person_add.xml" value="0.278" />
+        <entry key="app/src/main/res/drawable/ic_person_focused.xml" value="0.1425" />
+        <entry key="app/src/main/res/drawable/ic_qr_code.xml" value="0.1425" />
+        <entry key="app/src/main/res/drawable/ic_qr_code_white.xml" value="0.1425" />
         <entry key="app/src/main/res/drawable/ic_send.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_settings.xml" value="0.1425" />
         <entry key="app/src/main/res/drawable/ic_speech_bubble.xml" value="0.201" />
         <entry key="app/src/main/res/drawable/incoming_bubble.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/input_field.xml" value="0.2855" />
         <entry key="app/src/main/res/drawable/outgoing_bubble.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/qr_code_frame.xml" value="0.2165" />
         <entry key="app/src/main/res/drawable/round_button.xml" value="0.178" />
-        <entry key="app/src/main/res/layout/activity_add_friend.xml" value="0.3375" />
+        <entry key="app/src/main/res/drawable/speech_bubble_above.xml" value="0.278" />
+        <entry key="app/src/main/res/layout/activity_add_friend.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_friend_profile.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/activity_login.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/activity_login2.xml" value="0.28125" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.19021739130434784" />
-        <entry key="app/src/main/res/layout/activity_profile.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_messages.xml" value="0.21784420289855072" />
+        <entry key="app/src/main/res/layout/activity_profile.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_qrcode_scanner.xml" value="0.3375" />
         <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.1911231884057971" />
-        <entry key="app/src/main/res/layout/activity_signup.xml" value="0.22" />
-        <entry key="app/src/main/res/layout/activity_splash.xml" value="0.1911231884057971" />
+        <entry key="app/src/main/res/layout/activity_signup.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/activity_splash.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_talk.xml" value="0.33" />
         <entry key="app/src/main/res/layout/app_logo.xml" value="0.20104166666666667" />
         <entry key="app/src/main/res/layout/custom_barcode_view.xml" value="0.3375" />
         <entry key="app/src/main/res/layout/fragment_display_message.xml" value="0.3375" />
         <entry key="app/src/main/res/layout/fragment_edit_message.xml" value="0.3375" />
-        <entry key="app/src/main/res/layout/fragment_edit_profile.xml" value="0.18802083333333333" />
+        <entry key="app/src/main/res/layout/fragment_edit_profile.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_friends.xml" value="0.134375" />
-        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_message_display.xml" value="0.13229166666666667" />
+        <entry key="app/src/main/res/layout/fragment_message_edit.xml" value="0.13229166666666667" />
         <entry key="app/src/main/res/layout/fragment_messsage_display.xml" value="0.20208333333333334" />
         <entry key="app/src/main/res/layout/fragment_profile_home.xml" value="0.3375" />
         <entry key="app/src/main/res/layout/fragment_qrcode_generator.xml" value="0.3375" />
         <entry key="app/src/main/res/layout/fragment_talk.xml" value="0.134375" />
         <entry key="app/src/main/res/layout/friends_list_layout.xml" value="0.16045845272206305" />
-        <entry key="app/src/main/res/layout/message_layout.xml" value="0.1361111111111111" />
-        <entry key="app/src/main/res/layout/talk_list_layout.xml" value="0.18" />
+        <entry key="app/src/main/res/layout/message_layout.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/talk_list_layout.xml" value="0.25" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.2453125" />
         <entry key="app/src/main/res/menu/menu_settings.xml" value="0.3375" />
       </map>

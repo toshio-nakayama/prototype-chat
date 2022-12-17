@@ -2,12 +2,12 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/cl_message"
+    android:id="@+id/constraint_message"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <LinearLayout
-        android:id="@+id/linear_layout_sent"
+        android:id="@+id/linear_sent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
@@ -19,7 +19,7 @@
         tools:visibility="visible">
 
         <TextView
-            android:id="@+id/text_view_sent_message_time"
+            android:id="@+id/text_senttime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
@@ -28,7 +28,7 @@
             tools:text="@string/message_time" />
 
         <TextView
-            android:id="@+id/text_view_sent_message"
+            android:id="@+id/text_sentmessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:autoLink="all"
@@ -39,7 +39,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linear_layout_received"
+        android:id="@+id/linear_received"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -47,20 +47,21 @@
         android:orientation="horizontal"
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/linear_layout_sent"
+        app:layout_constraintTop_toBottomOf="@id/linear_sent"
         tools:visibility="visible">
 
         <TextView
-            android:id="@+id/text_view_received_message"
+            android:id="@+id/text_receivedmessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:autoLink="all"
             android:background="@drawable/incoming_bubble"
             android:padding="12dp"
+            android:textColor="@color/black"
             tools:text="@string/chat_message" />
 
         <TextView
-            android:id="@+id/text_view_received_message_time"
+            android:id="@+id/text_receivedtime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
