@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_gravity="bottom"
     android:background="@color/white"
-    tools:context=".qrcode.QRCodeGeneratorFragment">
+    tools:context=".fragments.QRCodeGeneratorFragment">
 
     <ImageButton
         android:id="@+id/imagebutton_close"

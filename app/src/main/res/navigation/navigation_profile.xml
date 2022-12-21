@@ -7,7 +7,9 @@
 
     <fragment
         android:id="@+id/profileHomeFragment"
-        android:name="com.portfolio.prototype_chat.profile.ProfileHomeFragment"
+        android:name="com.portfolio.prototype_chat.fragments.ProfileHomeFragment"
+        android:label=""
+        app:defaultNavHost="true"
         tools:layout="@layout/fragment_profile_home">
         <action
             android:id="@+id/action_profileHomeFragment_to_editProfileFragment"
@@ -15,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/editProfileFragment"
-        android:name="com.portfolio.prototype_chat.profile.ProfileEditFragment"
+        android:name="com.portfolio.prototype_chat.fragments.ProfileEditFragment"
         android:label="プロフィール"
         tools:layout="@layout/fragment_profile_edit">
         <action

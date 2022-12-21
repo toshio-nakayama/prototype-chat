@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.portfolio.prototype_chat.home_ui.home.HomeViewModel" />
+            type="com.portfolio.prototype_chat.viewmodels.HomeViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -18,7 +18,7 @@
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
         android:paddingBottom="30dp"
-        tools:context=".home_ui.home.HomeFragment">
+        tools:context=".fragments.HomeFragment">
 
         <LinearLayout
             android:id="@+id/linear_profile"

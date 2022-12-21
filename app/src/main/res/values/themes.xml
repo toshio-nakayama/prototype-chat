@@ -17,6 +17,10 @@
         <!-- Text color. -->
         <item name="android:textColor">@color/white</item>
     </style>
+    <style name="Theme.PrototypeChat.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
 
     <!-- EditTextStyle for Login & SignUp -->
     <style name="EditTextStyle" parent="Widget.AppCompat.EditText">

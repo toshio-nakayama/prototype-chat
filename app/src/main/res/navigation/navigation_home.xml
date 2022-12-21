@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.portfolio.prototype_chat.home_ui.home.HomeFragment"
+        android:name="com.portfolio.prototype_chat.fragments.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -17,7 +17,7 @@
 
     <fragment
         android:id="@+id/navigation_friends"
-        android:name="com.portfolio.prototype_chat.home_ui.friends.FriendsFragment"
+        android:name="com.portfolio.prototype_chat.fragments.FriendsFragment"
         android:label="@string/title_friends"
         tools:layout="@layout/fragment_friends" >
         <action
@@ -27,7 +27,7 @@
 
     <fragment
         android:id="@+id/navigation_talk"
-        android:name="com.portfolio.prototype_chat.home_ui.talk.TalksFragment"
+        android:name="com.portfolio.prototype_chat.fragments.TalksFragment"
         android:label="@string/title_talk"
         tools:layout="@layout/fragment_talks" />
 </navigation>

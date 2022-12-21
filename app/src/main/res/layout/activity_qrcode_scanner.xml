@@ -5,14 +5,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".qrcode.QRCodeScannerActivity">
+    tools:ignore="SpeakableTextPresentCheck, ContentDescription"
+    tools:context=".activities.QRCodeScannerActivity">
 
     <com.journeyapps.barcodescanner.DecoratedBarcodeView
-        android:id="@+id/decoratedbarcode_"
+        android:id="@+id/decoratedbarcode"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/text_description"
         app:zxing_scanner_layout="@layout/custom_barcode_view" />
+
+    <ImageButton
+        android:id="@+id/imagebutton_close"
+        android:layout_width="wrap_content"
+        android:background="@android:color/transparent"
+        android:minWidth="48dp"
+        android:minHeight="48dp"
+        android:scaleType="fitCenter"
+        android:layout_alignParentStart="true"
+        app:srcCompat="@drawable/ic_close"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp" />
 
     <Button
         android:id="@+id/buttom_myqrcode"

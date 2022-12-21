@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context=".profile.ProfileEditFragment"
+    tools:context=".fragments.ProfileEditFragment"
     tools:ignore="ContentDescription">
 
     <RelativeLayout
