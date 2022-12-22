@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI.setupWithNavController
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
@@ -33,7 +34,7 @@ class ProfileActivity : AppCompatActivity(), ProfileHomeFragment.LogoutDetection
                 finish()
                 true
             }.build()
-        binding.toolbar.setupWithNavController(navController, appBarConfiguration)
+        setupActionBarWithNavController(navController, appBarConfiguration)
     }
 
 //    override fun onSupportNavigateUp(): Boolean {

@@ -38,7 +38,7 @@ class MessageEditFragment : DialogFragment() {
 
     companion object {
         const val NO_USE = -1
-        const val DIALOG_TAG = "editMessageFragment"
+        const val TAG_DIALOG = "editMessageFragment"
         const val PROPERTY_NAME = "propertyName"
         const val CONTENTS = "contents"
         const val MAX_LENGTH = "maxLength"

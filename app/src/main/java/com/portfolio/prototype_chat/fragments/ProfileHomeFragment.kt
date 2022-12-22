@@ -96,7 +96,7 @@ class ProfileHomeFragment : Fragment() {
         if (binding.textStatusmessage.text.isNotEmpty()) {
             val message = binding.textStatusmessage.text.toString()
             val dialogFragment = MessageDisplayFragment.newInstance(message)
-            dialogFragment.show(parentFragmentManager, MessageDisplayFragment.DIALOG_TAG)
+            dialogFragment.show(parentFragmentManager, MessageDisplayFragment.TAG_DIALOG)
         }
     }
 

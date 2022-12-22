@@ -16,7 +16,7 @@ class MessageDisplayFragment : DialogFragment() {
     private lateinit var binding: FragmentMessageDisplayBinding
 
     companion object {
-        const val DIALOG_TAG = "displayMessageFragment"
+        const val TAG_DIALOG = "displayMessageFragment"
         private const val PARAM = "param"
 
         fun newInstance(message: String) =

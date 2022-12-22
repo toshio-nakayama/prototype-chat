@@ -7,6 +7,6 @@ data class User(
     val name: String = "",
     val email: String = "",
     val statusMessage: String = "",
-    val photoUriPath: String = "",
-    val backgroundPhotoUriPath: String = ""
+    val photo: String = "",
+    val backgroundPhoto: String = ""
 )

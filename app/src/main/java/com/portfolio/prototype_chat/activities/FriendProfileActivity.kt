@@ -40,7 +40,7 @@ class FriendProfileActivity : AppCompatActivity() {
             if (binding.textStatusmessage.length() > 0) {
                 val message = binding.textStatusmessage.text.toString()
                 val dialogFragment = MessageDisplayFragment.newInstance(message)
-                dialogFragment.show(supportFragmentManager, MessageDisplayFragment.DIALOG_TAG)
+                dialogFragment.show(supportFragmentManager, MessageDisplayFragment.TAG_DIALOG)
             }
         }
         binding.imagebuttonTalk.setOnClickListener {

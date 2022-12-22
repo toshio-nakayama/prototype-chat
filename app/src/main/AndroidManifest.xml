@@ -31,7 +31,6 @@
             android:exported="false" />
         <activity
             android:name=".activities.ProfileActivity"
-            android:theme="@style/Theme.PrototypeChat.NoActionBar"
             android:exported="false" />
         <activity
             android:name=".activities.SignUpActivity"
