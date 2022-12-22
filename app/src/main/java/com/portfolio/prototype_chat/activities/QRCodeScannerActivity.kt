@@ -12,8 +12,8 @@ import com.portfolio.prototype_chat.fragments.QRCodeGeneratorFragment
 class QRCodeScannerActivity : AppCompatActivity(),
     QRCodeGeneratorFragment.OnFragmentDestroyListener {
 
-    private lateinit var binding: ActivityQrcodeScannerBinding
     private lateinit var capture: CaptureManager
+    private lateinit var binding: ActivityQrcodeScannerBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

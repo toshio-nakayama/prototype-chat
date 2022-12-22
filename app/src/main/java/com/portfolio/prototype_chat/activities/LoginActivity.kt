@@ -16,9 +16,9 @@ import com.portfolio.prototype_chat.utils.ToastGenerator
 import com.portfolio.prototype_chat.utils.connectionAvailable
 
 class LoginActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityLoginBinding
     private lateinit var auth: FirebaseAuth
     private lateinit var validation: AwesomeValidation
+    private lateinit var binding: ActivityLoginBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

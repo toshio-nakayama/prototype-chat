@@ -30,11 +30,11 @@ class MessageEditFragment : DialogFragment() {
     }
 
     private lateinit var listener: NoticeDialogListener
-    private lateinit var binding: FragmentMessageEditBinding
     private lateinit var auth: FirebaseAuth
     private lateinit var currentUser: FirebaseUser
     private lateinit var rootRef: DatabaseReference
     private lateinit var userRef: DatabaseReference
+    private lateinit var binding: FragmentMessageEditBinding
 
     companion object {
         const val NO_USE = -1

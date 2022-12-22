@@ -13,12 +13,11 @@ import com.portfolio.prototype_chat.viewmodels.TalksViewModel
 import com.portfolio.prototype_chat.views.adapters.TalksListAdapter
 
 class TalksFragment : Fragment() {
-
+    
     private var _binding: FragmentTalksBinding? = null
     private val binding get() = _binding!!
     private val viewModel: TalksViewModel by viewModels()
-
-
+    
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -27,10 +26,10 @@ class TalksFragment : Fragment() {
         _binding = FragmentTalksBinding.inflate(inflater, container, false)
         return binding.root
     }
-
+    
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        
         binding.recyclerTalks.layoutManager = LinearLayoutManager(context).apply {
             reverseLayout = true
             stackFromEnd = true
@@ -45,8 +44,7 @@ class TalksFragment : Fragment() {
             viewModel.talkListLiveData.notifyObserver()
         }
     }
-
-
+    
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

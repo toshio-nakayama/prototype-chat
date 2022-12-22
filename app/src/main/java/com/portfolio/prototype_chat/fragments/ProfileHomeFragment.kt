@@ -22,23 +22,17 @@ import com.portfolio.prototype_chat.viewmodels.ProfileHomeViewModel
 
 class ProfileHomeFragment : Fragment() {
 
-    private var _binding: FragmentProfileHomeBinding? = null
-    private val binding get() = _binding!!
     private lateinit var storageRootRef: StorageReference
     private var callback: LogoutDetectionListener? = null
+    private var _binding: FragmentProfileHomeBinding? = null
+    private val binding get() = _binding!!
     private val viewModel: ProfileHomeViewModel by viewModels()
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        callback = context as? LogoutDetectionListener
-        callback ?: throw ClassCastException("$context must implement LogoutDetectionListener")
+    
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        storageRootRef = Firebase.storage.reference
     }
-
-    override fun onDetach() {
-        super.onDetach()
-        callback = null
-    }
-
+    
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -49,9 +43,8 @@ class ProfileHomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        storageRootRef = Firebase.storage.reference
-        viewModel.userLiveData.observe(viewLifecycleOwner) { setProfile(it) }
+        
+        viewModel.userLiveData.observe(viewLifecycleOwner) { updateUI(it) }
         val menuHost = requireActivity()
         menuHost.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -64,41 +57,51 @@ class ProfileHomeFragment : Fragment() {
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
         binding.imagebuttonLogout.setOnClickListener { callback?.onLogout() }
-        binding.textStatusmessage.setOnClickListener { onStatusMessageClick() }
+        binding.textStatusmessage.setOnClickListener {
+            if (binding.textStatusmessage.text.isNotEmpty()) {
+                val message = binding.textStatusmessage.text.toString()
+                val dialogFragment = MessageDisplayFragment.newInstance(message)
+                dialogFragment.show(parentFragmentManager, MessageDisplayFragment.TAG_DIALOG)
+            }
+        }
     }
-
+    
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        callback = context as? LogoutDetectionListener
+        callback ?: throw ClassCastException("$context must implement LogoutDetectionListener")
+    }
+    
+    override fun onDetach() {
+        super.onDetach()
+        callback = null
+    }
+    
+    
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
-
-    private fun setProfile(user: User) {
-        val currentUser = Firebase.auth.currentUser
-        currentUser?.let {
-            binding.textName.text = user.name
-            binding.textStatusmessage.text = user.statusMessage
-            glideSupport(requireContext(),
-                it.photoUrl, R.drawable.default_profile, binding.circularimageProfile)
-            val userId = it.uid
-            val photoName = userId + Constants.EXT_JPG
-            storageRootRef.child(Constants.IMAGES).child(NodeNames.BACKGROUND_PHOTO)
-                .child(photoName).downloadUrl.addOnSuccessListener { uri ->
-                    glideSupport(requireContext(),
-                        uri,
-                        R.drawable.default_background,
-                        binding.imageBackground)
-                }
-        }
+    
+    private fun updateUI(user: User) {
+        binding.textName.text = user.name
+        binding.textStatusmessage.text = user.statusMessage
+        Firebase.storage.getReferenceFromUrl(user.photo)
+            .downloadUrl.addOnSuccessListener {
+                glideSupport(requireContext(),
+                    it,
+                    R.drawable.default_profile,
+                    binding.circularimageProfile)
+            }
+        Firebase.storage.getReferenceFromUrl(user.backgroundPhoto)
+            .downloadUrl.addOnSuccessListener {
+                glideSupport(requireContext(),
+                    it,
+                    R.drawable.default_background,
+                    binding.imageBackground)
+            }
     }
-
-
-    private fun onStatusMessageClick() {
-        if (binding.textStatusmessage.text.isNotEmpty()) {
-            val message = binding.textStatusmessage.text.toString()
-            val dialogFragment = MessageDisplayFragment.newInstance(message)
-            dialogFragment.show(parentFragmentManager, MessageDisplayFragment.TAG_DIALOG)
-        }
-    }
+    
 
     interface LogoutDetectionListener {
         fun onLogout()

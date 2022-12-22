@@ -11,8 +11,10 @@ import com.portfolio.prototype_chat.databinding.ActivitySplashBinding
 
 @SuppressLint("CustomSplashScreen")
 class SplashActivity : AppCompatActivity() {
-    private lateinit var binding: ActivitySplashBinding
+    
     private lateinit var animation: Animation
+    private lateinit var binding: ActivitySplashBinding
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySplashBinding.inflate(layoutInflater)

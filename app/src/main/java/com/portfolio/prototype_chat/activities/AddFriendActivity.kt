@@ -20,9 +20,9 @@ import com.portfolio.prototype_chat.viewmodels.AddFriendViewModel
 
 class AddFriendActivity : AppCompatActivity() {
     
-    private lateinit var binding: ActivityAddFriendBinding
     private lateinit var rootRef: DatabaseReference
     private lateinit var talkRef: DatabaseReference
+    private lateinit var binding: ActivityAddFriendBinding
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

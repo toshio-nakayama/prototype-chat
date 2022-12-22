@@ -18,8 +18,8 @@ import com.portfolio.prototype_chat.fragments.ProfileHomeFragment
 
 class ProfileActivity : AppCompatActivity(), ProfileHomeFragment.LogoutDetectionListener {
 
-    private lateinit var binding: ActivityProfileBinding
     private lateinit var appBarConfiguration: AppBarConfiguration
+    private lateinit var binding: ActivityProfileBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -18,7 +18,6 @@ class ProfileEditViewModel : ViewModel(){
     private val currentUser: FirebaseUser? = Firebase.auth.currentUser
     private val rootRef: DatabaseReference = Firebase.database.reference
     private val userRef: DatabaseReference = rootRef.child(NodeNames.USERS).child(currentUser!!.uid)
-    private val storageRootRef: StorageReference = Firebase.storage.reference
     val userLiveData: LiveData<User> = Transformations.map(ValueEventLiveData(userRef)){it.getValue(User::class.java)}
 
 

@@ -21,7 +21,6 @@ import com.portfolio.prototype_chat.utils.updateTalkDetails
 
 class MessagesActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMessagesBinding
     private lateinit var currentUser: FirebaseUser
     private lateinit var rootRef: DatabaseReference
     private lateinit var adapter: MessagesAdapter
@@ -29,6 +28,7 @@ class MessagesActivity : AppCompatActivity() {
     private lateinit var friendUserId: String
     private lateinit var currentUserId: String
     private var currentPage = 1
+    private lateinit var binding: ActivityMessagesBinding
 
     companion object {
         const val RECORD_PER_PAGE = 30
