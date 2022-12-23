@@ -1,6 +1,7 @@
 package com.portfolio.prototype_chat.activities
 
 import android.content.Intent
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Patterns
 import androidx.appcompat.app.AppCompatActivity
@@ -22,31 +23,35 @@ import com.portfolio.prototype_chat.utils.ToastGenerator
 import com.portfolio.prototype_chat.utils.connectionAvailable
 
 class SignUpActivity : AppCompatActivity() {
-    private lateinit var validation: AwesomeValidation
-    private lateinit var auth: FirebaseAuth
+    private val validation: AwesomeValidation = AwesomeValidation(ValidationStyle.TEXT_INPUT_LAYOUT)
     private lateinit var database: DatabaseReference
-    private lateinit var currentUser: FirebaseUser
     private lateinit var binding: ActivitySignupBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySignupBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        auth = Firebase.auth
+        
         database = Firebase.database.reference
-        validation = AwesomeValidation(ValidationStyle.TEXT_INPUT_LAYOUT)
-        initView()
+        init()
     }
 
     override fun onStart() {
         super.onStart()
-        val currentUser = auth.currentUser
-        currentUser?.let { reload() }
+        Firebase.auth.currentUser?.let { reload() }
+    }
+    
+    override fun onSupportNavigateUp(): Boolean {
+        finish()
+        return super.onSupportNavigateUp()
     }
 
-    private fun initView() {
-        supportActionBar?.hide()
+    private fun init() {
+        supportActionBar?.run {
+            setDisplayShowTitleEnabled(false)
+            setDisplayShowHomeEnabled(true)
+            setDisplayHomeAsUpEnabled(true)
+        }
         binding.buttonSubmit.setOnClickListener {
             if (!connectionAvailable(applicationContext)) {
                 ToastGenerator.Builder(applicationContext).resId(R.string.offline).build()
@@ -83,22 +88,22 @@ class SignUpActivity : AppCompatActivity() {
                 R.id.textinput_confirmpassword,
                 R.id.textinput_password,
                 R.string.err_confirm_password)
-            v.addValidation(this,
-                R.id.textinput_confirmpassword,
-                R.id.textinput_password,
-                R.string.err_confirm_password_blank)
+//            v.addValidation(this,
+//                R.id.textinput_confirmpassword,
+//                R.id.textinput_password,
+//                R.string.err_confirm_password_blank)
         }
     }
 
     private fun signUp(name: String, email: String, password: String) {
-        auth.createUserWithEmailAndPassword(email, password)
+        Firebase.auth.createUserWithEmailAndPassword(email, password)
             .addOnSuccessListener {
-                currentUser = auth.currentUser!!
+                val currentUser = Firebase.auth.currentUser
                 val profileUpdates = userProfileChangeRequest {
                     displayName = name
                 }
-                currentUser.updateProfile(profileUpdates)
-                    .addOnSuccessListener {
+                currentUser?.updateProfile(profileUpdates)
+                    ?.addOnSuccessListener {
                         writeNewUser(currentUser.uid, name, email)
                     }
             }

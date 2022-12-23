@@ -19,6 +19,7 @@ import com.portfolio.prototype_chat.utils.Constants
 import com.portfolio.prototype_chat.utils.NodeNames
 import com.portfolio.prototype_chat.utils.glideSupport
 import com.portfolio.prototype_chat.viewmodels.ProfileHomeViewModel
+import java.lang.IllegalArgumentException
 
 class ProfileHomeFragment : Fragment() {
 
@@ -86,6 +87,7 @@ class ProfileHomeFragment : Fragment() {
     private fun updateUI(user: User) {
         binding.textName.text = user.name
         binding.textStatusmessage.text = user.statusMessage
+        try {
         Firebase.storage.getReferenceFromUrl(user.photo)
             .downloadUrl.addOnSuccessListener {
                 glideSupport(requireContext(),
@@ -93,6 +95,8 @@ class ProfileHomeFragment : Fragment() {
                     R.drawable.default_profile,
                     binding.circularimageProfile)
             }
+        }catch (e:IllegalArgumentException){}
+        try {
         Firebase.storage.getReferenceFromUrl(user.backgroundPhoto)
             .downloadUrl.addOnSuccessListener {
                 glideSupport(requireContext(),
@@ -100,6 +104,8 @@ class ProfileHomeFragment : Fragment() {
                     R.drawable.default_background,
                     binding.imageBackground)
             }
+            
+        }catch (e:IllegalArgumentException){}
     }
     
 

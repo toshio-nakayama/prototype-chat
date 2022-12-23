@@ -16,16 +16,42 @@
         <item name="android:windowBackground">@color/black</item>
         <!-- Text color. -->
         <item name="android:textColor">@color/white</item>
+        <!-- ActionBar style. -->
+        <item name="android:actionBarStyle">@style/TransparentActionBar</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <!-- ActionBar style Support library compatibility -->
+        <item name="actionBarStyle">@style/TransparentActionBar</item>
+        <item name="windowActionBarOverlay">true</item>
+
     </style>
-    <style name="Theme.PrototypeChat.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
+
+    <style name="TransparentActionBar" parent="Widget.AppCompat.ActionBar">
+        <item name="android:background">@null</item>
+        <item name="background">@null</item>
     </style>
 
     <!-- EditTextStyle for Login & SignUp -->
     <style name="EditTextStyle" parent="Widget.AppCompat.EditText">
         <item name="android:textColor">@color/white</item>
         <item name="android:textColorHint">@color/gray</item>
+    </style>
+
+    <style name="MessageEditTextStyle" parent="Widget.AppCompat.EditText">
+        <item name="android:textColor">@color/white</item>
+        <item name="colorControlNormal">#FFF</item>
+        <item name="colorControlActivated">#FFF</item>
+        <item name="errorTextColor">@color/white</item>
+        <item name="errorIconTint">@color/white</item>
+    </style>
+
+
+
+    <style name="TextInputLayoutStyle.FillBox" parent="Widget.MaterialComponents.TextInputLayout.FilledBox.Dense">
+        <item name="hintTextColor">@color/white</item>
+        <item name="errorTextColor">@color/white</item>
+        <item name="errorIconTint">@color/white</item>
+        <item name="endIconTint">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
     </style>
 
     <!-- TextInputLayoutStyle for Login & SignUp -->
@@ -44,10 +70,11 @@
 
         <!-- other style -->
         <item name="hintTextColor">@color/white</item>
-        <item name="errorTextColor">@color/white</item>
+        <item name="errorTextColor">@android:color/holo_red_light</item>
         <item name="errorIconTint">@color/white</item>
         <item name="passwordToggleTint">@color/white</item>
         <item name="endIconTint">@color/white</item>
+
     </style>
 
 </resources>

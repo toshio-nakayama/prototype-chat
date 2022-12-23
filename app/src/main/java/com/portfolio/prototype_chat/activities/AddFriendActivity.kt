@@ -42,13 +42,16 @@ class AddFriendActivity : AppCompatActivity() {
     
     private fun updateUI(user: User) {
         binding.textName.text = user.name
-        Firebase.storage.getReferenceFromUrl(user.photo)
-            .downloadUrl.addOnSuccessListener {
-                glideSupport(applicationContext,
-                    it,
-                    R.drawable.default_profile,
-                    binding.circularimageProfile)
-            }
+        try {
+            Firebase.storage.getReferenceFromUrl(user.photo)
+                .downloadUrl.addOnSuccessListener {
+                    glideSupport(applicationContext,
+                        it,
+                        R.drawable.default_profile,
+                        binding.circularimageProfile)
+                }
+        } catch (e: IllegalArgumentException) {
+        }
     }
     
     private fun addFriend(guestId: String) {

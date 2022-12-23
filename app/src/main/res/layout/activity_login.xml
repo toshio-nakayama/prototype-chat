@@ -5,15 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center_horizontal"
-    android:background="?attr/colorPrimary"
+    android:background="@color/orange_soda"
     android:orientation="vertical"
     tools:context=".activities.LoginActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="120dp"
         android:layout_gravity="center_vertical"
-        android:background="@color/orange_soda"
         android:orientation="vertical">
 
         <TextView
@@ -21,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="25dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="60dp"
             android:text="@string/login"
             android:textColor="@color/white"
             android:textSize="40sp"
@@ -35,6 +34,7 @@
         android:layout_height="match_parent"
         android:background="@drawable/round_top_rectangle"
         android:orientation="vertical"
+        android:padding="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -44,10 +44,7 @@
             style="@style/TextInputLayoutStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="60dp"
-            android:layout_marginRight="20dp"
+            android:layout_marginTop="30dp"
             app:endIconMode="clear_text"
             app:hintEnabled="false">
 
@@ -69,8 +66,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="16dp"
             app:hintEnabled="false"
             app:passwordToggleEnabled="true">
 
@@ -91,7 +87,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginHorizontal="20dp"
             android:layout_marginTop="50dp"
             android:background="@drawable/round_button"
             android:text="@string/login"
@@ -105,7 +100,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginHorizontal="20dp"
             android:layout_marginTop="30dp"
             android:background="@drawable/round_button_outline"
             android:text="@string/create_account"

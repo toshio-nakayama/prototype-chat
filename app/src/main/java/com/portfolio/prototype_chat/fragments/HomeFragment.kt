@@ -63,7 +63,7 @@ class HomeFragment : Fragment() {
             val count = it.childrenCount
             binding.textFriendscount.text = count.toString()
         }
-        initView()
+        init()
     }
     
     override fun onDestroyView() {
@@ -71,7 +71,7 @@ class HomeFragment : Fragment() {
         _binding = null
     }
     
-    private fun initView() {
+    private fun init() {
         binding.textTooltip.startAnimation(AnimationUtils.loadAnimation(context,
             R.anim.updown_animation))
         binding.linearFriendslink.setOnClickListener {
@@ -94,13 +94,16 @@ class HomeFragment : Fragment() {
     private fun updateUI(user: User) {
         binding.textName.text = user.name
         binding.textStatusmessage.text = user.statusMessage
-        Firebase.storage.getReferenceFromUrl(user.photo)
-            .downloadUrl.addOnSuccessListener {
-                glideSupport(requireContext(),
-                    it,
-                    R.drawable.default_profile,
-                    binding.circularimageProfile)
-            }
+        try {
+            Firebase.storage.getReferenceFromUrl(user.photo)
+                .downloadUrl.addOnSuccessListener {
+                    glideSupport(requireContext(),
+                        it,
+                        R.drawable.default_profile,
+                        binding.circularimageProfile)
+                }
+        } catch (e: IllegalArgumentException) {
+        }
     }
     
     private val barcodeLauncher: ActivityResultLauncher<ScanOptions> =

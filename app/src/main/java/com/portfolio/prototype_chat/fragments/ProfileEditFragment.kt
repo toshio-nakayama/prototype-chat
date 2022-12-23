@@ -98,20 +98,26 @@ class ProfileEditFragment : Fragment(), MessageEditFragment.NoticeDialogListener
     private fun updateUI(user: User) {
         binding.textName.text = user.name
         binding.textStatusmessage.text = user.statusMessage
-        Firebase.storage.getReferenceFromUrl(user.photo)
-            .downloadUrl.addOnSuccessListener {
-                glideSupport(requireContext(),
-                    it,
-                    R.drawable.default_profile,
-                    binding.circularimageProfile)
-            }
-        Firebase.storage.getReferenceFromUrl(user.backgroundPhoto)
-            .downloadUrl.addOnSuccessListener {
-                glideSupport(requireContext(),
-                    it,
-                    R.drawable.default_background,
-                    binding.imageBackground)
-            }
+        try {
+            Firebase.storage.getReferenceFromUrl(user.photo)
+                .downloadUrl.addOnSuccessListener {
+                    glideSupport(requireContext(),
+                        it,
+                        R.drawable.default_profile,
+                        binding.circularimageProfile)
+                }
+        } catch (e: IllegalArgumentException) {
+        }
+        try {
+            Firebase.storage.getReferenceFromUrl(user.backgroundPhoto)
+                .downloadUrl.addOnSuccessListener {
+                    glideSupport(requireContext(),
+                        it,
+                        R.drawable.default_background,
+                        binding.imageBackground)
+                }
+        } catch (e: IllegalArgumentException) {
+        }
     }
     
     private fun pickPhoto() {

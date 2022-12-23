@@ -25,6 +25,11 @@ class FriendProfileActivity : AppCompatActivity() {
         binding = ActivityFriendProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
         
+        supportActionBar?.run {
+            setDisplayShowTitleEnabled(false)
+            setDisplayShowHomeEnabled(true)
+            setDisplayHomeAsUpEnabled(true)
+        }
         storageRootRef = Firebase.storage.reference
         val guestId = intent.getStringExtra(Extras.USER_ID)!!
         val viewModelFactory = FriendProfileViewModel.Factory(guestId)
@@ -51,22 +56,35 @@ class FriendProfileActivity : AppCompatActivity() {
         }
     }
     
+    override fun onSupportNavigateUp(): Boolean {
+        finish()
+        return super.onSupportNavigateUp()
+    }
+    
     private fun updateUI(user: User) {
         binding.textName.text = user.name
         binding.textStatusmessage.text = user.statusMessage
-        Firebase.storage.getReferenceFromUrl(user.photo)
-            .downloadUrl.addOnSuccessListener {
-                glideSupport(this,
-                    it,
-                    R.drawable.default_profile,
-                    binding.circularimageProfile)
-            }
-        Firebase.storage.getReferenceFromUrl(user.backgroundPhoto)
-            .downloadUrl.addOnSuccessListener {
-                glideSupport(this,
-                    it,
-                    R.drawable.default_background,
-                    binding.imageBackground)
-            }
+        try {
+            Firebase.storage.getReferenceFromUrl(user.photo)
+                .downloadUrl.addOnSuccessListener {
+                    glideSupport(this,
+                        it,
+                        R.drawable.default_profile,
+                        binding.circularimageProfile)
+                }
+        } catch (e: IllegalArgumentException) {
+        
+        }
+        try {
+            Firebase.storage.getReferenceFromUrl(user.backgroundPhoto)
+                .downloadUrl.addOnSuccessListener {
+                    glideSupport(this,
+                        it,
+                        R.drawable.default_background,
+                        binding.imageBackground)
+                }
+        } catch (e: IllegalArgumentException) {
+        
+        }
     }
 }

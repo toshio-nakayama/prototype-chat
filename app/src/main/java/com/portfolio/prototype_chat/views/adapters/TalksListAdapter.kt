@@ -15,25 +15,24 @@ import com.portfolio.prototype_chat.R
 import com.portfolio.prototype_chat.activities.MessagesActivity
 import com.portfolio.prototype_chat.databinding.TalkListLayoutBinding
 import com.portfolio.prototype_chat.models.db.Talk
-import com.portfolio.prototype_chat.utils.Constants
 import com.portfolio.prototype_chat.utils.Extras
-import com.portfolio.prototype_chat.utils.NodeNames
 import com.portfolio.prototype_chat.utils.glideSupport
 
 class TalksListAdapter(val context: Context) :
     ListAdapter<Talk, TalksListAdapter.ViewHolder>(DIFF_CALLBACK) {
-
-    private val storageRootRef: StorageReference = Firebase.storage.reference
-
+    
     inner class ViewHolder(val binding: TalkListLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
-
+        
         fun bindTo(item: Talk) {
             binding.apply {
-                storageRootRef.child(Constants.IMAGES).child(NodeNames.PHOTO)
-                    .child(item.photoName).downloadUrl.addOnSuccessListener {
-                        glideSupport(context, it, R.drawable.default_profile, imageProfile)
-                    }
+                try {
+                    Firebase.storage.getReferenceFromUrl(item.photoName)
+                        .downloadUrl.addOnSuccessListener {
+                            glideSupport(context, it, R.drawable.default_profile, imageProfile)
+                        }
+                } catch (e: IllegalArgumentException) {
+                }
                 textName.text = item.userName
                 if (item.unreadCount == 0) {
                     relativeUnread.visibility = View.GONE
@@ -49,30 +48,30 @@ class TalksListAdapter(val context: Context) :
                     context.startActivity(intent)
                 }
             }
-
+            
         }
     }
-
+    
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding =
             TalkListLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
-
+    
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bindTo(getItem(position))
     }
-
+    
     override fun submitList(list: List<Talk>?) {
         super.submitList(list?.let { ArrayList(it) })
     }
-
+    
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Talk>() {
             override fun areItemsTheSame(oldItem: Talk, newItem: Talk): Boolean {
                 return oldItem.userId == newItem.userId
             }
-
+            
             override fun areContentsTheSame(oldItem: Talk, newItem: Talk): Boolean {
                 return oldItem == newItem
             }
