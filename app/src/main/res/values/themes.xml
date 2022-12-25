@@ -22,6 +22,8 @@
         <!-- ActionBar style Support library compatibility -->
         <item name="actionBarStyle">@style/TransparentActionBar</item>
         <item name="windowActionBarOverlay">true</item>
+        <!-- EditText Handle & Cursor color. -->
+        <item name="android:colorControlActivated">@color/orange_soda</item>
 
     </style>
 
@@ -34,28 +36,33 @@
     <style name="EditTextStyle" parent="Widget.AppCompat.EditText">
         <item name="android:textColor">@color/white</item>
         <item name="android:textColorHint">@color/gray</item>
+        <item name="backgroundTint">@color/black</item>
     </style>
 
     <style name="MessageEditTextStyle" parent="Widget.AppCompat.EditText">
         <item name="android:textColor">@color/white</item>
-        <item name="colorControlNormal">#FFF</item>
-        <item name="colorControlActivated">#FFF</item>
-        <item name="errorTextColor">@color/white</item>
-        <item name="errorIconTint">@color/white</item>
+        <item name="android:textColorHint">@color/gray</item>
+        <item name="backgroundTint">@color/black</item>
+        <item name="android:colorControlNormal">#FFF</item>
+        <item name="android:colorControlActivated">#FFF</item>
+
+
     </style>
 
 
 
     <style name="TextInputLayoutStyle.FillBox" parent="Widget.MaterialComponents.TextInputLayout.FilledBox.Dense">
+        <item name="boxStrokeColor">#FFF</item>
         <item name="hintTextColor">@color/white</item>
-        <item name="errorTextColor">@color/white</item>
-        <item name="errorIconTint">@color/white</item>
+        <item name="errorTextColor">@android:color/holo_red_light</item>
+        <item name="errorIconTint">@android:color/holo_red_light</item>
         <item name="endIconTint">@color/white</item>
-        <item name="colorControlActivated">@color/white</item>
+        <item name="backgroundTint">@color/white</item>
     </style>
 
     <!-- TextInputLayoutStyle for Login & SignUp -->
-    <style name="TextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+    <style name="TextInputLayoutStyle.OutlinedBox"
+        parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
         <!-- boxStroke -->
         <item name="boxStrokeColor">@color/white</item>
         <item name="boxStrokeWidth">2dp</item>
@@ -71,10 +78,9 @@
         <!-- other style -->
         <item name="hintTextColor">@color/white</item>
         <item name="errorTextColor">@android:color/holo_red_light</item>
-        <item name="errorIconTint">@color/white</item>
+        <item name="errorIconTint">@android:color/holo_red_light</item>
         <item name="passwordToggleTint">@color/white</item>
         <item name="endIconTint">@color/white</item>
-
     </style>
 
 </resources>

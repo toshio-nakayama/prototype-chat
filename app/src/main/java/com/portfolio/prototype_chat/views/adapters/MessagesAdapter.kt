@@ -15,7 +15,7 @@ import com.portfolio.prototype_chat.utils.timestampToString
 class MessagesAdapter(private val messageList: List<Message>) :
     RecyclerView.Adapter<MessagesAdapter.ViewHolder>() {
 
-    class ViewHolder(@NonNull item: MessageLayoutBinding) : RecyclerView.ViewHolder(item.root) {
+    class ViewHolder(item: MessageLayoutBinding) : RecyclerView.ViewHolder(item.root) {
         val binding = item
     }
 

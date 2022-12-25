@@ -40,7 +40,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textinput_name"
-            style="@style/TextInputLayoutStyle"
+            style="@style/TextInputLayoutStyle.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -62,7 +62,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textinput_email"
-            style="@style/TextInputLayoutStyle"
+            style="@style/TextInputLayoutStyle.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -83,7 +83,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textinput_password"
-            style="@style/TextInputLayoutStyle"
+            style="@style/TextInputLayoutStyle.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -105,7 +105,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textinput_confirmpassword"
-            style="@style/TextInputLayoutStyle"
+            style="@style/TextInputLayoutStyle.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"

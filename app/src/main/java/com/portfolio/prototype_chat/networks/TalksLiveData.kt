@@ -35,7 +35,7 @@ class TalksLiveData(private val query: Query) : LiveData<Talk>() {
                     val talk = Talk(
                         userId = userId,
                         userName = user.name,
-                        photoName = user.photo,
+                        photo = user.photo,
                         unreadCount = unreadCount,
                         time = time
                     )

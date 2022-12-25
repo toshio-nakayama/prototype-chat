@@ -33,8 +33,8 @@ class FriendsLiveData(private val query: Query) : LiveData<Friend>() {
                 user?.let {
                     val name = user.name
                     val statusMessage = user.statusMessage
-                    val photoName = user.photo
-                    val friend = Friend(userId, name, statusMessage, photoName)
+                    val photo = user.photo
+                    val friend = Friend(userId, name, statusMessage, photo)
                     value = friend
                     
                 }

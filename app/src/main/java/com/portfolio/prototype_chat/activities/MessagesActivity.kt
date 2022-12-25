@@ -80,7 +80,7 @@ class MessagesActivity : AppCompatActivity() {
         rootRef.updateChildren(
             childUpdates
         ) { error, _ ->
-            error ?: run { updateTalkDetails(this@MessagesActivity, currentUserId, friendUserId) }
+            error ?: run { updateTalkDetails(currentUserId, friendUserId) }
         }
     }
 

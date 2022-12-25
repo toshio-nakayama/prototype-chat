@@ -4,8 +4,8 @@ import com.google.firebase.database.IgnoreExtraProperties
 
 @IgnoreExtraProperties
 data class Friend(
-    val id:String,
-    val name:String,
-    val statusMessage:String,
-    val photoName:String,
+    val id:String? = "",
+    val name:String? = "",
+    val statusMessage:String? = "",
+    val photo:String? = null,
 )

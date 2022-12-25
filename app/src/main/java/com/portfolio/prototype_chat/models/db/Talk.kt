@@ -4,10 +4,10 @@ import com.google.firebase.database.IgnoreExtraProperties
 
 @IgnoreExtraProperties
 data class Talk(
-    val userId:String = "",
-    val userName: String = "",
-    val photoName:String = "",
+    val userId:String? = "",
+    val userName: String? = "",
+    val photo:String? = null,
     val unreadCount:Int = 0,
-    val lastMessage:String = "",
-    val time:String = ""
+    val lastMessage:String? = "",
+    val time:String? = ""
 )

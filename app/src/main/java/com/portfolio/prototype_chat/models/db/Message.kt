@@ -6,9 +6,9 @@ import com.google.firebase.database.ServerValue
 
 @IgnoreExtraProperties
 data class Message(
-    val messageId: String = "",
-    val message: String = "",
-    val messageFrom: String = "",
+    val messageId: String? = "",
+    val message: String? = "",
+    val messageFrom: String? = "",
     val messageTime: Long = 0
 ) {
     @Exclude

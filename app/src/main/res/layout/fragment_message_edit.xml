@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
-    tools:context=".fragments.MessageEditFragment">
+    tools:context=".fragments.MessageEditFragment"
+    tools:ignore="Autofill,LabelFor,ContentDescription">
 
     <RelativeLayout
         android:id="@+id/relative_counter"
@@ -37,7 +38,6 @@
             android:textColor="@color/white"
             tools:text="0/0" />
 
-
         <Button
             android:id="@+id/button_save"
             android:layout_width="wrap_content"
@@ -49,18 +49,27 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
     </RelativeLayout>
 
-    <EditText
-        android:id="@+id/edit_input"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textinput_message"
+        style="@style/TextInputLayoutStyle.FillBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_gravity="center"
+        android:layout_marginHorizontal="24dp"
         android:layout_marginTop="104dp"
-        android:layout_marginEnd="24dp"
-        android:ems="18"
-        android:inputType="text"
-        android:textColor="@color/white"
-        android:theme="@style/MessageEditTextStyle"
+        app:endIconMode="clear_text"
+        app:errorEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/relative_counter" />
+        app:layout_constraintTop_toBottomOf="@+id/relative_counter">
+
+        <EditText
+            android:id="@+id/edit_input"
+            style="@style/MessageEditTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:ems="18"
+            android:inputType="text"
+            android:textColor="@color/white" />
+    </com.google.android.material.textfield.TextInputLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -17,7 +17,6 @@ import com.google.firebase.ktx.Firebase
 import java.text.SimpleDateFormat
 import java.util.*
 
-
 fun connectionAvailable(context: Context): Boolean {
     var result = false
     val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -38,7 +37,7 @@ fun timestampToString(time: Long, pattern: String): String {
     return dateTime.split(" ")[1]
 }
 
-fun updateTalkDetails(context: Context, userId: String, friendId: String) {
+fun updateTalkDetails(userId: String, friendId: String) {
     val dbRootRef = Firebase.database.reference
     dbRootRef.child(NodeNames.TALK).child(friendId).child(userId)
         .addListenerForSingleValueEvent(object : ValueEventListener {
@@ -46,7 +45,7 @@ fun updateTalkDetails(context: Context, userId: String, friendId: String) {
                 var currentCount = "0"
                 snapshot.child(NodeNames.UNREAD_COUNT).value?.let { currentCount = it.toString() }
                 val talkUserRoot = "${NodeNames.TALK}/$friendId/$userId/"
-                val talkUpdates = hashMapOf<String, Any>(
+                val talkUpdates = hashMapOf(
                     NodeNames.TIME_STAMP to ServerValue.TIMESTAMP,
                     NodeNames.UNREAD_COUNT to currentCount.toInt() + 1
                 )
@@ -55,11 +54,11 @@ fun updateTalkDetails(context: Context, userId: String, friendId: String) {
                 )
                 dbRootRef.updateChildren(childUpdates)
             }
-
+            
             override fun onCancelled(error: DatabaseError) {
-
+            
             }
-
+            
         })
 }
 

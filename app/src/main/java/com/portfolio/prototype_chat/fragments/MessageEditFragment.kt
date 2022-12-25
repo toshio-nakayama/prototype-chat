@@ -128,14 +128,14 @@ class MessageEditFragment : DialogFragment() {
                 }
                 if (text.length < minLength) {
                     if (isAdded) {
-                        binding.editInput.error = getString(
+                        binding.textinputMessage.error = getString(
                             R.string.less_characters_warning,
                             Constants.MIN_LENGTH_NAME.toString()
                         )
                         binding.buttonSave.isEnabled = false
                     }
                 } else {
-                    binding.editInput.error = null
+                    binding.textinputMessage.error = null
                     binding.buttonSave.isEnabled = true
                 }
             }

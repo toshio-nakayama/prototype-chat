@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
 import com.portfolio.prototype_chat.R
 import com.portfolio.prototype_chat.activities.MessagesActivity
@@ -25,30 +24,26 @@ class TalksListAdapter(val context: Context) :
         RecyclerView.ViewHolder(binding.root) {
         
         fun bindTo(item: Talk) {
-            binding.apply {
-                try {
-                    Firebase.storage.getReferenceFromUrl(item.photoName)
-                        .downloadUrl.addOnSuccessListener {
-                            glideSupport(context, it, R.drawable.default_profile, imageProfile)
-                        }
-                } catch (e: IllegalArgumentException) {
-                }
-                textName.text = item.userName
-                if (item.unreadCount == 0) {
-                    relativeUnread.visibility = View.GONE
-                } else {
-                    relativeUnread.visibility = View.VISIBLE
-                    textUnreadcount.text = item.unreadCount.toString()
-                }
-                linearRow.setOnClickListener {
-                    val intent = Intent(context, MessagesActivity::class.java).apply {
-                        putExtra(Extras.USER_ID, item.userId)
-                        putExtra(Extras.USER_NAME, item.userName)
+            binding.textName.text = item.userName
+            item.photo?.let {
+                Firebase.storage.getReferenceFromUrl(item.photo)
+                    .downloadUrl.addOnSuccessListener {
+                        glideSupport(context, it, R.drawable.default_profile, binding.imageProfile)
                     }
-                    context.startActivity(intent)
-                }
             }
-            
+            if (item.unreadCount == 0) {
+                binding.relativeUnread.visibility = View.GONE
+            } else {
+                binding.relativeUnread.visibility = View.VISIBLE
+                binding.textUnreadcount.text = item.unreadCount.toString()
+            }
+            binding.linearRow.setOnClickListener {
+                val intent = Intent(context, MessagesActivity::class.java).apply {
+                    putExtra(Extras.USER_ID, item.userId)
+                    putExtra(Extras.USER_NAME, item.userName)
+                }
+                context.startActivity(intent)
+            }
         }
     }
     

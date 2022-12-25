@@ -42,7 +42,7 @@ class AddFriendActivity : AppCompatActivity() {
     
     private fun updateUI(user: User) {
         binding.textName.text = user.name
-        try {
+        user.photo?.let {
             Firebase.storage.getReferenceFromUrl(user.photo)
                 .downloadUrl.addOnSuccessListener {
                     glideSupport(applicationContext,
@@ -50,7 +50,6 @@ class AddFriendActivity : AppCompatActivity() {
                         R.drawable.default_profile,
                         binding.circularimageProfile)
                 }
-        } catch (e: IllegalArgumentException) {
         }
     }
     

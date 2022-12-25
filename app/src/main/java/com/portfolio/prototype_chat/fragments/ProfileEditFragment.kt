@@ -98,7 +98,7 @@ class ProfileEditFragment : Fragment(), MessageEditFragment.NoticeDialogListener
     private fun updateUI(user: User) {
         binding.textName.text = user.name
         binding.textStatusmessage.text = user.statusMessage
-        try {
+        user.photo?.let {
             Firebase.storage.getReferenceFromUrl(user.photo)
                 .downloadUrl.addOnSuccessListener {
                     glideSupport(requireContext(),
@@ -106,9 +106,8 @@ class ProfileEditFragment : Fragment(), MessageEditFragment.NoticeDialogListener
                         R.drawable.default_profile,
                         binding.circularimageProfile)
                 }
-        } catch (e: IllegalArgumentException) {
         }
-        try {
+        user.backgroundPhoto?.let {
             Firebase.storage.getReferenceFromUrl(user.backgroundPhoto)
                 .downloadUrl.addOnSuccessListener {
                     glideSupport(requireContext(),
@@ -116,7 +115,6 @@ class ProfileEditFragment : Fragment(), MessageEditFragment.NoticeDialogListener
                         R.drawable.default_background,
                         binding.imageBackground)
                 }
-        } catch (e: IllegalArgumentException) {
         }
     }
     
@@ -133,8 +131,8 @@ class ProfileEditFragment : Fragment(), MessageEditFragment.NoticeDialogListener
     private fun updatePhoto(uri: Uri) {
         val currentUser = Firebase.auth.currentUser ?: return
         val hostId = currentUser.uid
-        val photoName = hostId + Constants.EXT_JPG
-        val fgRef = storageRootRef.child(Constants.IMAGES).child(NodeNames.PHOTO).child(photoName)
+        val photo = hostId + Constants.EXT_JPG
+        val fgRef = storageRootRef.child(Constants.IMAGES).child(NodeNames.PHOTO).child(photo)
         val uploadTask = fgRef.putFile(uri)
         uploadTask.addOnSuccessListener {
             fgRef.downloadUrl.addOnSuccessListener { uri ->
@@ -149,9 +147,9 @@ class ProfileEditFragment : Fragment(), MessageEditFragment.NoticeDialogListener
     private fun updateBackgroundPhoto(uri: Uri) {
         val currentUser = Firebase.auth.currentUser ?: return
         val hostId = currentUser.uid
-        val photoName = hostId + Constants.EXT_JPG
+        val photo = hostId + Constants.EXT_JPG
         val fileRef = storageRootRef.child(Constants.IMAGES).child(NodeNames.BACKGROUND_PHOTO)
-            .child(photoName)
+            .child(photo)
         val uploadTask = fileRef.putFile(uri)
         uploadTask.addOnSuccessListener {
             fileRef.downloadUrl.addOnSuccessListener {

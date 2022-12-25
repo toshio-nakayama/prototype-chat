@@ -8,21 +8,17 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.Navigation
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
 import com.portfolio.prototype_chat.R
 import com.portfolio.prototype_chat.databinding.FragmentProfileHomeBinding
 import com.portfolio.prototype_chat.models.db.User
-import com.portfolio.prototype_chat.utils.Constants
-import com.portfolio.prototype_chat.utils.NodeNames
 import com.portfolio.prototype_chat.utils.glideSupport
 import com.portfolio.prototype_chat.viewmodels.ProfileHomeViewModel
-import java.lang.IllegalArgumentException
 
 class ProfileHomeFragment : Fragment() {
-
+    
     private lateinit var storageRootRef: StorageReference
     private var callback: LogoutDetectionListener? = null
     private var _binding: FragmentProfileHomeBinding? = null
@@ -41,7 +37,7 @@ class ProfileHomeFragment : Fragment() {
         _binding = FragmentProfileHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
-
+    
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         
@@ -51,7 +47,7 @@ class ProfileHomeFragment : Fragment() {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 menuInflater.inflate(R.menu.menu_settings, menu)
             }
-
+            
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 Navigation.findNavController(requireView()).navigate(R.id.editProfileFragment)
                 return true
@@ -78,39 +74,60 @@ class ProfileHomeFragment : Fragment() {
         callback = null
     }
     
-    
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
     
+    //    private fun updateUI(user: User) {
+//        binding.textName.text = user.name
+//        binding.textStatusmessage.text = user.statusMessage
+//        try {
+//        Firebase.storage.getReferenceFromUrl(user.photo)
+//            .downloadUrl.addOnSuccessListener {
+//                glideSupport(requireContext(),
+//                    it,
+//                    R.drawable.default_profile,
+//                    binding.circularimageProfile)
+//            }
+//        }catch (e:IllegalArgumentException){}
+//        try {
+//        Firebase.storage.getReferenceFromUrl(user.backgroundPhoto)
+//            .downloadUrl.addOnSuccessListener {
+//                glideSupport(requireContext(),
+//                    it,
+//                    R.drawable.default_background,
+//                    binding.imageBackground)
+//            }
+//
+//        }catch (e:IllegalArgumentException){}
+//    }
+//
     private fun updateUI(user: User) {
         binding.textName.text = user.name
         binding.textStatusmessage.text = user.statusMessage
-        try {
-        Firebase.storage.getReferenceFromUrl(user.photo)
-            .downloadUrl.addOnSuccessListener {
-                glideSupport(requireContext(),
-                    it,
-                    R.drawable.default_profile,
-                    binding.circularimageProfile)
-            }
-        }catch (e:IllegalArgumentException){}
-        try {
-        Firebase.storage.getReferenceFromUrl(user.backgroundPhoto)
-            .downloadUrl.addOnSuccessListener {
-                glideSupport(requireContext(),
-                    it,
-                    R.drawable.default_background,
-                    binding.imageBackground)
-            }
-            
-        }catch (e:IllegalArgumentException){}
+        user.photo?.let {
+            Firebase.storage.getReferenceFromUrl(user.photo)
+                .downloadUrl.addOnSuccessListener {
+                    glideSupport(requireContext(),
+                        it,
+                        R.drawable.default_profile,
+                        binding.circularimageProfile)
+                }
+        }
+        user.backgroundPhoto?.let {
+            Firebase.storage.getReferenceFromUrl(user.backgroundPhoto)
+                .downloadUrl.addOnSuccessListener {
+                    glideSupport(requireContext(),
+                        it,
+                        R.drawable.default_background,
+                        binding.imageBackground)
+                }
+        }
     }
     
-
     interface LogoutDetectionListener {
         fun onLogout()
     }
-
+    
 }

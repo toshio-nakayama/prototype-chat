@@ -64,7 +64,7 @@ class FriendProfileActivity : AppCompatActivity() {
     private fun updateUI(user: User) {
         binding.textName.text = user.name
         binding.textStatusmessage.text = user.statusMessage
-        try {
+        user.photo?.let {
             Firebase.storage.getReferenceFromUrl(user.photo)
                 .downloadUrl.addOnSuccessListener {
                     glideSupport(this,
@@ -72,10 +72,8 @@ class FriendProfileActivity : AppCompatActivity() {
                         R.drawable.default_profile,
                         binding.circularimageProfile)
                 }
-        } catch (e: IllegalArgumentException) {
-        
         }
-        try {
+        user.backgroundPhoto?.let {
             Firebase.storage.getReferenceFromUrl(user.backgroundPhoto)
                 .downloadUrl.addOnSuccessListener {
                     glideSupport(this,
@@ -83,8 +81,6 @@ class FriendProfileActivity : AppCompatActivity() {
                         R.drawable.default_background,
                         binding.imageBackground)
                 }
-        } catch (e: IllegalArgumentException) {
-        
         }
     }
 }

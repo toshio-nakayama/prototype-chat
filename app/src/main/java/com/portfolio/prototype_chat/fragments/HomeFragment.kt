@@ -94,7 +94,7 @@ class HomeFragment : Fragment() {
     private fun updateUI(user: User) {
         binding.textName.text = user.name
         binding.textStatusmessage.text = user.statusMessage
-        try {
+        user.photo?.let {
             Firebase.storage.getReferenceFromUrl(user.photo)
                 .downloadUrl.addOnSuccessListener {
                     glideSupport(requireContext(),
@@ -102,7 +102,6 @@ class HomeFragment : Fragment() {
                         R.drawable.default_profile,
                         binding.circularimageProfile)
                 }
-        } catch (e: IllegalArgumentException) {
         }
     }
     
@@ -122,7 +121,8 @@ class HomeFragment : Fragment() {
         }
         talkRef.child(hostId).child(id).get().addOnSuccessListener { snapshotTalk ->
             if (snapshotTalk.exists()) {
-                ToastGenerator.Builder(requireContext()).resId(R.string.allready_registered).build()
+                ToastGenerator.Builder(requireContext()).resId(R.string.allready_registered)
+                    .build()
             } else {
                 userRef.child(id).get().addOnSuccessListener { snapshotUser ->
                     if (snapshotUser.exists()) {

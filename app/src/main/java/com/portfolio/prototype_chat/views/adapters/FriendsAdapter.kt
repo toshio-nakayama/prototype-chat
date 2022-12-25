@@ -23,23 +23,23 @@ class FriendsAdapter(val context: Context) :
     
     inner class ViewHolder(val binding: FriendsListLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
+        
         fun bindTo(item: Friend) {
-            try {
-                Firebase.storage.getReferenceFromUrl(item.photoName)
+            binding.textName.text = item.name
+            binding.textStatusmessage.text = item.statusMessage
+            item.photo?.let {
+                Firebase.storage.getReferenceFromUrl(item.photo)
                     .downloadUrl.addOnSuccessListener {
                         glideSupport(context, it, R.drawable.default_profile,
                             binding.circularimageProfile)
                     }
-            } catch (e: IllegalArgumentException) {
             }
-            binding.textName.text = item.name
-            binding.textStatusmessage.text = item.statusMessage
             binding.linearRow.setOnClickListener {
                 val intent = Intent(context, FriendProfileActivity::class.java).apply {
                     putExtra(Extras.USER_ID, item.id)
                     putExtra(Extras.USER_NAME, item.name)
                     putExtra(Extras.STATUS_MESSAGE, item.statusMessage)
-                    putExtra(Extras.PHOTO_NAME, item.photoName)
+                    putExtra(Extras.PHOTO_NAME, item.photo)
                 }
                 context.startActivity(intent)
             }

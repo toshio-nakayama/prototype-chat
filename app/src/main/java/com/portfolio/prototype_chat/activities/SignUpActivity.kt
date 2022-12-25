@@ -88,10 +88,6 @@ class SignUpActivity : AppCompatActivity() {
                 R.id.textinput_confirmpassword,
                 R.id.textinput_password,
                 R.string.err_confirm_password)
-//            v.addValidation(this,
-//                R.id.textinput_confirmpassword,
-//                R.id.textinput_password,
-//                R.string.err_confirm_password_blank)
         }
     }
 
