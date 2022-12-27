@@ -18,104 +18,99 @@ import com.portfolio.prototype_chat.databinding.ActivityMessagesBinding
 import com.portfolio.prototype_chat.views.adapters.MessagesAdapter
 import com.portfolio.prototype_chat.models.db.Message
 import com.portfolio.prototype_chat.utils.updateTalkDetails
+import kotlinx.android.synthetic.main.activity_messages.*
 
 class MessagesActivity : AppCompatActivity() {
-
+    
     private lateinit var currentUser: FirebaseUser
     private lateinit var rootRef: DatabaseReference
     private lateinit var adapter: MessagesAdapter
-    private lateinit var messageList: ArrayList<Message>
-    private lateinit var friendUserId: String
-    private lateinit var currentUserId: String
+    private val messageList: ArrayList<Message> = arrayListOf()
+    private lateinit var guestId: String
+    private lateinit var hostId: String
     private var currentPage = 1
+    private val recordPerPage = 30
     private lateinit var binding: ActivityMessagesBinding
-
-    companion object {
-        const val RECORD_PER_PAGE = 30
-    }
-
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMessagesBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        
         rootRef = Firebase.database.reference
         currentUser = Firebase.auth.currentUser!!
-        friendUserId = intent.getStringExtra(Extras.USER_ID)!!
-        currentUserId = currentUser.uid
-        binding.imageSend.setOnClickListener {
-            val messagePushRef =
-                rootRef.child(NodeNames.MESSAGE).child(currentUserId).child(friendUserId).push()
-            val pushId = messagePushRef.key.toString()
-            sendMessage(binding.editMessage.text.toString(), pushId)
-        }
-        messageList = arrayListOf()
+        hostId = Firebase.auth.currentUser?.uid ?: return
+        guestId = intent.getStringExtra(Extras.USER_ID)!!
         adapter = MessagesAdapter(messageList)
-        binding.recyclerMessages.layoutManager = LinearLayoutManager(this)
-        binding.recyclerMessages.adapter = adapter
+        recycler_messages.layoutManager = LinearLayoutManager(this)
+        recycler_messages.adapter = adapter
         loadMessage()
-        binding.recyclerMessages.scrollToPosition(messageList.size - 1)
-        binding.swiperefreshMessages.setOnRefreshListener {
+        rootRef.child(NodeNames.TALK).child(hostId).child(guestId)
+            .child(NodeNames.UNREAD_COUNT).setValue(0)
+        recycler_messages.scrollToPosition(messageList.size - 1)
+        swiperefresh_messages.setOnRefreshListener {
             currentPage++
             loadMessage()
         }
+        image_send.setOnClickListener {
+            val pushRef =
+                rootRef.child(NodeNames.MESSAGE).child(hostId).child(guestId).push()
+            val pushId = pushRef.key.toString()
+            sendMessage(binding.editMessage.text.toString(), pushId)
+        }
     }
-
+    
     override fun onBackPressed() {
-        rootRef.child(NodeNames.TALK).child(currentUserId).child(friendUserId)
-            .child(NodeNames.UNREAD_COUNT).setValue(0)
         super.onBackPressed()
+        rootRef.child(NodeNames.TALK).child(hostId).child(guestId)
+            .child(NodeNames.UNREAD_COUNT).setValue(0)
     }
-
+    
     private fun sendMessage(message: String, pushId: String) {
-        val currentUserId = currentUser.uid
-        val messageModel = Message(pushId, message, currentUserId)
+        if(message.isBlank()){return}
+        val messageModel = Message(pushId, message, hostId)
         val postValues = messageModel.toMap()
-        val currentUserRoot = "${NodeNames.MESSAGES}/$currentUserId/$friendUserId/"
-        val talkUserRoot = "${NodeNames.MESSAGES}/$friendUserId/$currentUserId/"
+        val currentUserRoot = "${NodeNames.MESSAGES}/$hostId/$guestId/"
+        val talkUserRoot = "${NodeNames.MESSAGES}/$guestId/$hostId/"
         val childUpdates = hashMapOf<String, Any>(
             "$currentUserRoot$pushId" to postValues,
             "$talkUserRoot$pushId" to postValues
         )
-        rootRef.updateChildren(
-            childUpdates
-        ) { error, _ ->
-            error ?: run { updateTalkDetails(currentUserId, friendUserId) }
+        rootRef.updateChildren(childUpdates) { error, _ ->
+            error ?: run { updateTalkDetails(hostId, guestId) }
         }
     }
-
+    
     private fun loadMessage() {
-        val currentUserId = currentUser.uid
         messageList.clear()
-        val messageRef = rootRef.child(NodeNames.MESSAGES).child(currentUserId).child(friendUserId)
-        currentPage = RECORD_PER_PAGE
-        val query = messageRef.limitToLast(currentPage)
+        val messageRef = rootRef.child(NodeNames.MESSAGES).child(hostId).child(guestId)
+        val query = messageRef.limitToLast(currentPage * recordPerPage)
         query.addChildEventListener(object : ChildEventListener {
             @SuppressLint("NotifyDataSetChanged")
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                 val message = snapshot.getValue(Message::class.java)
                 message?.let { messageList.add(message) }
                 adapter.notifyDataSetChanged()
-                binding.recyclerMessages.scrollToPosition(messageList.size)
+                binding.recyclerMessages.scrollToPosition(messageList.size -1)
                 binding.swiperefreshMessages.isRefreshing = false
             }
-
+            
             override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
-
+            
             }
-
+            
             override fun onChildRemoved(snapshot: DataSnapshot) {
                 loadMessage()
             }
-
+            
             override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
-
+            
             }
-
+            
             override fun onCancelled(error: DatabaseError) {
                 binding.swiperefreshMessages.isRefreshing = false
             }
-
+            
         })
     }
 }

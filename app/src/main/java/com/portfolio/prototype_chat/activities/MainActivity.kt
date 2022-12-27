@@ -21,12 +21,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val navView: BottomNavigationView = binding.bottomnavigation
-
-        val navController = findNavController(R.id.fragmentcontainer)
+        val navController = findNavController(R.id.nav_host_fragment)
         val appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
     }
 
-    override fun onSupportNavigateUp() = findNavController(R.id.fragmentcontainer).navigateUp()
+    override fun onSupportNavigateUp() = findNavController(R.id.nav_host_fragment).navigateUp()
 }

@@ -2,6 +2,8 @@ package com.portfolio.prototype_chat.fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +16,6 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.ktx.storage
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanOptions
 import com.portfolio.prototype_chat.R
@@ -26,7 +27,7 @@ import com.portfolio.prototype_chat.models.db.User
 import com.portfolio.prototype_chat.utils.Extras
 import com.portfolio.prototype_chat.utils.NodeNames
 import com.portfolio.prototype_chat.utils.ToastGenerator
-import com.portfolio.prototype_chat.utils.glideSupport
+import com.portfolio.prototype_chat.utils.UpdateUI
 import com.portfolio.prototype_chat.viewmodels.HomeViewModel
 
 class HomeFragment : Fragment() {
@@ -34,6 +35,7 @@ class HomeFragment : Fragment() {
     private lateinit var rootRef: DatabaseReference
     private lateinit var userRef: DatabaseReference
     private lateinit var talkRef: DatabaseReference
+    private val handler: Handler = Handler(Looper.getMainLooper())
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private val viewModel: HomeViewModel by viewModels()
@@ -58,7 +60,16 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         
-        viewModel.userLiveData.observe(viewLifecycleOwner) { updateUI(it) }
+        viewModel.userLiveData.observe(viewLifecycleOwner) {
+            UpdateUI(handler).apply {
+                setTextAsync(binding.textName, it.name)
+                setTextAsync(binding.textStatusmessage, it.statusMessage)
+                setImageAsync(requireContext(),
+                    it.photo,
+                    R.drawable.default_profile,
+                    binding.circularimageProfile)
+            }
+        }
         viewModel.talkLiveData.observe(viewLifecycleOwner) {
             val count = it.childrenCount
             binding.textFriendscount.text = count.toString()
@@ -91,20 +102,6 @@ class HomeFragment : Fragment() {
         }
     }
     
-    private fun updateUI(user: User) {
-        binding.textName.text = user.name
-        binding.textStatusmessage.text = user.statusMessage
-        user.photo?.let {
-            Firebase.storage.getReferenceFromUrl(user.photo)
-                .downloadUrl.addOnSuccessListener {
-                    glideSupport(requireContext(),
-                        it,
-                        R.drawable.default_profile,
-                        binding.circularimageProfile)
-                }
-        }
-    }
-    
     private val barcodeLauncher: ActivityResultLauncher<ScanOptions> =
         registerForActivityResult(ScanContract()) { result ->
             result.contents?.let {
@@ -121,8 +118,7 @@ class HomeFragment : Fragment() {
         }
         talkRef.child(hostId).child(id).get().addOnSuccessListener { snapshotTalk ->
             if (snapshotTalk.exists()) {
-                ToastGenerator.Builder(requireContext()).resId(R.string.allready_registered)
-                    .build()
+                ToastGenerator.Builder(requireContext()).resId(R.string.allready_registered).build()
             } else {
                 userRef.child(id).get().addOnSuccessListener { snapshotUser ->
                     if (snapshotUser.exists()) {

@@ -4,6 +4,8 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.provider.MediaStore
 import android.text.InputType
 import android.view.LayoutInflater
@@ -22,17 +24,19 @@ import com.google.firebase.storage.ktx.storage
 import com.portfolio.prototype_chat.R
 import com.portfolio.prototype_chat.databinding.FragmentProfileEditBinding
 import com.portfolio.prototype_chat.models.db.User
-import com.portfolio.prototype_chat.utils.Constants
-import com.portfolio.prototype_chat.utils.Extras
-import com.portfolio.prototype_chat.utils.NodeNames
-import com.portfolio.prototype_chat.utils.glideSupport
+import com.portfolio.prototype_chat.utils.*
 import com.portfolio.prototype_chat.viewmodels.ProfileEditViewModel
+import kotlinx.android.synthetic.main.fragment_home.circularimage_profile
+import kotlinx.android.synthetic.main.fragment_home.text_name
+import kotlinx.android.synthetic.main.fragment_home.text_statusmessage
+import kotlinx.android.synthetic.main.fragment_profile_edit.*
 
 class ProfileEditFragment : Fragment(), MessageEditFragment.NoticeDialogListener {
     
     private lateinit var rootRef: DatabaseReference
     private lateinit var userRef: DatabaseReference
     private lateinit var storageRootRef: StorageReference
+    private val handler: Handler = Handler(Looper.getMainLooper())
     private var _binding: FragmentProfileEditBinding? = null
     private val binding get() = _binding!!
     private val viewModel: ProfileEditViewModel by viewModels()
@@ -80,7 +84,18 @@ class ProfileEditFragment : Fragment(), MessageEditFragment.NoticeDialogListener
         rootRef = Firebase.database.reference
         userRef = rootRef.child(NodeNames.USERS)
         storageRootRef = Firebase.storage.reference
-        viewModel.userLiveData.observe(viewLifecycleOwner) { updateUI(it) }
+        viewModel.userLiveData.observe(viewLifecycleOwner) {
+            UpdateUI(handler).apply {
+                setTextAsync(text_name, it.name)
+                setTextAsync(text_statusmessage, it.statusMessage)
+                setImageAsync(requireContext(),
+                    it.photo,
+                    R.drawable.default_profile,
+                    circularimage_profile)
+                setImageAsync(requireContext(), it.backgroundPhoto, R.drawable
+                    .default_background, image_background)
+            }
+        }
     }
     
     override fun onDestroyView() {
@@ -95,28 +110,6 @@ class ProfileEditFragment : Fragment(), MessageEditFragment.NoticeDialogListener
         }
     }
     
-    private fun updateUI(user: User) {
-        binding.textName.text = user.name
-        binding.textStatusmessage.text = user.statusMessage
-        user.photo?.let {
-            Firebase.storage.getReferenceFromUrl(user.photo)
-                .downloadUrl.addOnSuccessListener {
-                    glideSupport(requireContext(),
-                        it,
-                        R.drawable.default_profile,
-                        binding.circularimageProfile)
-                }
-        }
-        user.backgroundPhoto?.let {
-            Firebase.storage.getReferenceFromUrl(user.backgroundPhoto)
-                .downloadUrl.addOnSuccessListener {
-                    glideSupport(requireContext(),
-                        it,
-                        R.drawable.default_background,
-                        binding.imageBackground)
-                }
-        }
-    }
     
     private fun pickPhoto() {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)

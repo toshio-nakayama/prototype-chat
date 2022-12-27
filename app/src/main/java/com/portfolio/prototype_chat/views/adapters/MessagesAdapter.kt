@@ -14,17 +14,17 @@ import com.portfolio.prototype_chat.utils.timestampToString
 
 class MessagesAdapter(private val messageList: List<Message>) :
     RecyclerView.Adapter<MessagesAdapter.ViewHolder>() {
-
+    
     class ViewHolder(item: MessageLayoutBinding) : RecyclerView.ViewHolder(item.root) {
         val binding = item
     }
-
+    
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding =
             MessageLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
-
+    
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val message = messageList[position]
         val currentUserId = Firebase.auth.currentUser!!.uid
@@ -42,9 +42,9 @@ class MessagesAdapter(private val messageList: List<Message>) :
             holder.binding.textReceivedtime.text = messageTime
         }
     }
-
+    
     override fun getItemCount(): Int {
         return messageList.size
     }
-
+    
 }

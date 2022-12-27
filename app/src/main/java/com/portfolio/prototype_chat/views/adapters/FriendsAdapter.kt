@@ -19,7 +19,6 @@ import com.portfolio.prototype_chat.utils.glideSupport
 
 class FriendsAdapter(val context: Context) :
     ListAdapter<Friend, FriendsAdapter.ViewHolder>(DIFF_CALLBACK) {
-    private val storageRootRef: StorageReference = Firebase.storage.reference
     
     inner class ViewHolder(val binding: FriendsListLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {

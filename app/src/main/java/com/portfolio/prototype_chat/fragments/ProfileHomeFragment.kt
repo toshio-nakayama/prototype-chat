@@ -2,6 +2,8 @@ package com.portfolio.prototype_chat.fragments
 
 import android.content.Context
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.*
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
@@ -14,13 +16,19 @@ import com.google.firebase.storage.ktx.storage
 import com.portfolio.prototype_chat.R
 import com.portfolio.prototype_chat.databinding.FragmentProfileHomeBinding
 import com.portfolio.prototype_chat.models.db.User
+import com.portfolio.prototype_chat.utils.UpdateUI
 import com.portfolio.prototype_chat.utils.glideSupport
 import com.portfolio.prototype_chat.viewmodels.ProfileHomeViewModel
+import kotlinx.android.synthetic.main.fragment_home.circularimage_profile
+import kotlinx.android.synthetic.main.fragment_home.text_name
+import kotlinx.android.synthetic.main.fragment_home.text_statusmessage
+import kotlinx.android.synthetic.main.fragment_profile_edit.*
 
 class ProfileHomeFragment : Fragment() {
     
     private lateinit var storageRootRef: StorageReference
     private var callback: LogoutDetectionListener? = null
+    private val handler = Handler(Looper.getMainLooper())
     private var _binding: FragmentProfileHomeBinding? = null
     private val binding get() = _binding!!
     private val viewModel: ProfileHomeViewModel by viewModels()
@@ -41,7 +49,19 @@ class ProfileHomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         
-        viewModel.userLiveData.observe(viewLifecycleOwner) { updateUI(it) }
+        viewModel.userLiveData.observe(viewLifecycleOwner) {
+            UpdateUI(handler).apply {
+                setTextAsync(text_name, it.name)
+                setTextAsync(text_statusmessage, it.statusMessage)
+                setImageAsync(requireContext(),
+                    it.photo,
+                    R.drawable.default_profile,
+                    circularimage_profile)
+                setImageAsync(requireContext(), it.backgroundPhoto, R.drawable
+                    .default_background, image_background)
+            }
+            
+        }
         val menuHost = requireActivity()
         menuHost.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -79,52 +99,6 @@ class ProfileHomeFragment : Fragment() {
         _binding = null
     }
     
-    //    private fun updateUI(user: User) {
-//        binding.textName.text = user.name
-//        binding.textStatusmessage.text = user.statusMessage
-//        try {
-//        Firebase.storage.getReferenceFromUrl(user.photo)
-//            .downloadUrl.addOnSuccessListener {
-//                glideSupport(requireContext(),
-//                    it,
-//                    R.drawable.default_profile,
-//                    binding.circularimageProfile)
-//            }
-//        }catch (e:IllegalArgumentException){}
-//        try {
-//        Firebase.storage.getReferenceFromUrl(user.backgroundPhoto)
-//            .downloadUrl.addOnSuccessListener {
-//                glideSupport(requireContext(),
-//                    it,
-//                    R.drawable.default_background,
-//                    binding.imageBackground)
-//            }
-//
-//        }catch (e:IllegalArgumentException){}
-//    }
-//
-    private fun updateUI(user: User) {
-        binding.textName.text = user.name
-        binding.textStatusmessage.text = user.statusMessage
-        user.photo?.let {
-            Firebase.storage.getReferenceFromUrl(user.photo)
-                .downloadUrl.addOnSuccessListener {
-                    glideSupport(requireContext(),
-                        it,
-                        R.drawable.default_profile,
-                        binding.circularimageProfile)
-                }
-        }
-        user.backgroundPhoto?.let {
-            Firebase.storage.getReferenceFromUrl(user.backgroundPhoto)
-                .downloadUrl.addOnSuccessListener {
-                    glideSupport(requireContext(),
-                        it,
-                        R.drawable.default_background,
-                        binding.imageBackground)
-                }
-        }
-    }
     
     interface LogoutDetectionListener {
         fun onLogout()
