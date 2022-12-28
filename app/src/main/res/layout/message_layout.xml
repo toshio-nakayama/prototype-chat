@@ -50,6 +50,15 @@
         app:layout_constraintTop_toBottomOf="@id/linear_sent"
         tools:visibility="visible">
 
+        <com.mikhaellopez.circularimageview.CircularImageView
+            android:id="@+id/circularimage_profile"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/default_profile"
+            app:civ_border="false"
+            android:layout_marginEnd="2dp">
+        </com.mikhaellopez.circularimageview.CircularImageView>
+
         <TextView
             android:id="@+id/text_receivedmessage"
             android:layout_width="wrap_content"

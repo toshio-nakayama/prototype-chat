@@ -41,7 +41,7 @@ class MessagesActivity : AppCompatActivity() {
         currentUser = Firebase.auth.currentUser!!
         hostId = Firebase.auth.currentUser?.uid ?: return
         guestId = intent.getStringExtra(Extras.USER_ID)!!
-        adapter = MessagesAdapter(messageList)
+        adapter = MessagesAdapter(this, messageList)
         recycler_messages.layoutManager = LinearLayoutManager(this)
         recycler_messages.adapter = adapter
         loadMessage()
@@ -77,7 +77,7 @@ class MessagesActivity : AppCompatActivity() {
             "$talkUserRoot$pushId" to postValues
         )
         rootRef.updateChildren(childUpdates) { error, _ ->
-            error ?: run { updateTalkDetails(hostId, guestId) }
+            error ?: run { updateTalkDetails(hostId, guestId, message) }
         }
     }
     

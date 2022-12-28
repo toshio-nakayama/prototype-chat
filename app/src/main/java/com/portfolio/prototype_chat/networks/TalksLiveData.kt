@@ -27,18 +27,13 @@ class TalksLiveData(private val query: Query) : LiveData<Talk>() {
     
     private fun createTalkBasedOnSnapshot(snapshot: DataSnapshot, userId: String) {
         val unreadCount = snapshot.child(NodeNames.UNREAD_COUNT).value?.toString()?.toInt() ?: 0
-        val time = snapshot.child(NodeNames.TIME_STAMP).value.toString()
+        val lastMessage = snapshot.child(NodeNames.LAST_MESSAGE).value?.toString() ?: ""
+        val time = snapshot.child(NodeNames.TIME_STAMP).value?.toString() ?: ""
         userRef.child(userId).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val user = snapshot.getValue(User::class.java)
                 user?.let {
-                    val talk = Talk(
-                        userId = userId,
-                        userName = user.name,
-                        photo = user.photo,
-                        unreadCount = unreadCount,
-                        time = time
-                    )
+                    val talk = Talk(userId, user.name, user.photo, unreadCount, lastMessage, time)
                     value = talk
                 }
             }

@@ -2,6 +2,8 @@ package com.portfolio.prototype_chat.utils
 
 class NodeNames {
     companion object {
+        const val LAST_MESSAGE = "lastMessage"
+        const val LAST_MESSAGE_TIME = "lastMessageTime"
         const val MESSAGES = "messages"
         const val MESSAGE = "message"
         const val UNREAD_COUNT = "unreadCount"

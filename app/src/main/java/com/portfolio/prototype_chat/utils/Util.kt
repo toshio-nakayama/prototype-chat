@@ -18,17 +18,18 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 fun connectionAvailable(context: Context): Boolean {
-    var result = false
-    val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-    val capabilities = cm.getNetworkCapabilities(cm.activeNetwork)
-    if (capabilities != null) {
+    val connectivityManager =
+        context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    val capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+    return capabilities?.let {
         if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
-            result = true
+            true
         } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
-            result = false
+            false
+        } else {
+            false
         }
-    }
-    return result
+    } ?: false
 }
 
 fun timestampToString(time: Long, pattern: String): String {
@@ -37,22 +38,24 @@ fun timestampToString(time: Long, pattern: String): String {
     return dateTime.split(" ")[1]
 }
 
-fun updateTalkDetails(userId: String, friendId: String) {
-    val dbRootRef = Firebase.database.reference
-    dbRootRef.child(NodeNames.TALK).child(friendId).child(userId)
+fun updateTalkDetails(hostId: String, guestId: String, lastMessage: String) {
+    val rootRef = Firebase.database.reference
+    rootRef.child(NodeNames.TALK).child(guestId).child(hostId)
         .addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 var currentCount = "0"
                 snapshot.child(NodeNames.UNREAD_COUNT).value?.let { currentCount = it.toString() }
-                val talkUserRoot = "${NodeNames.TALK}/$friendId/$userId/"
+                val guestRef = "${NodeNames.TALK}/$guestId/$hostId/"
                 val talkUpdates = hashMapOf(
                     NodeNames.TIME_STAMP to ServerValue.TIMESTAMP,
-                    NodeNames.UNREAD_COUNT to currentCount.toInt() + 1
+                    NodeNames.UNREAD_COUNT to currentCount.toInt() + 1,
+                    NodeNames.LAST_MESSAGE to lastMessage,
+                    NodeNames.LAST_MESSAGE_TIME to ServerValue.TIMESTAMP
                 )
                 val childUpdates = hashMapOf<String, Any>(
-                    talkUserRoot to talkUpdates
+                    guestRef to talkUpdates
                 )
-                dbRootRef.updateChildren(childUpdates)
+                rootRef.updateChildren(childUpdates)
             }
             
             override fun onCancelled(error: DatabaseError) {
@@ -60,6 +63,36 @@ fun updateTalkDetails(userId: String, friendId: String) {
             }
             
         })
+}
+
+fun getTimeAgo(time: Long): String {
+    val secondMillis = 1000
+    val minuteMillis = 60 * secondMillis
+    val hourMillis = 60 * minuteMillis
+    val dayMillis = 24 * hourMillis
+    
+    time * 1000
+    
+    val now: Long = System.currentTimeMillis();
+    if (now < time || time <= 0) {
+        return ""
+    }
+    val diff: Long = now - time
+    return if (diff < minuteMillis) {
+        "just now"
+    } else if (diff < 2 * minuteMillis) {
+        "a minute ago"
+    } else if (diff < 59 * minuteMillis) {
+        "${diff / minuteMillis} minutes ago"
+    } else if (diff < 90 * minuteMillis) {
+        "an hour ago"
+    } else if (diff < 24 * hourMillis) {
+        "${diff / hourMillis}hours ago"
+    } else if (diff < 48 * hourMillis) {
+        "yesterday"
+    } else {
+        "${diff / dayMillis}days ago"
+    }
 }
 
 fun <T> MutableLiveData<T>.notifyObserver() {

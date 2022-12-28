@@ -1,19 +1,28 @@
 package com.portfolio.prototype_chat.views.adapters
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.NonNull
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import com.portfolio.prototype_chat.utils.Constants
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.ktx.storage
+import com.portfolio.prototype_chat.R
 import com.portfolio.prototype_chat.databinding.MessageLayoutBinding
 import com.portfolio.prototype_chat.models.db.Message
+import com.portfolio.prototype_chat.models.db.User
+import com.portfolio.prototype_chat.utils.Constants
+import com.portfolio.prototype_chat.utils.NodeNames
+import com.portfolio.prototype_chat.utils.glideSupport
 import com.portfolio.prototype_chat.utils.timestampToString
 
-class MessagesAdapter(private val messageList: List<Message>) :
+class MessagesAdapter(val context: Context, private val messageList: List<Message>) :
     RecyclerView.Adapter<MessagesAdapter.ViewHolder>() {
+    val rootRef: DatabaseReference = Firebase.database.reference
     
     class ViewHolder(item: MessageLayoutBinding) : RecyclerView.ViewHolder(item.root) {
         val binding = item
@@ -40,6 +49,15 @@ class MessagesAdapter(private val messageList: List<Message>) :
             holder.binding.linearSent.visibility = View.GONE
             holder.binding.textReceivedmessage.text = message.message
             holder.binding.textReceivedtime.text = messageTime
+            rootRef.child(NodeNames.USERS).child(fromUserId!!).get().addOnSuccessListener {
+                val photo = it.getValue(User::class.java)?.photo
+                photo?.let { fullUrl ->
+                    Firebase.storage.getReferenceFromUrl(fullUrl).downloadUrl.addOnSuccessListener { uri ->
+                        glideSupport(context, uri, R.drawable.default_profile, holder.binding
+                            .circularimageProfile)
+                    }
+                }
+            }
         }
     }
     

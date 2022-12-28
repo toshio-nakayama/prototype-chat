@@ -15,6 +15,7 @@ import com.portfolio.prototype_chat.activities.MessagesActivity
 import com.portfolio.prototype_chat.databinding.TalkListLayoutBinding
 import com.portfolio.prototype_chat.models.db.Talk
 import com.portfolio.prototype_chat.utils.Extras
+import com.portfolio.prototype_chat.utils.getTimeAgo
 import com.portfolio.prototype_chat.utils.glideSupport
 
 class TalksListAdapter(val context: Context) :
@@ -31,6 +32,8 @@ class TalksListAdapter(val context: Context) :
                         glideSupport(context, it, R.drawable.default_profile, binding.imageProfile)
                     }
             }
+            binding.textMessage.text = item.lastMessage
+            binding.textTime.text = item.time?.let{getTimeAgo(it.toLong())} ?:""
             if (item.unreadCount == 0) {
                 binding.relativeUnread.visibility = View.GONE
             } else {

@@ -14,6 +14,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
 import com.portfolio.prototype_chat.R
+import com.portfolio.prototype_chat.activities.ProfileActivity
 import com.portfolio.prototype_chat.databinding.FragmentProfileHomeBinding
 import com.portfolio.prototype_chat.models.db.User
 import com.portfolio.prototype_chat.utils.UpdateUI
@@ -29,6 +30,7 @@ class ProfileHomeFragment : Fragment() {
     private lateinit var storageRootRef: StorageReference
     private var callback: LogoutDetectionListener? = null
     private val handler = Handler(Looper.getMainLooper())
+    private val profileActivity:ProfileActivity? get() = (activity as? ProfileActivity)
     private var _binding: FragmentProfileHomeBinding? = null
     private val binding get() = _binding!!
     private val viewModel: ProfileHomeViewModel by viewModels()
@@ -49,6 +51,7 @@ class ProfileHomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         
+//        profileActivity?.supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close)
         viewModel.userLiveData.observe(viewLifecycleOwner) {
             UpdateUI(handler).apply {
                 setTextAsync(text_name, it.name)
