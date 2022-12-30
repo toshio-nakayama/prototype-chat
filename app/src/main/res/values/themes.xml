@@ -10,17 +10,15 @@
         <item name="colorSecondaryVariant">@color/teal_700</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorOnSecondary</item>
-        <!-- Customize your theme here. -->
+        <item name="android:statusBarColor" >?attr/colorOnSecondary</item>
         <!-- Window background color. -->
         <item name="android:windowBackground">@color/black</item>
         <!-- Text color. -->
         <item name="android:textColor">@color/white</item>
         <!-- EditText Handle & Cursor color. -->
         <item name="android:colorControlActivated">@color/orange_soda</item>
-
     </style>
-
+    <!-- No ActionBar application theme. -->
     <style name="Theme.PrototypeChat.NoActionBar"
         parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
@@ -33,7 +31,6 @@
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorOnSecondary</item>
-        <!-- Customize your theme here. -->
         <!-- Window background color. -->
         <item name="android:windowBackground">@color/black</item>
         <!-- Text color. -->
@@ -44,36 +41,34 @@
         <!-- EditText Handle & Cursor color. -->
         <item name="android:colorControlActivated">@color/orange_soda</item>
     </style>
-
+    <!-- AppBar Overlay.-->
     <style name="Theme.PrototypeChat.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
+    <!-- Popup Overlay-->
     <style name="Theme.PrototypeChat.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
-    <!-- EditTextStyle for Login & SignUp -->
+    <!-- EditTextStyle for Login & SignUp. -->
     <style name="EditTextStyle" parent="Widget.AppCompat.EditText">
         <item name="android:textColor">@color/white</item>
         <item name="android:textColorHint">@color/gray</item>
         <item name="backgroundTint">@color/black</item>
     </style>
-
+    <!-- EditTextStyle for MessageEdit. -->
     <style name="MessageEditTextStyle" parent="Widget.AppCompat.EditText">
         <item name="android:textColor">@color/white</item>
         <item name="android:textColorHint">@color/gray</item>
         <item name="backgroundTint">@color/black</item>
-        <item name="android:colorControlNormal">#FFF</item>
-        <item name="android:colorControlActivated">#FFF</item>
+        <item name="android:colorControlNormal">@color/white</item>
+        <item name="android:colorControlActivated">@color/white</item>
     </style>
-
-
+    <!-- TextInputLayoutStyle for MessageEdit.-->
     <style name="TextInputLayoutStyle.FillBox" parent="Widget.MaterialComponents.TextInputLayout.FilledBox.Dense">
-        <item name="boxStrokeColor">#FFF</item>
+        <item name="boxStrokeColor">@color/white</item>
         <item name="hintTextColor">@color/white</item>
         <item name="errorTextColor">@android:color/holo_red_light</item>
         <item name="errorIconTint">@android:color/holo_red_light</item>
         <item name="endIconTint">@color/white</item>
         <item name="backgroundTint">@color/white</item>
     </style>
-
     <!-- TextInputLayoutStyle for Login & SignUp -->
     <style name="TextInputLayoutStyle.OutlinedBox"
         parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
@@ -82,13 +77,11 @@
         <item name="boxStrokeWidth">2dp</item>
         <item name="boxStrokeErrorColor">@color/white</item>
         <item name="boxStrokeWidthFocused">3dp</item>
-
         <!-- boxCornerRadius -->
         <item name="boxCornerRadiusTopStart">25dp</item>
         <item name="boxCornerRadiusTopEnd">25dp</item>
         <item name="boxCornerRadiusBottomStart">25dp</item>
         <item name="boxCornerRadiusBottomEnd">25dp</item>
-
         <!-- other style -->
         <item name="hintTextColor">@color/white</item>
         <item name="errorTextColor">@android:color/holo_red_light</item>
@@ -96,5 +89,4 @@
         <item name="passwordToggleTint">@color/white</item>
         <item name="endIconTint">@color/white</item>
     </style>
-
 </resources>

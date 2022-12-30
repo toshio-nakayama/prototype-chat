@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Prototype Chat</string>
     <string name="title_home">ホーム</string>
-    <string name="title_friends">ともだち</string>
+    <string name="title_friends">ともだちリスト</string>
     <string name="title_talk">トーク</string>
     <string name="prompt_email">メールアドレス</string>
     <string name="prompt_password">パスワード</string>

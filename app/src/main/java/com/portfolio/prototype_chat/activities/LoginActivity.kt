@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.basgeekball.awesomevalidation.AwesomeValidation
 import com.basgeekball.awesomevalidation.ValidationStyle
 import com.basgeekball.awesomevalidation.utility.RegexTemplate
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.portfolio.prototype_chat.R
@@ -16,6 +17,7 @@ import com.portfolio.prototype_chat.utils.connectionAvailable
 
 class LoginActivity : AppCompatActivity() {
     
+    private lateinit var auth: FirebaseAuth
     private val validation: AwesomeValidation = AwesomeValidation(ValidationStyle.TEXT_INPUT_LAYOUT)
     private lateinit var binding: ActivityLoginBinding
     
@@ -23,6 +25,11 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        
+        auth = Firebase.auth
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+        
         init()
     }
     
@@ -37,7 +44,6 @@ class LoginActivity : AppCompatActivity() {
     }
     
     private fun init() {
-        supportActionBar?.setDisplayShowTitleEnabled(false)
         binding.buttonLogin.setOnClickListener {
             if (connectionAvailable(applicationContext)) {
                 if (validation.validate()) {
@@ -74,7 +80,7 @@ class LoginActivity : AppCompatActivity() {
     private fun login() {
         val email = binding.editEmail.text.toString().trim()
         val password = binding.editPassword.text.toString().trim()
-        Firebase.auth.signInWithEmailAndPassword(email, password)
+        auth.signInWithEmailAndPassword(email, password)
             .addOnSuccessListener {
                 val intent = Intent(this@LoginActivity, MainActivity::class.java)
                 startActivity(intent)

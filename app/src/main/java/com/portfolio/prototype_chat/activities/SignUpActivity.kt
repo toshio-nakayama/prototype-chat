@@ -33,6 +33,7 @@ class SignUpActivity : AppCompatActivity() {
         setContentView(binding.root)
         
         database = Firebase.database.reference
+        setSupportActionBar(binding.toolbar)
         init()
     }
 
@@ -51,7 +52,6 @@ class SignUpActivity : AppCompatActivity() {
             setDisplayShowTitleEnabled(false)
             setDisplayShowHomeEnabled(true)
             setDisplayHomeAsUpEnabled(true)
-            setHomeAsUpIndicator(R.drawable.ic_arrow_left)
         }
         binding.buttonSubmit.setOnClickListener {
             if (!connectionAvailable(applicationContext)) {

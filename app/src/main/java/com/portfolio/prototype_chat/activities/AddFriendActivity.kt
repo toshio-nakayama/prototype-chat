@@ -17,9 +17,6 @@ import com.portfolio.prototype_chat.utils.Extras
 import com.portfolio.prototype_chat.utils.NodeNames
 import com.portfolio.prototype_chat.utils.UpdateUI
 import com.portfolio.prototype_chat.viewmodels.AddFriendViewModel
-import kotlinx.android.synthetic.main.activity_add_friend.*
-import kotlinx.android.synthetic.main.fragment_home.circularimage_profile
-import kotlinx.android.synthetic.main.fragment_home.text_name
 
 class AddFriendActivity : AppCompatActivity() {
     
@@ -38,15 +35,15 @@ class AddFriendActivity : AppCompatActivity() {
         val viewModel = ViewModelProvider(this, viewModelFactory)[AddFriendViewModel::class.java]
         viewModel.userLiveData.observe(this) {
             UpdateUI(handler).apply {
-                setTextAsync(text_name, it.name)
+                setTextAsync(binding.textName, it.name)
                 setImageAsync(applicationContext,
                     it.photo,
                     R.drawable.default_profile,
-                    circularimage_profile)
+                    binding.circularimageProfile)
             }
         }
-        imagebutton_close.setOnClickListener { finish() }
-        imagebutton_add.setOnClickListener { addFriend(guestId) }
+        binding.imagebuttonClose.setOnClickListener { finish() }
+        binding.imagebuttonAdd.setOnClickListener { addFriend(guestId) }
     }
     
     

@@ -95,6 +95,29 @@ fun getTimeAgo(time: Long): String {
     }
 }
 
+fun formatMessageTime(epochMillis: Long): String {
+    //現在の日時を取得
+    val currentMillis = System.currentTimeMillis()
+    
+    return if (isSameDay(epochMillis, currentMillis)) {//当日判定
+        //epochMillisをformat　午前〇:〇〇　　午後〇:〇〇
+        ""
+    } else if (isYesterday(epochMillis)) {//昨日判定
+        //昨日
+        ""
+    } else if (isSameWeek(epochMillis, currentMillis)) {//同じ週か判定
+        //epochMillisの曜日
+        ""
+    } else if (isSameYear(epochMillis, currentMillis)) {//同じ年か判定
+        //　月/日
+        ""
+    } else {
+        //　月/日/西暦の下2桁
+        ""
+    }
+    
+}
+
 fun <T> MutableLiveData<T>.notifyObserver() {
     this.value = this.value
 }

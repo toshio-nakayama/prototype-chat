@@ -23,13 +23,11 @@ import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
 import com.portfolio.prototype_chat.R
 import com.portfolio.prototype_chat.databinding.FragmentProfileEditBinding
-import com.portfolio.prototype_chat.models.db.User
-import com.portfolio.prototype_chat.utils.*
+import com.portfolio.prototype_chat.utils.Constants
+import com.portfolio.prototype_chat.utils.Extras
+import com.portfolio.prototype_chat.utils.NodeNames
+import com.portfolio.prototype_chat.utils.UpdateUI
 import com.portfolio.prototype_chat.viewmodels.ProfileEditViewModel
-import kotlinx.android.synthetic.main.fragment_home.circularimage_profile
-import kotlinx.android.synthetic.main.fragment_home.text_name
-import kotlinx.android.synthetic.main.fragment_home.text_statusmessage
-import kotlinx.android.synthetic.main.fragment_profile_edit.*
 
 class ProfileEditFragment : Fragment(), MessageEditFragment.NoticeDialogListener {
     
@@ -86,14 +84,14 @@ class ProfileEditFragment : Fragment(), MessageEditFragment.NoticeDialogListener
         storageRootRef = Firebase.storage.reference
         viewModel.userLiveData.observe(viewLifecycleOwner) {
             UpdateUI(handler).apply {
-                setTextAsync(text_name, it.name)
-                setTextAsync(text_statusmessage, it.statusMessage)
+                setTextAsync(binding.textName, it.name)
+                setTextAsync(binding.textStatusmessage, it.statusMessage)
                 setImageAsync(requireContext(),
                     it.photo,
                     R.drawable.default_profile,
-                    circularimage_profile)
+                    binding.circularimageProfile)
                 setImageAsync(requireContext(), it.backgroundPhoto, R.drawable
-                    .default_background, image_background)
+                    .default_background, binding.imageBackground)
             }
         }
     }

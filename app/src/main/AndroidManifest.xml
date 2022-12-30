@@ -34,9 +34,11 @@
             android:theme="@style/Theme.PrototypeChat.NoActionBar" />
         <activity
             android:name=".activities.SignUpActivity"
+            android:theme="@style/Theme.PrototypeChat.NoActionBar"
             android:exported="false" />
         <activity
             android:name=".activities.LoginActivity"
+            android:theme="@style/Theme.PrototypeChat.NoActionBar"
             android:exported="false" />
         <activity
             android:name=".activities.SplashActivity"

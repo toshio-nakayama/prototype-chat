@@ -34,6 +34,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
+                android:fontFamily="sans-serif"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1"
                 android:textStyle="bold"
                 tools:text="名前" />
@@ -45,6 +46,7 @@
                 android:layout_marginStart="8dp"
                 android:ellipsize="end"
                 android:ems="12"
+                android:fontFamily="sans-serif"
                 android:singleLine="true"
                 tools:text="ステータスメッセージ" />
 
@@ -74,6 +76,7 @@
         <TextView
             android:layout_width="266dp"
             android:layout_height="75dp"
+            android:fontFamily="sans-serif"
             android:gravity="center_vertical"
             android:text="@string/friends_list"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
@@ -84,6 +87,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:fontFamily="sans-serif"
             android:gravity="end|center_vertical"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             tools:text="0" />
@@ -99,7 +103,8 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="4dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="32dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -111,6 +116,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:background="@drawable/speech_bubble_above"
+            android:fontFamily="sans-serif"
             android:paddingStart="4dp"
             android:paddingTop="4dp"
             android:paddingEnd="4dp"

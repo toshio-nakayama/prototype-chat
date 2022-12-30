@@ -19,7 +19,7 @@
         android:id="@+id/navigation_friends"
         android:name="com.portfolio.prototype_chat.fragments.FriendsFragment"
         android:label="@string/title_friends"
-        tools:layout="@layout/fragment_friends" >
+        tools:layout="@layout/fragment_friends">
         <action
             android:id="@+id/action_navigation_friends_to_navigation_home"
             app:destination="@id/navigation_home" />

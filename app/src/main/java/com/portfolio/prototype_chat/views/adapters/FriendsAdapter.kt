@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
 import com.portfolio.prototype_chat.R
 import com.portfolio.prototype_chat.activities.FriendProfileActivity
@@ -23,7 +22,7 @@ class FriendsAdapter(val context: Context) :
     inner class ViewHolder(val binding: FriendsListLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
         
-        fun bindTo(item: Friend) {
+        fun bind(item: Friend) {
             binding.textName.text = item.name
             binding.textStatusmessage.text = item.statusMessage
             item.photo?.let {
@@ -53,7 +52,7 @@ class FriendsAdapter(val context: Context) :
     }
     
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bindTo(getItem(position))
+        holder.bind(getItem(position))
     }
     
     override fun submitList(list: List<Friend>?) {

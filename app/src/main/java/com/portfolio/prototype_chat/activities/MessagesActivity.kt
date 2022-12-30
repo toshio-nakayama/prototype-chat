@@ -18,7 +18,6 @@ import com.portfolio.prototype_chat.databinding.ActivityMessagesBinding
 import com.portfolio.prototype_chat.views.adapters.MessagesAdapter
 import com.portfolio.prototype_chat.models.db.Message
 import com.portfolio.prototype_chat.utils.updateTalkDetails
-import kotlinx.android.synthetic.main.activity_messages.*
 
 class MessagesActivity : AppCompatActivity() {
     
@@ -42,17 +41,17 @@ class MessagesActivity : AppCompatActivity() {
         hostId = Firebase.auth.currentUser?.uid ?: return
         guestId = intent.getStringExtra(Extras.USER_ID)!!
         adapter = MessagesAdapter(this, messageList)
-        recycler_messages.layoutManager = LinearLayoutManager(this)
-        recycler_messages.adapter = adapter
+        binding.recyclerMessages.layoutManager = LinearLayoutManager(this)
+        binding.recyclerMessages.adapter = adapter
         loadMessage()
         rootRef.child(NodeNames.TALK).child(hostId).child(guestId)
             .child(NodeNames.UNREAD_COUNT).setValue(0)
-        recycler_messages.scrollToPosition(messageList.size - 1)
-        swiperefresh_messages.setOnRefreshListener {
+        binding.recyclerMessages.scrollToPosition(messageList.size - 1)
+        binding.swiperefreshMessages.setOnRefreshListener {
             currentPage++
             loadMessage()
         }
-        image_send.setOnClickListener {
+        binding.imageSend.setOnClickListener {
             val pushRef =
                 rootRef.child(NodeNames.MESSAGE).child(hostId).child(guestId).push()
             val pushId = pushRef.key.toString()

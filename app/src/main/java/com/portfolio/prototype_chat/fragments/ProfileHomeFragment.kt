@@ -16,21 +16,15 @@ import com.google.firebase.storage.ktx.storage
 import com.portfolio.prototype_chat.R
 import com.portfolio.prototype_chat.activities.ProfileActivity
 import com.portfolio.prototype_chat.databinding.FragmentProfileHomeBinding
-import com.portfolio.prototype_chat.models.db.User
 import com.portfolio.prototype_chat.utils.UpdateUI
-import com.portfolio.prototype_chat.utils.glideSupport
 import com.portfolio.prototype_chat.viewmodels.ProfileHomeViewModel
-import kotlinx.android.synthetic.main.fragment_home.circularimage_profile
-import kotlinx.android.synthetic.main.fragment_home.text_name
-import kotlinx.android.synthetic.main.fragment_home.text_statusmessage
-import kotlinx.android.synthetic.main.fragment_profile_edit.*
 
 class ProfileHomeFragment : Fragment() {
     
     private lateinit var storageRootRef: StorageReference
     private var callback: LogoutDetectionListener? = null
     private val handler = Handler(Looper.getMainLooper())
-    private val profileActivity:ProfileActivity? get() = (activity as? ProfileActivity)
+    private val profileActivity: ProfileActivity? get() = (activity as? ProfileActivity)
     private var _binding: FragmentProfileHomeBinding? = null
     private val binding get() = _binding!!
     private val viewModel: ProfileHomeViewModel by viewModels()
@@ -51,17 +45,16 @@ class ProfileHomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         
-//        profileActivity?.supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close)
         viewModel.userLiveData.observe(viewLifecycleOwner) {
             UpdateUI(handler).apply {
-                setTextAsync(text_name, it.name)
-                setTextAsync(text_statusmessage, it.statusMessage)
+                setTextAsync(binding.textName, it.name)
+                setTextAsync(binding.textStatusmessage, it.statusMessage)
                 setImageAsync(requireContext(),
                     it.photo,
                     R.drawable.default_profile,
-                    circularimage_profile)
+                    binding.circularimageProfile)
                 setImageAsync(requireContext(), it.backgroundPhoto, R.drawable
-                    .default_background, image_background)
+                    .default_background, binding.imageBackground)
             }
             
         }

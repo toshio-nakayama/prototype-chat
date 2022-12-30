@@ -22,7 +22,6 @@ import com.portfolio.prototype_chat.R
 import com.portfolio.prototype_chat.databinding.FragmentMessageEditBinding
 import com.portfolio.prototype_chat.utils.Constants
 import com.portfolio.prototype_chat.utils.NodeNames
-import kotlinx.android.synthetic.main.fragment_message_edit.*
 
 class MessageEditFragment : DialogFragment() {
     
@@ -102,39 +101,39 @@ class MessageEditFragment : DialogFragment() {
         val minLength = arguments?.getInt(MIN_LENGTH)!!
         val inputType = arguments?.getInt(INPUT_TYPE)!!
         setupEditText(contents, maxLength, minLength, inputType)
-        button_save.setOnClickListener {
-            val text = edit_input.text.toString().trim()
+        binding.buttonSave.setOnClickListener {
+            val text = binding.editInput.text.toString().trim()
             listener.onSaveClick(key, text)
             dismiss()
         }
-        imagebutton_close.setOnClickListener { dismiss() }
+        binding.imagebuttonClose.setOnClickListener { dismiss() }
         return super.onCreateView(inflater, container, savedInstanceState)
     }
     
     private fun setupEditText(contents: String, maxLength: Int, minLength: Int, inputType: Int) {
-        edit_input.setText(contents)
+        binding.editInput.setText(contents)
         val wordCount = contents.length
-        text_count.text = getString(R.string.word_count, wordCount, maxLength)
-        edit_input.inputType = inputType
-        edit_input.filters = arrayOf(InputFilter.LengthFilter(maxLength))
-        edit_input.addTextChangedListener(object : TextWatcher {
+        binding.textCount.text = getString(R.string.word_count, wordCount, maxLength)
+        binding.editInput.inputType = inputType
+        binding.editInput.filters = arrayOf(InputFilter.LengthFilter(maxLength))
+        binding.editInput.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             override fun afterTextChanged(p0: Editable?) {
                 val text = p0.toString()
-                text_count.text = getString(R.string.word_count, text.length, maxLength)
+                binding.textCount.text = getString(R.string.word_count, text.length, maxLength)
                 if (minLength == NO_USE) {
                     return
                 }
                 if (text.length < minLength) {
-                    textinput_message.error = getString(
+                    binding.textinputMessage.error = getString(
                         R.string.less_characters_warning,
                         Constants.MIN_LENGTH_NAME.toString()
                     )
-                    button_save.isEnabled = false
+                    binding.buttonSave.isEnabled = false
                 } else {
-                    textinput_message.error = null
-                    button_save.isEnabled = true
+                    binding.textinputMessage.error = null
+                    binding.buttonSave.isEnabled = true
                 }
             }
         })
