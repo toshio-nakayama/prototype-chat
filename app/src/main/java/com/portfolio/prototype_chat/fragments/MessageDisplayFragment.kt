@@ -12,13 +12,13 @@ import com.portfolio.prototype_chat.databinding.FragmentMessageDisplayBinding
 
 
 class MessageDisplayFragment : DialogFragment() {
-
+    
     private lateinit var binding: FragmentMessageDisplayBinding
-
+    
     companion object {
         const val TAG_DIALOG = "displayMessageFragment"
         private const val PARAM = "param"
-
+        
         fun newInstance(message: String) =
             MessageDisplayFragment().apply {
                 arguments = Bundle().apply {
@@ -26,7 +26,7 @@ class MessageDisplayFragment : DialogFragment() {
                 }
             }
     }
-
+    
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         binding = FragmentMessageDisplayBinding.inflate(layoutInflater)
         val dialog = activity?.let {
@@ -38,7 +38,7 @@ class MessageDisplayFragment : DialogFragment() {
             ViewGroup.LayoutParams.MATCH_PARENT)
         return dialog
     }
-
+    
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -49,5 +49,5 @@ class MessageDisplayFragment : DialogFragment() {
         binding.imagebuttonClose.setOnClickListener { dismiss() }
         return super.onCreateView(inflater, container, savedInstanceState)
     }
-
+    
 }

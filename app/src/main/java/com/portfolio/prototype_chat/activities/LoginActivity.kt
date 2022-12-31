@@ -29,8 +29,12 @@ class LoginActivity : AppCompatActivity() {
         auth = Firebase.auth
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
-        
-        init()
+        addValidationToViews()
+        binding.buttonLogin.setOnClickListener { mightLogin() }
+        binding.buttonSignup.setOnClickListener {
+            val intent = Intent(this@LoginActivity, SignUpActivity::class.java)
+            startActivity(intent)
+        }
     }
     
     override fun onStart() {
@@ -43,51 +47,33 @@ class LoginActivity : AppCompatActivity() {
         }
     }
     
-    private fun init() {
-        binding.buttonLogin.setOnClickListener {
-            if (connectionAvailable(applicationContext)) {
-                if (validation.validate()) {
-                    login()
-                }
-            } else {
-                ToastGenerator.Builder(applicationContext).resId(R.string.offline).build()
-            }
-        }
-        binding.buttonSignup.setOnClickListener {
-            val intent = Intent(this@LoginActivity, SignUpActivity::class.java)
-            startActivity(intent)
-        }
-        addValidationToViews()
-    }
-    
     private fun addValidationToViews() {
         validation.also { v ->
-            v.addValidation(this,
-                R.id.textinput_email,
-                Patterns.EMAIL_ADDRESS,
-                R.string.invalid_email)
-            v.addValidation(this,
-                R.id.textinput_email,
-                RegexTemplate.NOT_EMPTY,
-                R.string.empty_email)
-            v.addValidation(this,
-                R.id.textinput_password,
-                RegexTemplate.NOT_EMPTY,
-                R.string.empty_password)
+            v.addValidation(this, R.id.textinput_email, Patterns.EMAIL_ADDRESS, R.string.invalid_email)
+            v.addValidation(this, R.id.textinput_email, RegexTemplate.NOT_EMPTY, R.string.empty_email)
+            v.addValidation(this, R.id.textinput_password, RegexTemplate.NOT_EMPTY, R.string.empty_password)
+        }
+    }
+    
+    private fun mightLogin() {
+        if (!connectionAvailable(applicationContext)) {
+            ToastGenerator.Builder(applicationContext).resId(R.string.offline).build()
+        } else {
+            if (validation.validate()) {
+                login()
+            }
         }
     }
     
     private fun login() {
         val email = binding.editEmail.text.toString().trim()
         val password = binding.editPassword.text.toString().trim()
-        auth.signInWithEmailAndPassword(email, password)
-            .addOnSuccessListener {
-                val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                startActivity(intent)
-            }
-            .addOnFailureListener {
-                ToastGenerator.Builder(applicationContext).resId(R.string.login_failure).build()
-            }
+        auth.signInWithEmailAndPassword(email, password).addOnSuccessListener {
+            val intent = Intent(this@LoginActivity, MainActivity::class.java)
+            startActivity(intent)
+        }.addOnFailureListener {
+            ToastGenerator.Builder(applicationContext).resId(R.string.login_failure).build()
+        }
     }
     
 }

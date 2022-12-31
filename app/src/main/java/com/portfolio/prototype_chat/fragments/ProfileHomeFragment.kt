@@ -16,8 +16,8 @@ import com.google.firebase.storage.ktx.storage
 import com.portfolio.prototype_chat.R
 import com.portfolio.prototype_chat.activities.ProfileActivity
 import com.portfolio.prototype_chat.databinding.FragmentProfileHomeBinding
-import com.portfolio.prototype_chat.utils.UpdateUI
 import com.portfolio.prototype_chat.viewmodels.ProfileHomeViewModel
+import com.portfolio.prototype_chat.views.util.setImage
 
 class ProfileHomeFragment : Fragment() {
     
@@ -46,17 +46,12 @@ class ProfileHomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         
         viewModel.userLiveData.observe(viewLifecycleOwner) {
-            UpdateUI(handler).apply {
-                setTextAsync(binding.textName, it.name)
-                setTextAsync(binding.textStatusmessage, it.statusMessage)
-                setImageAsync(requireContext(),
-                    it.photo,
-                    R.drawable.default_profile,
-                    binding.circularimageProfile)
-                setImageAsync(requireContext(), it.backgroundPhoto, R.drawable
-                    .default_background, binding.imageBackground)
-            }
-            
+            binding.textName.text = it.name
+            binding.textStatusmessage.text = it.statusMessage
+            setImage(requireContext(), it.photo, R.drawable.default_profile,
+                binding.circularimageProfile)
+            setImage(requireContext(), it.backgroundPhoto, R.drawable.default_background,
+                binding.imageBackground)
         }
         val menuHost = requireActivity()
         menuHost.addMenuProvider(object : MenuProvider {

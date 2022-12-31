@@ -9,7 +9,7 @@ data class Message(
     val messageId: String? = "",
     val message: String? = "",
     val messageFrom: String? = "",
-    val messageTime: Long = 0
+    val messageTime: Long = 0,
 ) {
     @Exclude
     fun toMap(): Map<String, Any?> {
@@ -20,5 +20,5 @@ data class Message(
             "messageTime" to ServerValue.TIMESTAMP
         )
     }
-
+    
 }

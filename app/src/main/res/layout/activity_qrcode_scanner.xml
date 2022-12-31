@@ -5,8 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:ignore="SpeakableTextPresentCheck, ContentDescription"
-    tools:context=".activities.QRCodeScannerActivity">
+    tools:context=".activities.QRCodeScannerActivity"
+    tools:ignore="SpeakableTextPresentCheck, ContentDescription">
 
     <com.journeyapps.barcodescanner.DecoratedBarcodeView
         android:id="@+id/decoratedbarcode"
@@ -18,15 +18,15 @@
     <ImageButton
         android:id="@+id/imagebutton_close"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:background="@android:color/transparent"
         android:minWidth="48dp"
         android:minHeight="48dp"
         android:scaleType="fitCenter"
-        android:layout_alignParentStart="true"
-        app:srcCompat="@drawable/ic_close"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp" />
+        app:srcCompat="@drawable/ic_close" />
 
     <Button
         android:id="@+id/buttom_myqrcode"
@@ -35,13 +35,13 @@
         android:layout_above="@+id/text_description"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="8dp"
-        app:backgroundTint="@null"
-        android:backgroundTint="@color/darkslate_gray"
         android:background="@drawable/round_button"
+        android:backgroundTint="@color/darkslate_gray"
         android:paddingStart="12dp"
         android:paddingEnd="12dp"
         android:text="@string/my_qrcode"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        app:backgroundTint="@null" />
 
     <TextView
         android:id="@+id/text_description"

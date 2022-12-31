@@ -7,29 +7,28 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.MultiFormatWriter
 import com.google.zxing.common.BitMatrix
 import com.journeyapps.barcodescanner.BarcodeEncoder
-import com.portfolio.prototype_chat.utils.Constants
 import com.portfolio.prototype_chat.databinding.FragmentQrcodeGeneratorBinding
+import com.portfolio.prototype_chat.utils.Constants
 
 
 class QRCodeGeneratorFragment : Fragment() {
-
+    
     private var param: String? = null
     private var onDestroyListener: OnFragmentDestroyListener? = null
     private var _binding: FragmentQrcodeGeneratorBinding? = null
     private val binding get() = _binding!!
-
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             param = it.getString(Constants.ARG_PARAM)
         }
     }
-
+    
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -37,10 +36,10 @@ class QRCodeGeneratorFragment : Fragment() {
         _binding = FragmentQrcodeGeneratorBinding.inflate(inflater, container, false)
         return binding.root
     }
-
+    
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        
         param?.let {
             val bitmap = createBitmap(it)
             binding.imageQrcode.setImageBitmap(bitmap)
@@ -50,25 +49,25 @@ class QRCodeGeneratorFragment : Fragment() {
             onDestroyListener?.onFragmentDestroy()
         }
     }
-
+    
     override fun onAttach(context: Context) {
         super.onAttach(context)
         onDestroyListener = context as? OnFragmentDestroyListener
         onDestroyListener ?: throw ClassCastException("$context must implement OnDestroyListener")
     }
-
+    
     override fun onDetach() {
         super.onDetach()
         onDestroyListener = null
     }
-
+    
     private fun createBitmap(param: String): Bitmap? {
         val multiFormatWriter = MultiFormatWriter()
         val result: BitMatrix = multiFormatWriter.encode(param, BarcodeFormat.QR_CODE, 400, 400)
         val barcodeEncoder = BarcodeEncoder()
         return barcodeEncoder.createBitmap(result)
     }
-
+    
     companion object {
         fun newInstance(param: String) =
             QRCodeGeneratorFragment().apply {
@@ -77,7 +76,7 @@ class QRCodeGeneratorFragment : Fragment() {
                 }
             }
     }
-
+    
     interface OnFragmentDestroyListener {
         fun onFragmentDestroy()
     }

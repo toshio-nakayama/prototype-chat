@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.mikhaellopez.circularimageview.CircularImageView
-            android:id="@+id/image_profile"
+            android:id="@+id/circularimage_profile"
             android:layout_width="75dp"
             android:layout_height="75dp"
             android:src="@drawable/default_profile"
@@ -56,8 +56,8 @@
             <TextView
                 android:id="@+id/text_time"
                 android:layout_width="wrap_content"
-                android:layout_gravity="center"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 tools:text="00:00" />
 
             <RelativeLayout

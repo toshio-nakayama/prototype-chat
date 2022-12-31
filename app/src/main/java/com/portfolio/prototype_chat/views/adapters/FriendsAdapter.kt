@@ -7,14 +7,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.ktx.storage
 import com.portfolio.prototype_chat.R
 import com.portfolio.prototype_chat.activities.FriendProfileActivity
 import com.portfolio.prototype_chat.databinding.FriendsListLayoutBinding
 import com.portfolio.prototype_chat.models.db.Friend
 import com.portfolio.prototype_chat.utils.Extras
-import com.portfolio.prototype_chat.utils.glideSupport
+import com.portfolio.prototype_chat.views.util.setImage
 
 class FriendsAdapter(val context: Context) :
     ListAdapter<Friend, FriendsAdapter.ViewHolder>(DIFF_CALLBACK) {
@@ -26,11 +24,8 @@ class FriendsAdapter(val context: Context) :
             binding.textName.text = item.name
             binding.textStatusmessage.text = item.statusMessage
             item.photo?.let {
-                Firebase.storage.getReferenceFromUrl(item.photo)
-                    .downloadUrl.addOnSuccessListener {
-                        glideSupport(context, it, R.drawable.default_profile,
-                            binding.circularimageProfile)
-                    }
+                setImage(context, it, R.drawable.default_profile,
+                    binding.circularimageProfile)
             }
             binding.linearRow.setOnClickListener {
                 val intent = Intent(context, FriendProfileActivity::class.java).apply {

@@ -135,7 +135,7 @@
             android:layout_gravity="end|bottom"
             android:layout_margin="8dp"
             android:layout_marginBottom="100dp"
-            android:backgroundTint="@color/orange_soda"
+            android:backgroundTint="@color/teal_200"
             android:contentDescription="@string/launch_qr_scanner"
             android:src="@drawable/ic_person_add"
             app:borderWidth="0dp"

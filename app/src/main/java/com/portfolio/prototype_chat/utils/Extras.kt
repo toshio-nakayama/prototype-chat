@@ -1,7 +1,7 @@
 package com.portfolio.prototype_chat.utils
 
 class Extras {
-    companion object{
+    companion object {
         const val MIN_LENGTH = "minLength"
         const val INPUT_TYPE = "inputType"
         const val PHOTO_NAME = "photoName"

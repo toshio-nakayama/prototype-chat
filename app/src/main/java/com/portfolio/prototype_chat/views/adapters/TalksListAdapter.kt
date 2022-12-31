@@ -8,15 +8,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.ktx.storage
 import com.portfolio.prototype_chat.R
 import com.portfolio.prototype_chat.activities.MessagesActivity
 import com.portfolio.prototype_chat.databinding.TalkListLayoutBinding
 import com.portfolio.prototype_chat.models.db.Talk
 import com.portfolio.prototype_chat.utils.Extras
-import com.portfolio.prototype_chat.utils.getTimeAgo
-import com.portfolio.prototype_chat.utils.glideSupport
+import com.portfolio.prototype_chat.utils.formatMessageTime
+import com.portfolio.prototype_chat.views.util.setImage
 
 class TalksListAdapter(val context: Context) :
     ListAdapter<Talk, TalksListAdapter.ViewHolder>(DIFF_CALLBACK) {
@@ -24,16 +22,14 @@ class TalksListAdapter(val context: Context) :
     inner class ViewHolder(val binding: TalkListLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
         
-        fun bindTo(item: Talk) {
+        fun bind(item: Talk) {
             binding.textName.text = item.userName
             item.photo?.let {
-                Firebase.storage.getReferenceFromUrl(item.photo)
-                    .downloadUrl.addOnSuccessListener {
-                        glideSupport(context, it, R.drawable.default_profile, binding.imageProfile)
-                    }
+                setImage(context, it, R.drawable.default_profile,
+                    binding.circularimageProfile)
             }
             binding.textMessage.text = item.lastMessage
-            binding.textTime.text = item.time?.let{getTimeAgo(it.toLong())} ?:""
+            binding.textTime.text = item.time?.let { formatMessageTime(context, it.toLong()) } ?: ""
             if (item.unreadCount == 0) {
                 binding.relativeUnread.visibility = View.GONE
             } else {
@@ -57,7 +53,7 @@ class TalksListAdapter(val context: Context) :
     }
     
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bindTo(getItem(position))
+        holder.bind(getItem(position))
     }
     
     override fun submitList(list: List<Talk>?) {

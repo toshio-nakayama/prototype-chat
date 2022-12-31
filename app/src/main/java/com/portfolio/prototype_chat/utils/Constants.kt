@@ -1,7 +1,7 @@
 package com.portfolio.prototype_chat.utils
 
 class Constants {
-    companion object{
+    companion object {
         const val MIN_LENGTH_NAME = 1
         const val IMAGES = "images"
         const val EXT_JPG = ".jpg"

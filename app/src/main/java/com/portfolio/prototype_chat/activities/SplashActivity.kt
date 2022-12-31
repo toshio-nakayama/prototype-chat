@@ -19,29 +19,29 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        
         supportActionBar?.hide()
         animation = AnimationUtils.loadAnimation(this, R.anim.splash_animation)
         animation.setAnimationListener(object : Animation.AnimationListener {
             override fun onAnimationStart(p0: Animation?) {
-
+            
             }
-
+            
             override fun onAnimationEnd(p0: Animation?) {
                 startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
                 finish()
             }
-
+            
             override fun onAnimationRepeat(p0: Animation?) {
-
+            
             }
-
+            
         })
     }
-
+    
     override fun onStart() {
         super.onStart()
         binding.imageLogo.startAnimation(animation)
     }
-
+    
 }

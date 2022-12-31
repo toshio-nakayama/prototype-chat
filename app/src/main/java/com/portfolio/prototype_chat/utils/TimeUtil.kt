@@ -1,13 +1,15 @@
 package com.portfolio.prototype_chat.utils
 
+import java.text.SimpleDateFormat
 import java.time.DayOfWeek
 import java.time.Instant
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
 import java.time.temporal.TemporalAdjusters
+import java.util.*
 
-private fun getZonedDateTime(millis: Long): ZonedDateTime {
+fun getZonedDateTime(millis: Long): ZonedDateTime {
     return ZonedDateTime.ofInstant(Instant.ofEpochMilli(millis), ZoneId.systemDefault())
 }
 
@@ -27,8 +29,8 @@ fun isSameYear(millis1: Long, millis2: Long): Boolean {
 }
 
 fun isSameWeek(millis1: Long, millis2: Long): Boolean {
-    val startDay1 = startDayOfWeek(getZonedDateTime(millis1), DayOfWeek.MONDAY)
-    val startDay2 = startDayOfWeek(getZonedDateTime(millis2), DayOfWeek.MONDAY)
+    val startDay1 = startDayOfWeek(getZonedDateTime(startTimeOfDay(millis1)), DayOfWeek.MONDAY)
+    val startDay2 = startDayOfWeek(getZonedDateTime(startTimeOfDay(millis2)), DayOfWeek.MONDAY)
     return startDay1.compareTo(startDay2) == 0
 }
 
@@ -42,4 +44,10 @@ fun isYesterday(millis: Long): Boolean {
     val day = getZonedDateTime(startTimeOfDay(millis))
     val yesterday = getZonedDateTime(startTimeOfDay(System.currentTimeMillis())).minusDays(1)
     return day.compareTo(yesterday) == 0
+}
+
+fun timestampToString(millis: Long, pattern: String): String {
+    val sdf = SimpleDateFormat(pattern, Locale.JAPAN)
+    val dateTime = sdf.format(Date(millis))
+    return dateTime.split(" ")[1]
 }

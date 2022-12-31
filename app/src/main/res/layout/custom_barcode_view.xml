@@ -14,8 +14,8 @@
     <View
         android:layout_width="305dp"
         android:layout_height="305dp"
-        android:background="@drawable/qr_code_frame"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        android:background="@drawable/qr_code_frame">
 
     </View>
 

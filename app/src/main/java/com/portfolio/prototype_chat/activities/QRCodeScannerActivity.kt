@@ -11,15 +11,15 @@ import com.portfolio.prototype_chat.fragments.QRCodeGeneratorFragment
 
 class QRCodeScannerActivity : AppCompatActivity(),
     QRCodeGeneratorFragment.OnFragmentDestroyListener {
-
+    
     private lateinit var capture: CaptureManager
     private lateinit var binding: ActivityQrcodeScannerBinding
-
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityQrcodeScannerBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        
         supportActionBar?.hide()
         binding.imagebuttonClose.setOnClickListener { finish() }
         capture = CaptureManager(this, binding.decoratedbarcode)
@@ -38,20 +38,20 @@ class QRCodeScannerActivity : AppCompatActivity(),
             }
         }
     }
-
+    
     override fun onResume() {
         super.onResume()
         capture.onResume()
     }
-
+    
     override fun onPause() {
         super.onPause()
         capture.onPause()
     }
-
+    
     override fun onFragmentDestroy() {
         binding.buttomMyqrcode.isEnabled = true
         capture.onResume()
     }
-
+    
 }

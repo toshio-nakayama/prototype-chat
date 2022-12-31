@@ -13,12 +13,12 @@ import com.portfolio.prototype_chat.viewmodels.FriendsViewModel
 import com.portfolio.prototype_chat.views.adapters.FriendsAdapter
 
 class FriendsFragment : Fragment() {
-
+    
     private var _binding: FragmentFriendsBinding? = null
     private val binding get() = _binding!!
     private val viewModel: FriendsViewModel by viewModels()
-
-
+    
+    
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -27,10 +27,10 @@ class FriendsFragment : Fragment() {
         _binding = FragmentFriendsBinding.inflate(inflater, container, false)
         return binding.root
     }
-
+    
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        
         binding.recyclerFriends.layoutManager = LinearLayoutManager(context).apply {
             reverseLayout = true
             stackFromEnd = true
@@ -45,7 +45,7 @@ class FriendsFragment : Fragment() {
             viewModel.friendListLiveData.notifyObserver()
         }
     }
-
+    
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

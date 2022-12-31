@@ -12,12 +12,12 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.portfolio.prototype_chat.databinding.ActivityMessagesBinding
+import com.portfolio.prototype_chat.models.db.Message
 import com.portfolio.prototype_chat.utils.Extras
 import com.portfolio.prototype_chat.utils.NodeNames
-import com.portfolio.prototype_chat.databinding.ActivityMessagesBinding
-import com.portfolio.prototype_chat.views.adapters.MessagesAdapter
-import com.portfolio.prototype_chat.models.db.Message
 import com.portfolio.prototype_chat.utils.updateTalkDetails
+import com.portfolio.prototype_chat.views.adapters.MessagesAdapter
 
 class MessagesActivity : AppCompatActivity() {
     
@@ -57,6 +57,7 @@ class MessagesActivity : AppCompatActivity() {
             val pushId = pushRef.key.toString()
             sendMessage(binding.editMessage.text.toString(), pushId)
         }
+        supportActionBar?.setDisplayShowTitleEnabled(false)
     }
     
     override fun onBackPressed() {
@@ -66,7 +67,9 @@ class MessagesActivity : AppCompatActivity() {
     }
     
     private fun sendMessage(message: String, pushId: String) {
-        if(message.isBlank()){return}
+        if (message.isBlank()) {
+            return
+        }
         val messageModel = Message(pushId, message, hostId)
         val postValues = messageModel.toMap()
         val currentUserRoot = "${NodeNames.MESSAGES}/$hostId/$guestId/"
@@ -90,7 +93,7 @@ class MessagesActivity : AppCompatActivity() {
                 val message = snapshot.getValue(Message::class.java)
                 message?.let { messageList.add(message) }
                 adapter.notifyDataSetChanged()
-                binding.recyclerMessages.scrollToPosition(messageList.size -1)
+                binding.recyclerMessages.scrollToPosition(messageList.size - 1)
                 binding.swiperefreshMessages.isRefreshing = false
             }
             

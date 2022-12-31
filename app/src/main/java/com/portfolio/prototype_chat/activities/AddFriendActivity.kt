@@ -2,8 +2,6 @@ package com.portfolio.prototype_chat.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.auth.ktx.auth
@@ -15,13 +13,12 @@ import com.portfolio.prototype_chat.R
 import com.portfolio.prototype_chat.databinding.ActivityAddFriendBinding
 import com.portfolio.prototype_chat.utils.Extras
 import com.portfolio.prototype_chat.utils.NodeNames
-import com.portfolio.prototype_chat.utils.UpdateUI
 import com.portfolio.prototype_chat.viewmodels.AddFriendViewModel
+import com.portfolio.prototype_chat.views.util.setImage
 
 class AddFriendActivity : AppCompatActivity() {
     
     private lateinit var talkRef: DatabaseReference
-    private val handler: Handler = Handler(Looper.getMainLooper())
     private lateinit var binding: ActivityAddFriendBinding
     
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,13 +31,8 @@ class AddFriendActivity : AppCompatActivity() {
         val viewModelFactory = AddFriendViewModel.Factory(guestId)
         val viewModel = ViewModelProvider(this, viewModelFactory)[AddFriendViewModel::class.java]
         viewModel.userLiveData.observe(this) {
-            UpdateUI(handler).apply {
-                setTextAsync(binding.textName, it.name)
-                setImageAsync(applicationContext,
-                    it.photo,
-                    R.drawable.default_profile,
-                    binding.circularimageProfile)
-            }
+            binding.textName.text = it.name
+            setImage(applicationContext, it.photo, R.drawable.default_profile, binding.circularimageProfile)
         }
         binding.imagebuttonClose.setOnClickListener { finish() }
         binding.imagebuttonAdd.setOnClickListener { addFriend(guestId) }
@@ -49,10 +41,8 @@ class AddFriendActivity : AppCompatActivity() {
     
     private fun addFriend(guestId: String) {
         val hostId = Firebase.auth.currentUser?.uid ?: return
-        val childUpdates = hashMapOf<String, Any>(
-            "/$hostId/$guestId/${NodeNames.TIME_STAMP}" to ServerValue.TIMESTAMP,
-            "/$guestId/$hostId/${NodeNames.TIME_STAMP}" to ServerValue.TIMESTAMP
-        )
+        val childUpdates = hashMapOf<String, Any>("/$hostId/$guestId/${NodeNames.TIME_STAMP}" to ServerValue.TIMESTAMP,
+            "/$guestId/$hostId/${NodeNames.TIME_STAMP}" to ServerValue.TIMESTAMP)
         talkRef.updateChildren(childUpdates).addOnSuccessListener {
             val intent = Intent(this@AddFriendActivity, MainActivity::class.java)
             startActivity(intent)

@@ -18,5 +18,5 @@ class ProfileHomeViewModel : ViewModel() {
     private val userRef: DatabaseReference = rootRef.child(NodeNames.USERS).child(currentUser!!.uid)
     val userLiveData: LiveData<User> =
         Transformations.map(ValueEventLiveData(userRef)) { it.getValue(User::class.java) }
-
+    
 }

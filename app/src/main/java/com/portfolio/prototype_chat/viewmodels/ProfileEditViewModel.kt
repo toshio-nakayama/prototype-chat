@@ -8,17 +8,15 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.StorageReference
-import com.google.firebase.storage.ktx.storage
 import com.portfolio.prototype_chat.models.db.User
 import com.portfolio.prototype_chat.networks.ValueEventLiveData
 import com.portfolio.prototype_chat.utils.NodeNames
 
-class ProfileEditViewModel : ViewModel(){
+class ProfileEditViewModel : ViewModel() {
     private val currentUser: FirebaseUser? = Firebase.auth.currentUser
     private val rootRef: DatabaseReference = Firebase.database.reference
     private val userRef: DatabaseReference = rootRef.child(NodeNames.USERS).child(currentUser!!.uid)
-    val userLiveData: LiveData<User> = Transformations.map(ValueEventLiveData(userRef)){it.getValue(User::class.java)}
-
-
+    val userLiveData: LiveData<User> = Transformations.map(ValueEventLiveData(userRef)) { it.getValue(User::class.java) }
+    
+    
 }

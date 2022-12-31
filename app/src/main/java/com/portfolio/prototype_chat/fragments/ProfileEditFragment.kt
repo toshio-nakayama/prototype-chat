@@ -4,8 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.provider.MediaStore
 import android.text.InputType
 import android.view.LayoutInflater
@@ -26,15 +24,14 @@ import com.portfolio.prototype_chat.databinding.FragmentProfileEditBinding
 import com.portfolio.prototype_chat.utils.Constants
 import com.portfolio.prototype_chat.utils.Extras
 import com.portfolio.prototype_chat.utils.NodeNames
-import com.portfolio.prototype_chat.utils.UpdateUI
 import com.portfolio.prototype_chat.viewmodels.ProfileEditViewModel
+import com.portfolio.prototype_chat.views.util.setImage
 
 class ProfileEditFragment : Fragment(), MessageEditFragment.NoticeDialogListener {
     
     private lateinit var rootRef: DatabaseReference
     private lateinit var userRef: DatabaseReference
     private lateinit var storageRootRef: StorageReference
-    private val handler: Handler = Handler(Looper.getMainLooper())
     private var _binding: FragmentProfileEditBinding? = null
     private val binding get() = _binding!!
     private val viewModel: ProfileEditViewModel by viewModels()
@@ -83,16 +80,12 @@ class ProfileEditFragment : Fragment(), MessageEditFragment.NoticeDialogListener
         userRef = rootRef.child(NodeNames.USERS)
         storageRootRef = Firebase.storage.reference
         viewModel.userLiveData.observe(viewLifecycleOwner) {
-            UpdateUI(handler).apply {
-                setTextAsync(binding.textName, it.name)
-                setTextAsync(binding.textStatusmessage, it.statusMessage)
-                setImageAsync(requireContext(),
-                    it.photo,
-                    R.drawable.default_profile,
-                    binding.circularimageProfile)
-                setImageAsync(requireContext(), it.backgroundPhoto, R.drawable
-                    .default_background, binding.imageBackground)
-            }
+            binding.textName.text = it.name
+            binding.textStatusmessage.text = it.statusMessage
+            setImage(requireContext(), it.photo, R.drawable.default_profile,
+                binding.circularimageProfile)
+            setImage(requireContext(), it.backgroundPhoto, R.drawable.default_background,
+                binding.imageBackground)
         }
     }
     

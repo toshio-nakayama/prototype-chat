@@ -11,7 +11,6 @@
     <color name="link">#0000ff</color>
     <color name="gray">#FFAAAAAA</color>
     <color name="darkslate_gray">#2f4f4f</color>
-    <color name="orange_soda">#dc524c</color>
     <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">#fff</color>
     <color name="dark_gray">#464646</color>
 </resources>

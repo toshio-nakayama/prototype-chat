@@ -2,8 +2,6 @@ package com.portfolio.prototype_chat.fragments
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,15 +25,14 @@ import com.portfolio.prototype_chat.models.db.User
 import com.portfolio.prototype_chat.utils.Extras
 import com.portfolio.prototype_chat.utils.NodeNames
 import com.portfolio.prototype_chat.utils.ToastGenerator
-import com.portfolio.prototype_chat.utils.UpdateUI
 import com.portfolio.prototype_chat.viewmodels.HomeViewModel
+import com.portfolio.prototype_chat.views.util.setImage
 
 class HomeFragment : Fragment() {
     
     private lateinit var rootRef: DatabaseReference
     private lateinit var userRef: DatabaseReference
     private lateinit var talkRef: DatabaseReference
-    private val handler: Handler = Handler(Looper.getMainLooper())
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private val viewModel: HomeViewModel by viewModels()
@@ -61,20 +58,24 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         
         viewModel.userLiveData.observe(viewLifecycleOwner) {
-            UpdateUI(handler).apply {
-                setTextAsync(binding.textName, it.name)
-                setTextAsync(binding.textStatusmessage, it.statusMessage)
-                setImageAsync(requireContext(),
-                    it.photo,
-                    R.drawable.default_profile,
-                    binding.circularimageProfile)
-            }
+            binding.textName.text = it.name
+            binding.textStatusmessage.text = it.statusMessage
+            setImage(requireContext(), it.photo, R.drawable.default_profile, binding
+                .circularimageProfile)
         }
         viewModel.talkLiveData.observe(viewLifecycleOwner) {
             val count = it.childrenCount
             binding.textFriendscount.text = count.toString()
         }
-        init()
+        binding.textTooltip.startAnimation(AnimationUtils.loadAnimation(context,
+            R.anim.updown_animation))
+        binding.linearFriendslink.setOnClickListener {
+            it.findNavController().navigate(R.id.action_navigation_home_to_navigation_friends)
+        }
+        binding.linearProfile.setOnClickListener {
+            startActivity(Intent(activity, ProfileActivity::class.java))
+        }
+        binding.floatingActionButtonAddFriend.setOnClickListener { launchBarcodeScanner() }
     }
     
     override fun onDestroyView() {
@@ -82,25 +83,6 @@ class HomeFragment : Fragment() {
         _binding = null
     }
     
-    private fun init() {
-        binding.textTooltip.startAnimation(AnimationUtils.loadAnimation(context,
-            R.anim.updown_animation))
-        binding.linearFriendslink.setOnClickListener {
-            it.findNavController().navigate(R.id.action_navigation_home_to_navigation_friends)
-        }
-        
-        binding.linearProfile.setOnClickListener {
-            startActivity(Intent(activity, ProfileActivity::class.java))
-        }
-        
-        binding.floatingActionButtonAddFriend.setOnClickListener {
-            barcodeLauncher.launch(ScanOptions().apply {
-                setOrientationLocked(false)
-                setBeepEnabled(false)
-                captureActivity = QRCodeScannerActivity::class.java
-            })
-        }
-    }
     
     private val barcodeLauncher: ActivityResultLauncher<ScanOptions> =
         registerForActivityResult(ScanContract()) { result ->
@@ -109,6 +91,15 @@ class HomeFragment : Fragment() {
             }
             
         }
+    
+    private fun launchBarcodeScanner() {
+        barcodeLauncher.launch(ScanOptions().apply {
+            setOrientationLocked(false)
+            setBeepEnabled(false)
+            captureActivity = QRCodeScannerActivity::class.java
+        })
+    }
+    
     
     private fun mightAddFriend(id: String) {
         val hostId = Firebase.auth.currentUser?.uid ?: return
