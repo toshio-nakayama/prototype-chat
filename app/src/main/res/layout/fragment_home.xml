@@ -35,7 +35,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:fontFamily="sans-serif"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textStyle="bold"
                 tools:text="名前" />
 
@@ -67,6 +67,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
+        android:background="@drawable/round_corner_rectangle"
         android:clickable="true"
         android:focusable="true"
         android:orientation="horizontal"
@@ -75,18 +76,21 @@
 
         <TextView
             android:layout_width="266dp"
-            android:layout_height="75dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:fontFamily="sans-serif"
             android:gravity="center_vertical"
+            android:paddingStart="8dp"
             android:text="@string/friends_list"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:ignore="RtlSymmetry" />
 
         <TextView
             android:id="@+id/text_friendscount"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_gravity="center"
             android:fontFamily="sans-serif"
             android:gravity="end|center_vertical"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
@@ -139,6 +143,7 @@
             android:contentDescription="@string/launch_qr_scanner"
             android:src="@drawable/ic_person_add"
             app:borderWidth="0dp"
+            app:fabSize="auto"
             app:rippleColor="@color/white"
             app:tint="@color/white" />
     </RelativeLayout>

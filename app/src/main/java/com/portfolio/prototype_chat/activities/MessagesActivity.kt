@@ -57,13 +57,22 @@ class MessagesActivity : AppCompatActivity() {
             val pushId = pushRef.key.toString()
             sendMessage(binding.editMessage.text.toString(), pushId)
         }
-        supportActionBar?.setDisplayShowTitleEnabled(false)
+        supportActionBar?.apply {
+            setDisplayShowTitleEnabled(false)
+            setDisplayHomeAsUpEnabled(true)
+        }
+        
     }
     
     override fun onBackPressed() {
         super.onBackPressed()
         rootRef.child(NodeNames.TALK).child(hostId).child(guestId)
             .child(NodeNames.UNREAD_COUNT).setValue(0)
+    }
+    
+    override fun onSupportNavigateUp(): Boolean {
+        finish()
+        return super.onSupportNavigateUp()
     }
     
     private fun sendMessage(message: String, pushId: String) {
