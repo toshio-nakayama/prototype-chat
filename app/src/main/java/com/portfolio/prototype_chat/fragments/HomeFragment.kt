@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
 import androidx.activity.result.ActivityResultLauncher
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -67,8 +66,6 @@ class HomeFragment : Fragment() {
             val count = it.childrenCount
             binding.textFriendscount.text = count.toString()
         }
-        binding.textTooltip.startAnimation(AnimationUtils.loadAnimation(context,
-            R.anim.updown_animation))
         binding.linearFriendslink.setOnClickListener {
             it.findNavController().navigate(R.id.action_navigation_home_to_navigation_friends)
         }

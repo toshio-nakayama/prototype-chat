@@ -66,18 +66,21 @@
         android:id="@+id/linear_friendslink"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="60dp"
         android:background="@drawable/round_corner_rectangle"
         android:clickable="true"
         android:focusable="true"
         android:orientation="horizontal"
+        android:paddingVertical="4dp"
+        android:weightSum="1"
         app:layout_constraintTop_toBottomOf="@+id/linear_profile">
 
 
         <TextView
-            android:layout_width="266dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_weight="1"
             android:fontFamily="sans-serif"
             android:gravity="center_vertical"
             android:paddingStart="8dp"
@@ -104,49 +107,19 @@
             android:src="@drawable/ic_arrow_right" />
     </LinearLayout>
 
-    <RelativeLayout
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/floating_action_button_add_friend"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="4dp"
-        android:layout_marginBottom="32dp"
-        android:orientation="vertical"
+        android:layout_gravity="end"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@color/teal_200"
+        android:text="@string/add_friend"
+        app:icon="@drawable/ic_add_circle_outline"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-
-        <TextView
-            android:id="@+id/text_tooltip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/speech_bubble_above"
-            android:fontFamily="sans-serif"
-            android:paddingStart="4dp"
-            android:paddingTop="4dp"
-            android:paddingEnd="4dp"
-            android:paddingBottom="16dp"
-            android:text="@string/add_friends_with_qrcode"
-            android:textColor="@color/black"
-            android:textSize="11sp"
-            android:textStyle="bold" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floating_action_button_add_friend"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_below="@id/text_tooltip"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="end|bottom"
-            android:layout_margin="8dp"
-            android:layout_marginBottom="100dp"
-            android:backgroundTint="@color/teal_200"
-            android:contentDescription="@string/launch_qr_scanner"
-            android:src="@drawable/ic_person_add"
-            app:borderWidth="0dp"
-            app:fabSize="auto"
-            app:rippleColor="@color/white"
-            app:tint="@color/white" />
-    </RelativeLayout>
+        app:layout_constraintEnd_toEndOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
