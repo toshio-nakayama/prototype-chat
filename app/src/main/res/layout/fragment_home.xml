@@ -115,11 +115,13 @@
         android:layout_gravity="end"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="16dp"
-        android:backgroundTint="@color/teal_200"
+        android:backgroundTint="@color/dark_gray"
         android:text="@string/add_friend"
+        android:textColor="@color/teal_200"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textStyle="bold"
         app:icon="@drawable/ic_add_circle_outline"
+        app:iconTint="@color/teal_200"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

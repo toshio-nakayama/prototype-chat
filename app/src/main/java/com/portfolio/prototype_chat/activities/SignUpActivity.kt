@@ -18,6 +18,7 @@ import com.portfolio.prototype_chat.models.db.User
 import com.portfolio.prototype_chat.utils.NodeNames
 import com.portfolio.prototype_chat.utils.ToastGenerator
 import com.portfolio.prototype_chat.utils.connectionAvailable
+import io.github.muddz.styleabletoast.StyleableToast
 
 class SignUpActivity : AppCompatActivity() {
     private val validation: AwesomeValidation = AwesomeValidation(ValidationStyle.TEXT_INPUT_LAYOUT)
@@ -56,7 +57,7 @@ class SignUpActivity : AppCompatActivity() {
     
     private fun addValidationToViews() {
         validation.also { v ->
-            v.addValidation(this, R.id.textinput_name, "[!-~]{1,20}", R.string.err_name)
+            v.addValidation(this, R.id.textinput_name, "[^ |　]{1,20}", R.string.err_name)
             v.addValidation(this, R.id.textinput_name, RegexTemplate.NOT_EMPTY, R.string.err_name_blank)
             v.addValidation(this, R.id.textinput_email, Patterns.EMAIL_ADDRESS, R.string.err_email)
             v.addValidation(this, R.id.textinput_email, RegexTemplate.NOT_EMPTY, R.string.err_email_blank)
@@ -96,7 +97,7 @@ class SignUpActivity : AppCompatActivity() {
     private fun writeNewUser(userId: String, name: String, email: String) {
         val user = User(name = name, email = email)
         database.child(NodeNames.USERS).child(userId).setValue(user).addOnSuccessListener {
-            ToastGenerator.Builder(applicationContext).resId(R.string.signup_successfully).build()
+            StyleableToast.makeText(this, getString(R.string.signup_successfully), R.style.ToastStyle).show()
             startActivity(Intent(this@SignUpActivity, LoginActivity::class.java))
         }
     }
