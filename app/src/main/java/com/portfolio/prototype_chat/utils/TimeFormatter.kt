@@ -16,15 +16,15 @@ fun formatDayOfWeek(epochMillis: Long): String {
     return zonedDt.dayOfWeek.getDisplayName(TextStyle.FULL, Locale.JAPAN)
 }
 
-fun formatMMDD(epochMillis: Long): String {
+fun formatMD(epochMillis: Long): String {
     val zonedDt = getZonedDateTime(epochMillis)
-    val formatter = DateTimeFormatter.ofPattern("MM/dd")
+    val formatter = DateTimeFormatter.ofPattern("M/d")
     return zonedDt.format(formatter)
 }
 
-fun formatMMDDYY(epochMillis: Long): String {
+fun formatMDYY(epochMillis: Long): String {
     val zonedDt = getZonedDateTime(epochMillis)
-    val formatter = DateTimeFormatter.ofPattern("MM/dd/YY")
+    val formatter = DateTimeFormatter.ofPattern("M/d/YY")
     return zonedDt.format(formatter)
 }
 

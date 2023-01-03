@@ -45,9 +45,9 @@ fun formatMessageTime(context: Context, epochMillis: Long): String {
     } else if (isSameWeek(epochMillis, currentMillis)) {
         formatDayOfWeek(epochMillis)
     } else if (isSameYear(epochMillis, currentMillis)) {
-        formatMMDD(epochMillis)
+        formatMD(epochMillis)
     } else {
-        formatMMDDYY(epochMillis)
+        formatMDYY(epochMillis)
     }
     
 }
