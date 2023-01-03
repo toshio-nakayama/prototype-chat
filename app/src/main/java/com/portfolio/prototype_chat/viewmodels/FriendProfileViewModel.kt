@@ -11,13 +11,13 @@ import com.portfolio.prototype_chat.models.db.User
 import com.portfolio.prototype_chat.networks.SingleValueEventLiveData
 import com.portfolio.prototype_chat.utils.NodeNames
 
-class FriendProfileViewModel(val userId: String) : ViewModel() {
+class FriendProfileViewModel(private val userId: String) : ViewModel() {
     private val rootRef: DatabaseReference = Firebase.database.reference
     private val userRef: DatabaseReference = rootRef.child(NodeNames.USERS).child(userId)
     val userLiveData: LiveData<User> =
         Transformations.map(SingleValueEventLiveData(userRef)) { it.getValue(User::class.java) }
     
-    class Factory(val userId: String) : ViewModelProvider.Factory {
+    class Factory(private val userId: String) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(FriendProfileViewModel::class.java)) {
                 @Suppress("UNCHECKED_CAST")

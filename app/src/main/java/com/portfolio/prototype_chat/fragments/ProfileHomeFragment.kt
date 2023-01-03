@@ -2,8 +2,6 @@ package com.portfolio.prototype_chat.fragments
 
 import android.content.Context
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.*
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
@@ -14,7 +12,6 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
 import com.portfolio.prototype_chat.R
-import com.portfolio.prototype_chat.activities.ProfileActivity
 import com.portfolio.prototype_chat.databinding.FragmentProfileHomeBinding
 import com.portfolio.prototype_chat.viewmodels.ProfileHomeViewModel
 import com.portfolio.prototype_chat.views.util.setImage
@@ -23,8 +20,6 @@ class ProfileHomeFragment : Fragment() {
     
     private lateinit var storageRootRef: StorageReference
     private var callback: LogoutDetectionListener? = null
-    private val handler = Handler(Looper.getMainLooper())
-    private val profileActivity: ProfileActivity? get() = (activity as? ProfileActivity)
     private var _binding: FragmentProfileHomeBinding? = null
     private val binding get() = _binding!!
     private val viewModel: ProfileHomeViewModel by viewModels()
