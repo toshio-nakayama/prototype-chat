@@ -3,6 +3,8 @@
     <array name="preloaded_fonts" translatable="false">
         <item>@font/</item>
         <item>@font/archivo_black</item>
+        <item>@font/gothic_a1_thin</item>
+        <item>@font/michroma</item>
         <item>@font/press_start_2p</item>
         <item>@font/rammetto_one</item>
         <item>@font/rowdies_light</item>

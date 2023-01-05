@@ -37,11 +37,11 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="8dp"
         android:background="@drawable/round_button"
-        android:backgroundTint="@color/dark_gray"
+        android:backgroundTint="@color/white"
         android:paddingStart="12dp"
         android:paddingEnd="12dp"
         android:text="@string/my_qrcode"
-        android:textColor="@color/white"
+        android:textColor="@color/default_text_color"
         app:backgroundTint="@null" />
 
     <TextView
