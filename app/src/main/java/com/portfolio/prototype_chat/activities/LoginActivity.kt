@@ -35,6 +35,7 @@ class LoginActivity : AppCompatActivity() {
         binding.buttonSignup.setOnClickListener {
             val intent = Intent(this@LoginActivity, SignUpActivity::class.java)
             startActivity(intent)
+            finish()
         }
         
         binding.buttonLogin.setOnClickListener {
@@ -65,8 +66,10 @@ class LoginActivity : AppCompatActivity() {
         val password = binding.editPassword.text.toString().trim()
         firebaseAuth.signInWithEmailAndPassword(email, password)
             .addOnSuccessListener {
+                binding.progressbarLayout.progressbar.visibility = View.GONE
                 val intent = Intent(this@LoginActivity, MainActivity::class.java)
                 startActivity(intent)
+                finish()
             }
             .addOnFailureListener {
                 binding.progressbarLayout.progressbar.visibility = View.GONE
