@@ -58,4 +58,5 @@
     <string name="yesterday">昨日</string>
     <string name="add_friend">ともだち追加</string>
     <string name="continue_with_other_account">他のアカウントで続行</string>
+    <string name="signup_failure">アカウントを作成中にエラーが発生しました。もう一度お試しください。</string>
 </resources>

@@ -3,6 +3,7 @@ package com.portfolio.prototype_chat.activities
 import android.content.Intent
 import android.os.Bundle
 import android.util.Patterns
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.basgeekball.awesomevalidation.AwesomeValidation
 import com.basgeekball.awesomevalidation.ValidationStyle
@@ -34,7 +35,15 @@ class SignUpActivity : AppCompatActivity() {
         addValidationToViews()
         setSupportActionBar(binding.toolbar)
         setupActionBar()
-        binding.buttonSubmit.setOnClickListener { mightSignUp() }
+        binding.buttonSubmit.setOnClickListener {
+            if (validation.validate()) {
+                if (!connectionAvailable(applicationContext)) {
+                    ToastGenerator.Builder(applicationContext).resId(R.string.offline).build()
+                } else {
+                    firebaseSignup()
+                }
+            }
+        }
     }
     
     override fun onStart() {
@@ -69,20 +78,14 @@ class SignUpActivity : AppCompatActivity() {
         }
     }
     
-    private fun mightSignUp() {
-        if (!connectionAvailable(applicationContext)) {
-            ToastGenerator.Builder(applicationContext).resId(R.string.offline).build()
-        } else if (validation.validate()) {
-            val name = binding.editName.text.toString().trim()
-            val email = binding.editEmail.text.toString().trim()
-            val password = binding.editPassword.text.toString().trim()
-            signUp(name, email, password)
-        }
-    }
-    
-    private fun signUp(name: String, email: String, password: String) {
+    private fun firebaseSignup() {
+        binding.progressbarLayout.progressbar.visibility = View.VISIBLE
+        val name = binding.editName.text.toString().trim()
+        val email = binding.editEmail.text.toString().trim()
+        val password = binding.editPassword.text.toString().trim()
         Firebase.auth.createUserWithEmailAndPassword(email, password)
             .addOnSuccessListener {
+                binding.progressbarLayout.progressbar.visibility = View.GONE
                 val currentUser = Firebase.auth.currentUser
                 val profileUpdates = userProfileChangeRequest {
                     displayName = name
@@ -91,6 +94,9 @@ class SignUpActivity : AppCompatActivity() {
                     ?.addOnSuccessListener {
                         writeNewUser(currentUser.uid, name, email)
                     }
+            }.addOnFailureListener {
+                binding.progressbarLayout.progressbar.visibility = View.GONE
+                ToastGenerator.Builder(applicationContext).resId(R.string.signup_failure).build()
             }
     }
     

@@ -9,7 +9,10 @@
     tools:context=".activities.SignUpActivity"
     tools:ignore="ContentDescription">
 
-    <include layout="@layout/custom_progressbar" />
+    <include
+        android:id="@+id/progressbar_layout"
+        layout="@layout/custom_progressbar"
+        android:visibility="gone" />
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
